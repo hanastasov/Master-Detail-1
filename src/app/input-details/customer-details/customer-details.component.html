@@ -1,0 +1,114 @@
+<div class="column-layout group">
+  <button igxButton="raised" igxRipple routerLink="/input-details/search-results" class="button">
+    <igx-icon>
+      arrow_back
+    </igx-icon>
+    <span>Back to results</span>
+  </button>
+</div>
+<div class="row-layout group_1">
+  <div class="column-layout group_2">
+    <div class="row-layout group_3">
+      <igx-avatar src="/assets/Avatar3.png" size="large" [roundShape]="true" class="avatar"></igx-avatar>
+      <div class="column-layout group_4">
+        <h5 class="content">
+          Thomas Hardy
+        </h5>
+        <p class="ig-typography__subtitle-1 content">
+          AROUT
+        </p>
+      </div>
+    </div>
+    <div class="column-layout group_5">
+      <p class="ig-typography__subtitle-2 content">
+        Title
+      </p>
+      <p class="content">
+        Head Purchaser
+      </p>
+    </div>
+    <div class="column-layout group_5">
+      <p class="ig-typography__subtitle-2 content">
+        Email
+      </p>
+      <p class="content">
+        Orangebeard@company.com
+      </p>
+    </div>
+    <div class="column-layout group_5">
+      <p class="ig-typography__subtitle-2 content">
+        Phone
+      </p>
+      <p class="content">
+        (123) 456-7890
+      </p>
+    </div>
+    <div class="column-layout group_6">
+      <p class="ig-typography__subtitle-2 content">
+        Street
+      </p>
+      <p class="content">
+        123 Beecham Lane
+      </p>
+    </div>
+    <div class="row-layout group_7">
+      <div class="column-layout group_8">
+        <p class="ig-typography__subtitle-2 content">
+          City
+        </p>
+        <p class="content">
+          Babble Brook
+        </p>
+      </div>
+      <div class="column-layout group_9">
+        <p class="ig-typography__subtitle-2 content">
+          State
+        </p>
+        <p class="content">
+          NJ
+        </p>
+      </div>
+    </div>
+    <div class="column-layout group_6">
+      <p class="ig-typography__subtitle-2 content">
+        Country
+      </p>
+      <p class="content">
+        Germany
+      </p>
+    </div>
+  </div>
+  <div class="column-layout group_10">
+    <igx-grid primaryKey="orderID" displayDensity="cosy" rowSelection="single" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid">
+      <igx-grid-toolbar>
+        <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
+      </igx-grid-toolbar>
+      <igx-column field="orderID" dataType="number" header="orderID" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="customerID" dataType="string" header="customerID" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="employeeID" dataType="number" header="employeeID" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="orderDate" dataType="string" header="orderDate" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="requiredDate" dataType="string" header="requiredDate" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shippedDate" dataType="string" header="shippedDate" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipVia" dataType="number" header="shipVia" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="freight" dataType="number" header="freight" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipName" dataType="string" header="shipName" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipAddress" dataType="string" header="shipAddress" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipCity" dataType="string" header="shipCity" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipRegion" dataType="string" header="shipRegion" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipPostalCode" dataType="string" header="shipPostalCode" [sortable]="true" [selectable]="false"></igx-column>
+      <igx-column field="shipCountry" dataType="string" header="shipCountry" [sortable]="true" [selectable]="false"></igx-column>
+    </igx-grid>
+    <div class="row-layout group_7">
+      <igx-grid primaryKey="productName" displayDensity="cosy" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid">
+        <igx-grid-toolbar>
+          <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
+        </igx-grid-toolbar>
+        <igx-column field="productName" dataType="string" header="productName" [sortable]="true" [selectable]="false"></igx-column>
+        <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
+        <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
+        <igx-column field="discount" dataType="number" header="discount" [sortable]="true" [selectable]="false"></igx-column>
+        <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true" [selectable]="false"></igx-column>
+      </igx-grid>
+    </div>
+  </div>
+</div>
