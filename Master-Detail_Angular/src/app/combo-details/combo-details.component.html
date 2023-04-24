@@ -1,13 +1,13 @@
 <div class="column-layout group">
-  <div class="column-layout group_1">
-    <button igxButton="raised" igxRipple routerLink="/select-details" class="button">
-      Prev
-    </button>
-  </div>
   <igx-simple-combo type="border" [data]="northwindCustomers" valueKey="customerID" displayKey="contactName"
   [(ngModel)]="selected" class="combo" (closed)="handleClosed()">
     <label igxLabel>Pick customer</label>
   </igx-simple-combo>
+  <div class="column-layout group_1">
+    <button igxButton="raised" igxRipple routerLink="/select-details" class="button">
+      Previous
+    </button>
+  </div>
 </div>
 <div class="column-layout group_2">
   <div class="row-layout group_3">
