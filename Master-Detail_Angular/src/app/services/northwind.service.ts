@@ -8,7 +8,14 @@ export interface Customer {
   "companyName": string;
   "contactName": string;
   "contactTitle": string;
-  "address": string;
+  "address": {
+    "street": string,
+    "city": string,
+    "region": string,
+    "postalCode": string,
+    "country": string,
+    "phone": string
+  },
   "city": string;
   "region": string | null;
   "postalCode": string;
@@ -28,12 +35,12 @@ export interface Employees {
   "birthDate": string,
   "hireDate": string,
   "address": {
-      "street": string,
-      "city": string,
-      "region": string,
-      "postalCode": string,
-      "country": string,
-      "phone": string
+    "street": string,
+    "city": string,
+    "region": string,
+    "postalCode": string,
+    "country": string,
+    "phone": string
   },
   "managerID": number,
   "notes": string,

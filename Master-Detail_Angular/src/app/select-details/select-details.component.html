@@ -1,12 +1,12 @@
 <div class="column-layout group">
-  <igx-select type="border" class="select" (closed)="handleClosed()" [(ngModel)]="selected">
-    <igx-select-item [value]="item.customerId" *ngFor="let item of iGNorthwindAPICustomerInputModel">
+  <igx-select type="border" class="select" (selectionChanging)="handleSelection()" [(ngModel)]="selectedCustomer">
+    <igx-select-item [value]="item.customerID" *ngFor="let item of northwindCustomers">
       {{ item.contactName }}
     </igx-select-item>
     <label igxLabel>Pick customer</label>
   </igx-select>
   <p class="content">
-    [ customer.name ]
+    Customer name
   </p>
   <div class="column-layout group_1">
     <button igxButton="raised" igxRipple routerLink="/combo-details" class="button navigation-button">
@@ -26,7 +26,7 @@
             {{ item.contactName }}
           </h5>
           <p class="ig-typography__subtitle-1 content">
-            {{ item.customerID ?? 'AROUT' }}
+            {{ item.customerID }}
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@
           Email
         </p>
         <p class="content">
-          {{ item.address.postalCode }}
+          Email should be here
         </p>
       </div>
       <div class="column-layout group_7">

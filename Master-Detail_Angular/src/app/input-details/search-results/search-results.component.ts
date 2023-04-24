@@ -22,7 +22,6 @@ export class SearchResultsComponent implements OnInit {
     .subscribe(
       response => {
         this.northwindEmployees = response.filter(el => el.lastName.toLowerCase()  === e.target.value.toLowerCase());
-        console.log(this.northwindEmployees)
       },
       errorResponse => {
         alert("oh no, there was an error when calling the API");

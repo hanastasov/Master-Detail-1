@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IGNorthwindAPIService } from '../services/ignorthwind-api.service';
 import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 
@@ -10,77 +9,43 @@ import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 })
 export class SelectDetailsComponent implements OnInit {
   public northwindCustomers: Customer[] | null = null;
-  public iGNorthwindAPICustomerInputModel: any = null;
   public northwindOrders: any = null;
   public northwindProducts: any = null;
   public northwindOrderDetails: any = null;
   public detailsAreLoading = true;
-  public selected = '';
+  public selectedCustomer = '';
+  public selectedOrdersData: any = [];
+  public selectedOrdersDetails: any = [];
   public selectedCustomerData: any = [
     {
-      "customerID": "BLAUS",
-      "companyName": "Blauer See Delikatessen",
-      "contactName": "Hanna Moos",
+      "customerID": "AROUT",
+      "companyName": "Around the Horn",
+      "contactName": "Thomas Hardy",
       "contactTitle": "Sales Representative",
       "address": {
-        "street": "Forsterstr. 57",
-        "city": "Mannheim",
+        "street": "120 Hanover Sq.",
+        "city": "London",
         "region": null,
-        "postalCode": "68306",
-        "country": "Germany",
-        "phone": "0621-08460"
+        "postalCode": "WA1 1DP",
+        "country": "UK",
+        "phone": "(171) 555-7788"
       }
     }
   ];
-  public selectedOrdersData: any = [
-    {
-      "orderID": 10271,
-      "customerID": "SPLIR",
-      "employeeID": 6,
-      "orderDate": "1996-08-01T00:00:00.000",
-      "requiredDate": "1996-08-29T00:00:00.000",
-      "shippedDate": "1996-08-30T00:00:00.000",
-      "shipVia": 2,
-      "freight": 4.54,
-      "shipName": "Split Rail Beer & Ale",
-      "shipAddress": {
-        "street": "P.O. Box 555",
-        "city": "Lander",
-        "region": "WY",
-        "postalCode": "82520",
-        "country": "USA"
-      }
-    },
-  ];
 
-  public selectedOrdersDetails: any = [
-    {
-      "orderID": null,
-      "productID": null,
-      "unitPrice": null,
-      "quantity": null,
-      "discount": null,
-      "order": null,
-      "product": null
-    }
-  ];
-
-  constructor(
-    private iGNorthwindAPIService: IGNorthwindAPIService,
-    private northwindService: NorthwindService,
-  ) { }
+  constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
-    // depending on implementation, data subscriptions might need to be unsubbed later
     this.northwindService.getData('Customers').subscribe(data => this.northwindCustomers = data);
-    this.iGNorthwindAPIService.getCustomerInputModel().subscribe(data => this.iGNorthwindAPICustomerInputModel = data);
     this.northwindService.getData('Orders').subscribe(data => this.northwindOrders = data);
     this.northwindService.getData('order_details').subscribe(data => this.northwindOrderDetails = data);
+    this.selectedCustomer = this.northwindCustomers[0].customerID;
+    this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
   }
 
-  handleClosed() {
+  handleSelection() {
     this.selectedCustomerData = new Array;
-    this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selected)[0]);
+    this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
     this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0].customerID);
     this.detailsAreLoading = false;
   }

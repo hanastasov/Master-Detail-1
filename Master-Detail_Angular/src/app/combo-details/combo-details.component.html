@@ -1,6 +1,6 @@
 <div class="column-layout group">
   <igx-simple-combo type="border" [data]="northwindCustomers" valueKey="customerID" displayKey="contactName"
-  [(ngModel)]="selected" class="combo" (closed)="handleClosed()">
+    [(ngModel)]="selectedCustomer" class="combo" (selectionChanging)="handleSelection()">
     <label igxLabel>Pick customer</label>
   </igx-simple-combo>
   <div class="column-layout group_1">
@@ -35,7 +35,7 @@
           Email
         </p>
         <p class="content">
-          {{ item.address.postalCode }}
+          Email should be here
         </p>
       </div>
       <div class="column-layout group_7">
@@ -123,26 +123,26 @@
         </igx-grid>
       </div>
       <div class="column-layout group_18">
-        <igx-grid [data]="selectedOrdersDetails"
-        primaryKey="orderID"
-        displayDensity="cosy"
-        rowSelection="single"
-        cellSelection="none"
-        [hideRowSelectors]="true"
-        [allowFiltering]="true"
-        filterMode="excelStyleFilter" class="grid"
-        [isLoading]="detailsAreLoading"
-        >
+        <igx-grid [data]="selectedOrdersDetails" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
+          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
+          class="grid" [isLoading]="detailsAreLoading">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
           </igx-grid-toolbar>
-          <igx-column field="orderId" dataType="number" header="orderId" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="productID" dataType="string" header="productID" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="unitPrice" dataType="string" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="quantity" dataType="string" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="discount" dataType="string" header="discount" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="order" dataType="string" header="order" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="product" dataType="string" header="product" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="orderId" dataType="number" header="orderId" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="productID" dataType="string" header="productID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="string" header="unitPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="string" header="quantity" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="string" header="discount" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="order" dataType="string" header="order" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="product" dataType="string" header="product" [sortable]="true"
+            [selectable]="false"></igx-column>
         </igx-grid>
       </div>
     </div>
