@@ -5,7 +5,7 @@
         search
       </igx-icon>
     </igx-prefix>
-    <input type="text" igxInput />
+    <input type="text" igxInput (input)="onInput($event)"/>
     <label igxLabel>Customer details</label>
   </igx-input-group>
   <button igxButton="raised" igxRipple class="button">

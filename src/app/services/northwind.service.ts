@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Northwind } from './northwind';
 import { HttpClient } from '@angular/common/http';
 
-export interface ICustomer {
+export interface Customer {
   "customerID": string;
   "companyName": string;
   "contactName": string;
@@ -18,7 +18,27 @@ export interface ICustomer {
   "orders": unknown[];
   "customerTypes": unknown[];
 }
-const API_ENDPOINT = 'https://northwindcloud.azurewebsites.net';
+
+export interface Employees {
+  "employeeID": number,
+  "lastName": string,
+  "firstName": string,
+  "title": string,
+  "titleOfCourtesy": string,
+  "birthDate": string,
+  "hireDate": string,
+  "address": {
+      "street": string,
+      "city": string,
+      "region": string,
+      "postalCode": string,
+      "country": string,
+      "phone": string
+  },
+  "managerID": number,
+  "notes": string,
+  "avatarUrl": string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +49,4 @@ export class NorthwindService {
   public getData(tableName: string): Observable<any> {
     return of(Northwind[tableName]);
   }
-
-  public getApiCustomerOrderDetailsOrderId(orderId: number): Observable<any> {
-    return this.http.get(`${API_ENDPOINT}/api/customer_order_details/${orderId}`);
-  }
-
-  // public getSearchedItem(searchedResult: string) {
-  //  observer.next(arr[idx]);
-  // }
 }

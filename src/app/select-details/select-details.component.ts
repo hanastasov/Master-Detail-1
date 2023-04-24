@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IGNorthwindAPIService } from '../services/ignorthwind-api.service';
-import { ICustomer, NorthwindService } from '../services/northwind.service';
+import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 
 @Component({
@@ -9,7 +9,7 @@ import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
   styleUrls: ['./select-details.component.scss']
 })
 export class SelectDetailsComponent implements OnInit {
-  public northwindCustomers: ICustomer[] | null = null;
+  public northwindCustomers: Customer[] | null = null;
   public iGNorthwindAPICustomerInputModel: any = null;
   public northwindOrders: any = null;
   public northwindProducts: any = null;
@@ -44,11 +44,11 @@ export class SelectDetailsComponent implements OnInit {
       "freight": 4.54,
       "shipName": "Split Rail Beer & Ale",
       "shipAddress": {
-          "street": "P.O. Box 555",
-          "city": "Lander",
-          "region": "WY",
-          "postalCode": "82520",
-          "country": "USA"
+        "street": "P.O. Box 555",
+        "city": "Lander",
+        "region": "WY",
+        "postalCode": "82520",
+        "country": "USA"
       }
     },
   ];
@@ -68,7 +68,7 @@ export class SelectDetailsComponent implements OnInit {
   constructor(
     private iGNorthwindAPIService: IGNorthwindAPIService,
     private northwindService: NorthwindService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     // depending on implementation, data subscriptions might need to be unsubbed later

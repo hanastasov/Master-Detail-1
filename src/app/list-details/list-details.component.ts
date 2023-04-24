@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ICustomer, NorthwindService } from '../services/northwind.service';
+import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 
 @Component({
@@ -8,7 +8,7 @@ import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
   styleUrls: ['./list-details.component.scss']
 })
 export class ListDetailsComponent implements OnInit {
-  public northwindCustomers: ICustomer[] | null = null;
+  public northwindCustomers: Customer[] | null = null;
   public northwindOrders: any = null;
   public northwindOrderDetails: any = null;
   public detailsAreLoading = true;
