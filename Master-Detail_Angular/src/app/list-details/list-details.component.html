@@ -1,0 +1,161 @@
+<div class="column-layout group">
+  <igx-list class="list">
+    <igx-list-item [isHeader]="false" *ngFor="let item of northwindCustomers index as i" (click)="onItemClicked(item)">
+      <span igxListLineTitle>{{ item.companyName }}</span>
+      <span igxListLineSubTitle>{{ item.customerID }}</span>
+    </igx-list-item>
+  </igx-list>
+</div>
+<div class="column-layout group_1" *ngFor="let item of selectedCustomerData">
+  <div class="column-layout group_2">
+    <div class="row-layout group_3">
+      <div class="column-layout group_4">
+        <div class="column-layout group_5">
+          <igx-avatar src="/assets/Avatar3.png" size="large" [roundShape]="true" class="avatar"></igx-avatar>
+          <div class="column-layout group_6">
+            <h5 class="content">
+              {{ item.contactName ?? 'Thomas Hardy' }}
+            </h5>
+            <p class="ig-typography__subtitle-1 content">
+              {{ item.customerID ?? 'AROUT' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column-layout group_7">
+      <div class="row-layout group_8">
+        <div class="column-layout group_9">
+          <div class="column-layout group_10">
+            <p class="ig-typography__subtitle-2 text">
+              Title
+            </p>
+            <p class="text">
+              {{ item.contactTitle }}
+            </p>
+          </div>
+          <div class="column-layout group_10">
+            <p class="ig-typography__subtitle-2 text">
+              Email
+            </p>
+            <p class="text">
+              {{ item.address.postalCode }}
+            </p>
+          </div>
+          <div class="column-layout group_11">
+            <p class="ig-typography__subtitle-2 text">
+              Phone
+            </p>
+            <p class="text">
+              {{ item.address.phone }}
+            </p>
+          </div>
+        </div>
+        <div class="column-layout group_12">
+          <div class="column-layout group_13">
+            <p class="ig-typography__subtitle-2 text">
+              Street
+            </p>
+            <p class="text">
+              {{ item.address.street }}
+            </p>
+          </div>
+          <div class="row-layout group_14">
+            <div class="column-layout group_15">
+              <p class="ig-typography__subtitle-2 text">
+                City
+              </p>
+              <p class="text">
+                {{ item.address.city }}
+              </p>
+            </div>
+            <div class="column-layout group_16">
+              <p class="ig-typography__subtitle-2 text">
+                State
+              </p>
+              <p class="text">
+                {{ item.address.region ?? 'null' }}
+              </p>
+            </div>
+          </div>
+          <div class="column-layout group_17">
+            <p class="ig-typography__subtitle-2 text">
+              Country
+            </p>
+            <p class="text">
+              {{ item.address.country }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="column-layout group_18">
+        <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
+          [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
+          (rowSelectionChanging)="orderSelected($event)">
+          <igx-grid-toolbar>
+            <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
+          </igx-grid-toolbar>
+          <igx-column field="orderID" dataType="number" header="orderID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="customerID" dataType="string" header="customerID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="employeeID" dataType="number" header="employeeID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="orderDate" dataType="date" header="orderDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="requiredDate" dataType="date" header="requiredDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shippedDate" dataType="date" header="shippedDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipVia" dataType="number" header="shipVia" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="freight" dataType="number" header="freight" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipName" dataType="string" header="shipName" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress.street" dataType="string" header="shipAddress street" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress.city" dataType="string" header="shipAddress city" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress.region" dataType="string" header="shipAddress region" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress.postalCode" dataType="string" header="shipAddress postalCode" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress.country" dataType="string" header="shipAddress country" [sortable]="true"
+            [selectable]="false"></igx-column>
+        </igx-grid>
+      </div>
+      <div class="column-layout group_18">
+        <igx-grid [data]="selectedOrdersDetails"
+        primaryKey="orderID"
+        displayDensity="cosy"
+        rowSelection="single"
+        cellSelection="none"
+        [hideRowSelectors]="true"
+        [allowFiltering]="true"
+        filterMode="excelStyleFilter" class="grid"
+        [isLoading]="detailsAreLoading"
+        >
+          <igx-grid-toolbar>
+            <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
+          </igx-grid-toolbar>
+          <igx-column field="orderId" dataType="number" header="orderId" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="productID" dataType="string" header="productID" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="string" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="string" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="string" header="discount" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="order" dataType="string" header="order" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="product" dataType="string" header="product" [sortable]="true" [selectable]="false"></igx-column>
+        </igx-grid>
+      </div>
+      <div class="column-layout group_19">
+        <button igxButton="raised" igxRipple routerLink="/select-details" class="button">
+          Prev
+        </button>
+        <button igxButton="raised" igxRipple routerLink="/input-details/search-results" class="button">
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

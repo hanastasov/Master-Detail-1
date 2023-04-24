@@ -1,0 +1,51 @@
+<div class="row-layout group">
+  <igx-input-group type="border" class="input">
+    <igx-prefix>
+      <igx-icon class="icon">
+        search
+      </igx-icon>
+    </igx-prefix>
+    <input type="text" igxInput (input)="onInput($event)"/>
+    <label igxLabel>Customer details</label>
+  </igx-input-group>
+  <button igxButton="raised" igxRipple class="button">
+    Search
+  </button>
+  <div class="column-layout group_1">
+    <button igxButton="raised" igxRipple routerLink="/list-details" class="button_1">
+      Prev
+    </button>
+    <button igxButton="raised" igxRipple routerLink="/input-details/search-results" class="button_2">
+      Input-details
+    </button>
+    <button igxButton="raised" igxRipple routerLink="/input-details/search-results" class="button_3">
+      Input-details search results
+    </button>
+    <button igxButton="raised" igxRipple routerLink="/input-details/customer-details" class="button_4">
+      Input-details customer details
+    </button>
+    <button igxButton="raised" igxRipple routerLink="/cascade-select" class="button_1">
+      Next
+    </button>
+  </div>
+</div>
+<div class="row-layout group_2">
+  <igx-card type="outlined" *ngFor="let item of northwindEmployees" class="card">
+    <igx-card-header>
+      <div igxCardThumbnail>
+        <igx-avatar [src]="item.avatarUrl" size="medium" class="avatar"></igx-avatar>
+      </div>
+      <h3 igxCardHeaderTitle>
+        {{ item.lastName }}
+      </h3>
+      <h5 igxCardHeaderSubtitle>
+        {{ item.title }}
+      </h5>
+    </igx-card-header>
+    <igx-card-actions class="actions-content">
+      <button igxButton="flat" igxRipple class="button_5"  routerLink="/input-details/customer-details">
+        View details
+      </button>
+    </igx-card-actions>
+  </igx-card>
+</div>
