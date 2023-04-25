@@ -8,6 +8,7 @@ let InputDetailsSearch = class InputDetailsSearch extends LitElement {
     constructor() {
         super();
         this.northwindCloudAppService = new NorthwindCloudAppService();
+        this.northwindCloudAppService = new NorthwindCloudAppService();
         this.northwindCloudAppService.getCustomers().then((data) => {
             this.northwindCloudAppCustomers = data;
         }, err => console.log(err));
@@ -17,57 +18,55 @@ let InputDetailsSearch = class InputDetailsSearch extends LitElement {
         if (this.northwindCloudAppCustomers) {
             for (const customer of this.northwindCloudAppCustomers) {
                 cards.push(html `<igc-card class="card">
-        <div class="group_4">
-          <div class="row-layout">
-            <igc-card-header>
-              <div slot="thumbnail">
-                <igc-card-media class="media-content">
-                  <img src="/src/assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                </igc-card-media>
-              </div>
-              <h3 slot="title">
-                ${customer.contactName}
-              </h3>
-              <h5 slot="subtitle">
-                ${customer.customerID}
-              </h5>
-            </igc-card-header>
+    <div class="group_4">
+      <div class="row-layout">
+        <igc-card-header>
+          <div slot="thumbnail">
+            <igc-card-media class="media-content">
+              <img src="/src/assets/a06650fce7091f420c440f26201d916f775db29d.png" />
+            </igc-card-media>
           </div>
-          <igc-card-content class="body-content">
-            <igc-button variant="flat" class="button_1">
-              <a href"/input-details-customer-details">
-              VIEW DETAILS
-              </a>
-              <igc-ripple></igc-ripple>
-            </igc-button>
-          </igc-card-content>
-        </div>
-        <span class="divider">Divider not yet available in WebComponents</span>
-      </igc-card>`);
+          <h3 slot="title">
+            ${customer.contactName}
+          </h3>
+          <h5 slot="subtitle">
+            ${customer.customerID}
+          </h5>
+        </igc-card-header>
+      </div>
+      <igc-card-content class="body-content">
+        <igc-button variant="flat" class="button_1">
+          VIEW DETAILS
+          <igc-ripple></igc-ripple>
+        </igc-button>
+      </igc-card-content>
+    </div>
+    <span class="divider">Divider not yet available in WebComponents</span>
+  </igc-card>`);
             }
         }
         return html `
-      <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
-      <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
-      <link rel='stylesheet' href='../../ig-theme.css'>
-      <div class="column-layout group">
-        <h5 class="h5">
-          Input details
-        </h5>
-        <div class="row-layout group_1">
-          <igc-input label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
-          <igc-button class="button">
-            Search
-            <igc-ripple></igc-ripple>
-          </igc-button>
-        </div>
-        <div class="column-layout group_2">
-          <div class="row-layout group_3">
-            ${cards}
-          </div>
-        </div>
+  <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
+  <link rel='stylesheet' href='../../ig-theme.css'>
+  <div class="column-layout group">
+    <h5 class="h5">
+      Input details
+    </h5>
+    <div class="row-layout group_1">
+      <igc-input label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
+      <igc-button class="button">
+        Search
+        <igc-ripple></igc-ripple>
+      </igc-button>
+    </div>
+    <div class="column-layout group_2">
+      <div class="row-layout group_3">
+        ${cards}
       </div>
-    `;
+    </div>
+  </div>
+`;
     }
 };
 InputDetailsSearch.styles = css `
@@ -110,7 +109,7 @@ InputDetailsSearch.styles = css `
       align-items: stretch;
       align-content: flex-start;
       position: relative;
-      height: 100vh;
+      height: 747px;
       min-width: 50px;
       min-height: 50px;
     }

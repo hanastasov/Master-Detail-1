@@ -1,45 +1,190 @@
-import { __decorate } from "tslib";
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcSelectComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+
 defineComponents(IgcSelectComponent);
-let SelectDetails = class SelectDetails extends LitElement {
-    constructor() {
-        super();
-        this.northwindCloudAppService = new NorthwindCloudAppService();
-        this.northwindCloudAppService.getOrder().then((data) => {
-            this.northwindCloudAppOrder = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getOrder_Detail().then((data) => {
-            this.northwindCloudAppOrderDetail = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getCustomers().then((data) => {
-            this.northwindCloudAppCustomers = data;
-            this.selectedCustomer = data[0];
-        }, err => console.log(err));
+
+@customElement('app-select-details')
+export default class SelectDetails extends LitElement {
+  static styles = css`
+    :host {
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
     }
-    onSelectCustomer(ev) {
-        var _a;
-        ev.preventDefault();
-        const currentCustomerName = ev.target.value;
-        this.selectedCustomer = (_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.find(customer => customer.contactName === currentCustomerName);
+    .column-layout {
+      display: flex;
+      flex-direction: column;
     }
-    onSelectOrder(args) {
-        var _a;
-        this.selectedOrder = args.detail.newSelection[0];
-        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
+    .group {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      margin: 0;
+      width: 1441px;
+      min-width: 50px;
+      min-height: 50px;
     }
-    render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        const customersData = [];
-        if (this.northwindCloudAppCustomers) {
-            for (const customer of this.northwindCloudAppCustomers) {
-                customersData.push(html `<igc-select-item .value=${customer.contactName}>${customer.contactName}</igc-select-item>`);
-            }
-        }
-        return html `
+    .row-layout {
+      display: flex;
+    }
+    .group_1 {
+      background-color: hsla(var(--ig-gray-100));
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      padding: 2rem;
+      height: 910px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_2 {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      margin: 0 2rem 0 0;
+      width: 502px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_3 {
+      border-bottom: 1px solid #E0E0E0;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_4 {
+      border-bottom: 1px solid #E0E0E0;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 220px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_5 {
+      border-bottom: 1px solid #E0E0E0;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 231px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_6 {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 1020px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .select {
+      margin: 1rem;
+      width: max-content;
+      height: max-content;
+      min-width: min-content;
+    }
+    .content {
+      height: max-content;
+      min-width: min-content;
+    }
+    .text {
+      margin: 0 0 1rem;
+      height: max-content;
+      min-width: min-content;
+    }
+    .text_1 {
+      margin: 0 1rem 0 0;
+      height: max-content;
+      min-width: min-content;
+    }
+    .text_2 {
+      margin: 1rem 0 0;
+      height: max-content;
+      min-width: min-content;
+    }
+    .grid {
+      margin: 20px 0;
+      min-width: 600px;
+      min-height: 300px;
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+    .grid_1 {
+      min-width: 600px;
+      min-height: 300px;
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+  `;
+
+  constructor() {
+    super();
+    this.northwindCloudAppService.getOrder().then((data) => {
+      this.northwindCloudAppOrder = data;
+    }, err => console.log(err));
+    this.northwindCloudAppService.getOrder_Detail().then((data) => {
+      this.northwindCloudAppOrderDetail = data;
+    }, err => console.log(err));
+    this.northwindCloudAppService.getCustomers().then((data) => {
+      this.northwindCloudAppCustomers = data;
+      this.selectedCustomer = data[0];
+  }, err => console.log(err));
+  }
+
+  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
+
+  @property()
+  private northwindCloudAppOrderDetail?: any[];
+
+  @property()
+  private northwindCloudAppOrder?: any[];
+
+  @property()
+  private northwindCloudAppCustomers?: any[];
+
+  @property()
+  private orderDetails?: any;
+
+  @property()
+  private selectedOrder?: any;
+
+  @property()
+  private selectedCustomer?: any;
+
+  onSelectCustomer(ev: any) {
+    ev.preventDefault();
+    const currentCustomerName = ev.target.value;
+    this.selectedCustomer = this.northwindCloudAppCustomers?.find(customer => customer.contactName === currentCustomerName);
+  }
+  onSelectOrder(args: any) {
+    this.selectedOrder = args.detail.newSelection[0];
+    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+  }
+
+  render() {
+    const customersData = [];
+    if (this.northwindCloudAppCustomers) {
+      for (const customer of this.northwindCloudAppCustomers) {
+        customersData.push(html`<igc-select-item .value=${customer.contactName}>${customer.contactName}</igc-select-item>`);
+      }
+    }
+
+    return html`
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
@@ -54,14 +199,14 @@ let SelectDetails = class SelectDetails extends LitElement {
               Heading
             </h5>
             <p class="typography__body-1 text">
-              ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.customerID}
+              ${this.selectedCustomer?.customerID}
             </p>
             <div class="column-layout group_3">
               <p class="typography__subtitle-2 text_1">
                 Title
               </p>
               <p class="typography__body-1 content">
-                ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.contactName}
+                ${this.selectedCustomer?.contactName}
               </p>
             </div>
             <div class="column-layout group_3">
@@ -69,7 +214,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                 Email
               </p>
               <p class="typography__body-1 content">
-              ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.postalCode}
+              ${this.selectedCustomer?.postalCode}
               </p>
             </div>
             <div class="column-layout group_3">
@@ -77,7 +222,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                 Phone
               </p>
               <p class="typography__body-1 content">
-              ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.phone}
+              ${this.selectedCustomer?.phone}
               </p>
             </div>
             <div class="column-layout group_3">
@@ -85,7 +230,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                 Street
               </p>
               <p class="typography__body-1 content">
-              ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.address}
+              ${this.selectedCustomer?.address}
               </p>
             </div>
             <div class="row-layout group_3">
@@ -94,7 +239,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                   City
                 </p>
                 <p class="typography__body-1 content">
-                ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
+                ${this.selectedCustomer?.city}
                 </p>
               </div>
               <div class="column-layout group_5">
@@ -102,7 +247,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                   State
                 </p>
                 <p class="typography__body-1 content">
-                ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
+                ${this.selectedCustomer?.city}
                 </p>
               </div>
             </div>
@@ -111,7 +256,7 @@ let SelectDetails = class SelectDetails extends LitElement {
                 Country
               </p>
               <p class="typography__body-1 content">
-              ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.country}
+              ${this.selectedCustomer?.country}
               </p>
             </div>
           </div>
@@ -365,151 +510,5 @@ let SelectDetails = class SelectDetails extends LitElement {
         </div>
       </div>
     `;
-    }
-};
-SelectDetails.styles = css `
-    :host {
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-    }
-    .column-layout {
-      display: flex;
-      flex-direction: column;
-    }
-    .group {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      margin: 0;
-      width: 1441px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .row-layout {
-      display: flex;
-    }
-    .group_1 {
-      background-color: hsla(var(--ig-gray-100));
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      padding: 2rem;
-      height: 910px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_2 {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      margin: 0 2rem 0 0;
-      width: 502px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_3 {
-      border-bottom: 1px solid #E0E0E0;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_4 {
-      border-bottom: 1px solid #E0E0E0;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 220px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_5 {
-      border-bottom: 1px solid #E0E0E0;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 231px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_6 {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 1020px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .select {
-      margin: 1rem;
-      width: max-content;
-      height: max-content;
-      min-width: min-content;
-    }
-    .content {
-      height: max-content;
-      min-width: min-content;
-    }
-    .text {
-      margin: 0 0 1rem;
-      height: max-content;
-      min-width: min-content;
-    }
-    .text_1 {
-      margin: 0 1rem 0 0;
-      height: max-content;
-      min-width: min-content;
-    }
-    .text_2 {
-      margin: 1rem 0 0;
-      height: max-content;
-      min-width: min-content;
-    }
-    .grid {
-      margin: 20px 0;
-      min-width: 600px;
-      min-height: 300px;
-      flex-grow: 1;
-      flex-basis: 0;
-    }
-    .grid_1 {
-      min-width: 600px;
-      min-height: 300px;
-      flex-grow: 1;
-      flex-basis: 0;
-    }
-  `;
-__decorate([
-    property()
-], SelectDetails.prototype, "northwindCloudAppOrderDetail", void 0);
-__decorate([
-    property()
-], SelectDetails.prototype, "northwindCloudAppOrder", void 0);
-__decorate([
-    property()
-], SelectDetails.prototype, "northwindCloudAppCustomers", void 0);
-__decorate([
-    property()
-], SelectDetails.prototype, "orderDetails", void 0);
-__decorate([
-    property()
-], SelectDetails.prototype, "selectedOrder", void 0);
-__decorate([
-    property()
-], SelectDetails.prototype, "selectedCustomer", void 0);
-SelectDetails = __decorate([
-    customElement('app-select-details')
-], SelectDetails);
-export default SelectDetails;
-//# sourceMappingURL=select-details.js.map
+  }
+}

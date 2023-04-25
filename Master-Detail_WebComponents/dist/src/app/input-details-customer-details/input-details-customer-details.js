@@ -18,11 +18,8 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             this.selectedCustomer = data[0];
         }, err => console.log(err));
     }
-    onSelectCustomer(ev) {
-        var _a;
-        ev.preventDefault();
-        const currentCustomerName = ev.target.value;
-        this.selectedCustomer = (_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.find(customer => customer.contactName === currentCustomerName);
+    onSelectCustomer(customer) {
+        this.selectedCustomer = customer;
     }
     onSelectOrder(args) {
         var _a;
@@ -41,78 +38,77 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
           Input details
         </h5>
         <div class="row-layout group_1">
-          <div class="column-layout group_2">
-            <h5 class="content">
-              Heading
-            </h5>
-            <p class="typography__body-1 text">
-              ${(_b = (_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.customerID) !== null && _b !== void 0 ? _b : 'AROUT'}
+        <div class="column-layout group_2">
+        <h5 class="content">
+          ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
+        </h5>
+        <p class="typography__body-1 text">
+        ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.customerID}
+        </p>
+        <div class="column-layout group_3">
+          <p class="typography__subtitle-2 text_1">
+            Title
+          </p>
+          <p class="typography__body-1 content">
+            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
+          </p>
+        </div>
+        <div class="column-layout group_3">
+          <p class="typography__subtitle-2 text_2">
+            Email
+          </p>
+          <p class="typography__body-1 content">
+          ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
+          </p>
+        </div>
+        <div class="column-layout group_3">
+          <p class="typography__subtitle-2 text_2">
+            Phone
+          </p>
+          <p class="typography__body-1 content">
+          ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.phone}
+          </p>
+        </div>
+        <div class="column-layout group_3">
+          <p class="typography__subtitle-2 text_2">
+            Street
+          </p>
+          <p class="typography__body-1 content">
+          ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address}
+          </p>
+        </div>
+        <div class="row-layout group_3">
+          <div class="column-layout group_4">
+            <p class="typography__subtitle-2 text_2">
+              City
             </p>
-            <div class="column-layout group_3">
-              <p class="typography__subtitle-2 text_1">
-                Title
-              </p>
-              <p class="typography__body-1 content">
-                ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
-              </p>
-            </div>
-            <div class="column-layout group_3">
-              <p class="typography__subtitle-2 text_2">
-                Email
-              </p>
-              <p class="typography__body-1 content">
-              ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
-              </p>
-            </div>
-            <div class="column-layout group_3">
-              <p class="typography__subtitle-2 text_2">
-                Phone
-              </p>
-              <p class="typography__body-1 content">
-              ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.phone}
-              </p>
-            </div>
-            <div class="column-layout group_3">
-              <p class="typography__subtitle-2 text_2">
-                Street
-              </p>
-              <p class="typography__body-1 content">
-              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address}
-              </p>
-            </div>
-            <div class="row-layout group_3">
-              <div class="column-layout group_4">
-                <p class="typography__subtitle-2 text_2">
-                  City
-                </p>
-                <p class="typography__body-1 content">
-                ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
-                </p>
-              </div>
-              <div class="column-layout group_5">
-                <p class="typography__subtitle-2 text_2">
-                  State
-                </p>
-                <p class="typography__body-1 content">
-                ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.city}
-                </p>
-              </div>
-            </div>
-            <div class="column-layout group_3">
-              <p class="typography__subtitle-2 text_2">
-                Country
-              </p>
-              <p class="typography__body-1 content">
-              ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.country}
-              </p>
-            </div>
+            <p class="typography__body-1 content">
+            ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
+            </p>
           </div>
+          <div class="column-layout group_5">
+            <p class="typography__subtitle-2 text_2">
+              State
+            </p>
+            <p class="typography__body-1 content">
+            ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.city}
+            </p>
+          </div>
+        </div>
+        <div class="column-layout group_3">
+          <p class="typography__subtitle-2 text_2">
+            Country
+          </p>
+          <p class="typography__body-1 content">
+          ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.country}
+          </p>
+        </div>
+      </div>
           <div class="column-layout group_6">
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
-              display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -488,13 +484,13 @@ __decorate([
 ], InputDetailsCustomerDetails.prototype, "northwindCloudAppCustomers", void 0);
 __decorate([
     property()
-], InputDetailsCustomerDetails.prototype, "selectedCustomer", void 0);
+], InputDetailsCustomerDetails.prototype, "orderDetails", void 0);
 __decorate([
     property()
 ], InputDetailsCustomerDetails.prototype, "selectedOrder", void 0);
 __decorate([
     property()
-], InputDetailsCustomerDetails.prototype, "orderDetails", void 0);
+], InputDetailsCustomerDetails.prototype, "selectedCustomer", void 0);
 InputDetailsCustomerDetails = __decorate([
     customElement('app-input-details-customer-details')
 ], InputDetailsCustomerDetails);
