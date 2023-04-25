@@ -1,36 +1,188 @@
-import { __decorate } from "tslib";
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+
 defineComponents(IgcListComponent, IgcListItemComponent);
-let ListDetails = class ListDetails extends LitElement {
-    constructor() {
-        super();
-        this.northwindCloudAppService = new NorthwindCloudAppService();
-        this.northwindCloudAppService.getOrder().then((data) => {
-            this.northwindCloudAppOrder = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getOrder_Detail().then((data) => {
-            this.northwindCloudAppOrderDetail = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getCustomers().then((data) => {
-            this.northwindCloudAppCustomers = data;
-            this.selectedCustomer = data[0];
-        }, err => console.log(err));
+
+@customElement('app-list-details')
+export default class ListDetails extends LitElement {
+  static styles = css`
+    :host {
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
     }
-    onSelectCustomer(customer) {
-        this.selectedCustomer = customer;
+    .list {
+      width: 214px;
+      height: max-content;
+      flex-shrink: 0;
     }
-    onSelectOrder(args) {
-        var _a;
-        this.selectedOrder = args.detail.newSelection[0];
-        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
+    .grid {
+      margin: 20px 0;
+      min-width: 600px;
+      min-height: 300px;
+      flex-grow: 1;
+      flex-basis: 0;
     }
-    render() {
-        var _a, _b, _c, _d, _e, _f;
-        const customersData = [];
+    .grid_1 {
+      min-width: 600px;
+      min-height: 300px;
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+    .column-layout {
+      display: flex;
+      flex-direction: column;
+    }
+    .group {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      gap: 0 2rem;
+      position: relative;
+      width: 1234px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_1 {
+      background-color: hsla(var(--ig-gray-100));
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      margin: 0 0 1rem;
+      height: 340px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .row-layout {
+      display: flex;
+    }
+    .group_2 {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      margin: 0 0 1rem;
+      min-width: 50px;
+      min-height: 50px;
+      align-self: center;
+    }
+    .group_3 {
+      border-bottom: 1px solid #E0E0E0;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 346px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_4 {
+      border-bottom: 1px solid #E0E0E0;
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 340px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_5 {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 340px;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    .group_6 {
+      justify-content: flex-start;
+      align-items: stretch;
+      align-content: flex-start;
+      position: relative;
+      width: 713px;
+      min-width: 50px;
+      min-height: 50px;
+      align-self: center;
+    }
+    .image {
+      object-fit: none;
+      border-radius: 50%;
+      margin: 3rem 0 0;
+      width: 73px;
+      height: 76px;
+      min-width: 0;
+      min-height: 0;
+      align-self: center;
+      flex-shrink: 0;
+    }
+    .h5 {
+      margin: 1rem;
+      height: max-content;
+      min-width: min-content;
+      align-self: center;
+    }
+    .text {
+      height: max-content;
+      min-width: min-content;
+      align-self: center;
+    }
+    .text_1 {
+      height: max-content;
+      min-width: min-content;
+    }
+  `;
+
+  constructor() {
+    super();
+    this.northwindCloudAppService.getOrder().then((data) => {
+      this.northwindCloudAppOrder = data;
+    }, err => console.log(err));
+    this.northwindCloudAppService.getOrder_Detail().then((data) => {
+      this.northwindCloudAppOrderDetail = data;
+    }, err => console.log(err));
+    this.northwindCloudAppService.getCustomers().then((data) => {
+      this.northwindCloudAppCustomers = data;
+      this.selectedCustomer = data[0];
+    }, err => console.log(err));
+  }
+
+  onSelectCustomer(customer: any) {
+    this.selectedCustomer = customer;
+  }
+  onSelectOrder(args: any) {
+    this.selectedOrder = args.detail.newSelection[0];
+    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+  }
+
+  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
+
+  @property()
+  private northwindCloudAppOrder?: any[];
+
+  @property()
+  private northwindCloudAppOrderDetail?: any[];
+
+  @property()
+  private northwindCloudAppCustomers?: any[];
+
+  @property()
+  private orderDetails?: any;
+
+  @property()
+  private selectedOrder?: any;
+
+  @property()
+  private selectedCustomer?: any;
+
+  render() {
+    const customersData = [];
         if (this.northwindCloudAppCustomers) {
             for (const customer of this.northwindCloudAppCustomers) {
                 customersData.push(html `<igc-list-item @click=${() => this.onSelectCustomer(customer)}>
@@ -39,7 +191,8 @@ let ListDetails = class ListDetails extends LitElement {
       </igc-list-item>`);
             }
         }
-        return html `
+
+    return html`
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
@@ -51,7 +204,7 @@ let ListDetails = class ListDetails extends LitElement {
         <div class="column-layout group_1">
           <img src="/src/assets/10a04583112d68e72f71ea3d9a5d02a35bbdf8d8.png" class="image" />
           <h5 class="h5">
-            ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
+            ${this.selectedCustomer?.contactName}
           </h5>
           <p class="typography__subtitle-1 text">
             CACTU
@@ -63,7 +216,7 @@ let ListDetails = class ListDetails extends LitElement {
               Title
             </p>
             <p class="typography__body-2 text_1">
-            ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.contactName}
+            ${this.selectedCustomer?.contactName}
             </p>
           </div>
           <div class="column-layout group_4">
@@ -71,7 +224,7 @@ let ListDetails = class ListDetails extends LitElement {
               Street
             </p>
             <p class="typography__body-2 text_1">
-            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.address}
+            ${this.selectedCustomer?.address}
             </p>
           </div>
         </div>
@@ -81,7 +234,7 @@ let ListDetails = class ListDetails extends LitElement {
               Email
             </p>
             <p class="typography__body-2 text_1">
-            ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
+            ${this.selectedCustomer?.postalCode}
             </p>
           </div>
           <div class="row-layout group_5">
@@ -90,7 +243,7 @@ let ListDetails = class ListDetails extends LitElement {
                 City
               </p>
               <p class="typography__body-2 text_1">
-              ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.city}
+              ${this.selectedCustomer?.city}
               </p>
             </div>
             <div class="column-layout group_4">
@@ -98,7 +251,7 @@ let ListDetails = class ListDetails extends LitElement {
                 State
               </p>
               <p class="typography__body-2 text_1">
-              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
+              ${this.selectedCustomer?.city}
               </p>
             </div>
           </div>
@@ -349,158 +502,5 @@ let ListDetails = class ListDetails extends LitElement {
         </div>
       </div>
     `;
-    }
-};
-ListDetails.styles = css `
-    :host {
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-    }
-    .list {
-      width: 214px;
-      height: max-content;
-      flex-shrink: 0;
-    }
-    .grid {
-      margin: 20px 0;
-      min-width: 600px;
-      min-height: 300px;
-      flex-grow: 1;
-      flex-basis: 0;
-    }
-    .grid_1 {
-      min-width: 600px;
-      min-height: 300px;
-      flex-grow: 1;
-      flex-basis: 0;
-    }
-    .column-layout {
-      display: flex;
-      flex-direction: column;
-    }
-    .group {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      gap: 0 2rem;
-      position: relative;
-      width: 1234px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_1 {
-      background-color: hsla(var(--ig-gray-100));
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      margin: 0 0 1rem;
-      height: 340px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .row-layout {
-      display: flex;
-    }
-    .group_2 {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      margin: 0 0 1rem;
-      min-width: 50px;
-      min-height: 50px;
-      align-self: center;
-    }
-    .group_3 {
-      border-bottom: 1px solid #E0E0E0;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 346px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_4 {
-      border-bottom: 1px solid #E0E0E0;
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 340px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_5 {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 340px;
-      min-width: 50px;
-      min-height: 50px;
-    }
-    .group_6 {
-      justify-content: flex-start;
-      align-items: stretch;
-      align-content: flex-start;
-      position: relative;
-      width: 713px;
-      min-width: 50px;
-      min-height: 50px;
-      align-self: center;
-    }
-    .image {
-      object-fit: none;
-      border-radius: 50%;
-      margin: 3rem 0 0;
-      width: 73px;
-      height: 76px;
-      min-width: 0;
-      min-height: 0;
-      align-self: center;
-      flex-shrink: 0;
-    }
-    .h5 {
-      margin: 1rem;
-      height: max-content;
-      min-width: min-content;
-      align-self: center;
-    }
-    .text {
-      height: max-content;
-      min-width: min-content;
-      align-self: center;
-    }
-    .text_1 {
-      height: max-content;
-      min-width: min-content;
-    }
-  `;
-__decorate([
-    property()
-], ListDetails.prototype, "northwindCloudAppOrder", void 0);
-__decorate([
-    property()
-], ListDetails.prototype, "northwindCloudAppOrderDetail", void 0);
-__decorate([
-    property()
-], ListDetails.prototype, "northwindCloudAppCustomers", void 0);
-__decorate([
-    property()
-], ListDetails.prototype, "orderDetails", void 0);
-__decorate([
-    property()
-], ListDetails.prototype, "selectedOrder", void 0);
-__decorate([
-    property()
-], ListDetails.prototype, "selectedCustomer", void 0);
-ListDetails = __decorate([
-    customElement('app-list-details')
-], ListDetails);
-export default ListDetails;
-//# sourceMappingURL=list-details.js.map
+  }
+}

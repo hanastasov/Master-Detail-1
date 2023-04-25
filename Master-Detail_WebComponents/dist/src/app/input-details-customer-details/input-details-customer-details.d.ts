@@ -7,10 +7,10 @@ export default class InputDetailsCustomerDetails extends LitElement {
     private northwindCloudAppOrder?;
     private northwindCloudAppOrderDetail?;
     private northwindCloudAppCustomers?;
-    private selectedCustomer?;
-    private selectedOrder?;
-    private orderDetails?;
-    onSelectCustomer(ev: any): void;
+    onSelectCustomer(customer: any): void;
     onSelectOrder(args: any): void;
+    private orderDetails?;
+    private selectedOrder?;
+    private selectedCustomer?;
     render(): import("lit-html").TemplateResult<1>;
 }

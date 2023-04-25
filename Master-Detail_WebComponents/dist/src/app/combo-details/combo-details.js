@@ -21,11 +21,9 @@ let ComboDetails = class ComboDetails extends LitElement {
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
         }, err => console.log(err));
-        this.financialBoxOfficeRevenue = this.financialService.getData('BoxOfficeRevenue');
     }
     onSelectCustomer(ev) {
         var _a;
-        console.log(ev);
         ev.preventDefault();
         const currentCustomerName = ev.target.value;
         this.selectedCustomer = (_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.find(customer => customer.contactName === currentCustomerName);
@@ -36,7 +34,7 @@ let ComboDetails = class ComboDetails extends LitElement {
         this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return html `
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
@@ -49,17 +47,17 @@ let ComboDetails = class ComboDetails extends LitElement {
         <div class="row-layout group_1">
         <div class="column-layout group_2">
         <h5 class="content">
-          Heading
+          ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
         </h5>
         <p class="typography__body-1 text">
-        ${(_a = this.selectedCustomer.customerID) !== null && _a !== void 0 ? _a : 'AROUT'}
+        ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.customerID}
         </p>
         <div class="column-layout group_3">
           <p class="typography__subtitle-2 text_1">
             Title
           </p>
           <p class="typography__body-1 content">
-            ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.contactName}
+            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -67,7 +65,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             Email
           </p>
           <p class="typography__body-1 content">
-          ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.postalCode}
+          ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -75,7 +73,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.phone}
+          ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -83,7 +81,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             Street
           </p>
           <p class="typography__body-1 content">
-          ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.address}
+          ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -92,7 +90,7 @@ let ComboDetails = class ComboDetails extends LitElement {
               City
             </p>
             <p class="typography__body-1 content">
-            ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
+            ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -100,7 +98,7 @@ let ComboDetails = class ComboDetails extends LitElement {
               State
             </p>
             <p class="typography__body-1 content">
-            ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
+            ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.city}
             </p>
           </div>
         </div>
@@ -109,7 +107,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             Country
           </p>
           <p class="typography__body-1 content">
-          ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.country}
+          ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.country}
           </p>
         </div>
       </div>
@@ -484,25 +482,22 @@ ComboDetails.styles = css `
   `;
 __decorate([
     property()
-], ComboDetails.prototype, "northwindCloudAppCustomers", void 0);
-__decorate([
-    property()
-], ComboDetails.prototype, "financialBoxOfficeRevenue", void 0);
-__decorate([
-    property()
 ], ComboDetails.prototype, "northwindCloudAppOrder", void 0);
 __decorate([
     property()
 ], ComboDetails.prototype, "northwindCloudAppOrderDetail", void 0);
 __decorate([
     property()
-], ComboDetails.prototype, "selectedCustomer", void 0);
+], ComboDetails.prototype, "northwindCloudAppCustomers", void 0);
+__decorate([
+    property()
+], ComboDetails.prototype, "orderDetails", void 0);
 __decorate([
     property()
 ], ComboDetails.prototype, "selectedOrder", void 0);
 __decorate([
     property()
-], ComboDetails.prototype, "orderDetails", void 0);
+], ComboDetails.prototype, "selectedCustomer", void 0);
 ComboDetails = __decorate([
     customElement('app-combo-details')
 ], ComboDetails);

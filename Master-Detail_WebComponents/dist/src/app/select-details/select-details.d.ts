@@ -4,12 +4,12 @@ export default class SelectDetails extends LitElement {
     static styles: import("lit").CSSResult;
     constructor();
     private northwindCloudAppService;
-    private northwindCloudAppOrder?;
     private northwindCloudAppOrderDetail?;
+    private northwindCloudAppOrder?;
     private northwindCloudAppCustomers?;
-    private selectedCustomer?;
-    private selectedOrder?;
     private orderDetails?;
+    private selectedOrder?;
+    private selectedCustomer?;
     onSelectCustomer(ev: any): void;
     onSelectOrder(args: any): void;
     render(): import("lit-html").TemplateResult<1>;
