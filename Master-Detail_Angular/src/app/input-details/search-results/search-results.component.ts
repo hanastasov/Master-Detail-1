@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employees, NorthwindService } from '../../services/northwind.service';
+import { Subject, Subscription, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-search-results',
@@ -8,25 +9,41 @@ import { Employees, NorthwindService } from '../../services/northwind.service';
 })
 export class SearchResultsComponent implements OnInit {
   public northwindEmployees: Employees[] | null = null;
+  value: string;
+  valueChanged: Subject<string> = new Subject<string>();
+  inputSub: Subscription;
 
-  constructor(private northwindService: NorthwindService) {}
+  constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
     this.northwindService.getData('Employees').subscribe(data => this.northwindEmployees = data);
   }
 
-  public onInput(e: any) {
-    this.northwindService.getData('Employees')
-    .subscribe(
-      response => {
-        this.northwindEmployees = response.filter(employee => {
-          return employee.lastName.toLowerCase().includes(e.target.value);
-        });
-      },
-      errorResponse => {
-        alert("oh no, there was an error when calling the API");
-        console.error(errorResponse);
-      }
-    );
+  ngAfterContentInit() {
+    this.inputSub = this.valueChanged
+      .pipe(debounceTime(300))
+      .subscribe(value => {
+        this.value = value
+        this.northwindService.getData('Employees')
+          .subscribe(
+            response => {
+              this.northwindEmployees = response.filter(employee => {
+                return employee.lastName.toLowerCase().includes(value);
+              });
+            },
+            errorResponse => {
+              alert("error occured while calling the API");
+              console.error(errorResponse);
+            }
+          );
+      });
+  }
+
+  onChangeInput(text: string) {
+    this.valueChanged.next(text);
+  }
+
+  ngOnDestroy() {
+    this.inputSub.unsubscribe();
   }
 }
