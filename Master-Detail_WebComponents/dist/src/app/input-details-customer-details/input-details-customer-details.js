@@ -16,7 +16,11 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
         this.northwindCloudAppService.getCustomers().then((data) => {
             var _a;
             this.northwindCloudAppCustomers = data;
-            this.selectedCustomer = data[0];
+            this.northwindCloudAppService.getEmployees().then(employees => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const employeeId = urlParams.get('employeeId');
+                this.selectedCustomer = employees.find((em) => em.employeeID == employeeId);
+            });
             this.grid = this.renderRoot.querySelector('#grid');
             this.grid.selectRows([10248]);
             this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
@@ -31,30 +35,33 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
         this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return html `
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <h5 class="h5">
+      <h5 class="h5">
           Input details
         </h5>
-        <div class="row-layout group_1">
-        <div class="column-layout group_2">
-        <h5 class="content">
-          ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
-        </h5>
-        <p class="typography__body-1 text">
-        ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.customerID}
-        </p>
+       <div class="row-layout group_1">
+       <div>
+       <img class="avatar" src="${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.avatarUrl}" size="large" [roundShape]="true"></img>
+       <div class="column-layout group_2">
+       <h5 class="content"> 
+         ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.firstName} ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.lastName}
+       </h5>
+       <p class="typography__body-1 text">
+       ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.title}
+       </p>
+       </div>
         <div class="column-layout group_3">
           <p class="typography__subtitle-2 text_1">
             Title
           </p>
           <p class="typography__body-1 content">
-            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
+            ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.title}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -62,7 +69,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Email
           </p>
           <p class="typography__body-1 content">
-          ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
+          Orangebeard@company.com
           </p>
         </div>
         <div class="column-layout group_3">
@@ -70,7 +77,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.phone}
+          ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -78,7 +85,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Street
           </p>
           <p class="typography__body-1 content">
-          ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address}
+          ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.address.street}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -87,7 +94,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
               City
             </p>
             <p class="typography__body-1 content">
-            ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
+            ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.address.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -95,7 +102,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
               State
             </p>
             <p class="typography__body-1 content">
-            ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.city}
+            ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.address.region}
             </p>
           </div>
         </div>
@@ -104,7 +111,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Country
           </p>
           <p class="typography__body-1 content">
-          ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.country}
+          ${(_k = this.selectedCustomer) === null || _k === void 0 ? void 0 : _k.address.country}
           </p>
         </div>
       </div>
@@ -367,6 +374,13 @@ InputDetailsCustomerDetails.styles = css `
       align-items: stretch;
       align-content: flex-start;
     }
+    .avatar {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
     .column-layout {
       display: flex;
       flex-direction: column;
@@ -475,6 +489,10 @@ InputDetailsCustomerDetails.styles = css `
       min-height: 300px;
       flex-grow: 1;
       flex-basis: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
     }
   `;
 __decorate([

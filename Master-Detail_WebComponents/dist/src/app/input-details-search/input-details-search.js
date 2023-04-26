@@ -10,42 +10,45 @@ let InputDetailsSearch = class InputDetailsSearch extends LitElement {
         this.inputValue = '';
         this.northwindCloudAppService = new NorthwindCloudAppService();
         this.northwindCloudAppService = new NorthwindCloudAppService();
-        this.northwindCloudAppService.getCustomers().then((data) => {
-            this.northwindCloudAppCustomers = data;
+        this.northwindCloudAppService.getEmployees().then((data) => {
+            this.employeenorthwindCloudAppEmployees = data;
             this.filteredValues = data;
-        }, err => console.log(err));
+        });
     }
     onChange(ev) {
         var _a;
         this.inputValue = ev.target.value;
-        this.filteredValues = ((_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.filter(customer => customer.contactName.toLowerCase().includes(this.inputValue.toLowerCase()))) || [];
+        this.filteredValues = ((_a = this.employeenorthwindCloudAppEmployees) === null || _a === void 0 ? void 0 : _a.filter(employee => employee.firstName.toLowerCase().includes(this.inputValue.toLowerCase()) ||
+            employee.lastName.toLowerCase().includes(this.inputValue.toLowerCase()))) || [];
     }
     render() {
         const cards = [];
         if (this.filteredValues) {
-            for (const customer of this.filteredValues) {
+            for (const employee of this.filteredValues) {
                 cards.push(html `<igc-card class="card">
     <div class="group_4">
       <div class="row-layout">
         <igc-card-header>
           <div slot="thumbnail">
             <igc-card-media class="media-content">
-              <img src="/src/assets/a06650fce7091f420c440f26201d916f775db29d.png" />
+              <img src="${employee.avatarUrl}" />
             </igc-card-media>
           </div>
           <h3 slot="title">
-            ${customer.contactName}
+            ${employee.firstName} ${employee.lastName}
           </h3>
           <h5 slot="subtitle">
-            ${customer.customerID}
+            ${employee.title}
           </h5>
         </igc-card-header>
       </div>
       <igc-card-content class="body-content">
+      <a href="/input-details/customer-details?employeeId=${employee.employeeID}" class="button_1">
         <igc-button variant="flat" class="button_1">
           VIEW DETAILS
           <igc-ripple></igc-ripple>
         </igc-button>
+        </a>
       </igc-card-content>
     </div>
     <span class="divider">Divider not yet available in WebComponents</span>
@@ -176,7 +179,7 @@ __decorate([
 ], InputDetailsSearch.prototype, "inputValue", void 0);
 __decorate([
     property()
-], InputDetailsSearch.prototype, "northwindCloudAppCustomers", void 0);
+], InputDetailsSearch.prototype, "employeenorthwindCloudAppEmployees", void 0);
 __decorate([
     property()
 ], InputDetailsSearch.prototype, "filteredValues", void 0);
