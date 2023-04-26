@@ -2,7 +2,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
-
+import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 @customElement('app-input-details-customer-details')
 export default class InputDetailsCustomerDetails extends LitElement {
   static styles = css`
@@ -12,6 +12,13 @@ export default class InputDetailsCustomerDetails extends LitElement {
       justify-content: flex-start;
       align-items: stretch;
       align-content: flex-start;
+    }
+    .avatar {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
     }
     .column-layout {
       display: flex;
@@ -122,6 +129,10 @@ export default class InputDetailsCustomerDetails extends LitElement {
       flex-grow: 1;
       flex-basis: 0;
     }
+    .container {
+      display: flex;
+      flex-direction: row;
+    }
   `;
 
   constructor() {
@@ -134,9 +145,21 @@ export default class InputDetailsCustomerDetails extends LitElement {
     }, err => console.log(err));
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
-      this.selectedCustomer = data[0];
+      
+      this.northwindCloudAppService.getEmployees().then(employees => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const employeeId = urlParams.get('employeeId');
+        this.selectedCustomer = employees.find((em: any) => em.employeeID == employeeId);
+      });
+
+      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+      this.grid.selectRows([10248]);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
   }, err => console.log(err));
   }
+
+  @property()
+  private grid!: IgcGridComponent;
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
@@ -173,23 +196,26 @@ export default class InputDetailsCustomerDetails extends LitElement {
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <h5 class="h5">
+      <h5 class="h5">
           Input details
         </h5>
-        <div class="row-layout group_1">
-        <div class="column-layout group_2">
-        <h5 class="content">
-          ${this.selectedCustomer?.contactName}
-        </h5>
-        <p class="typography__body-1 text">
-        ${this.selectedCustomer?.customerID}
-        </p>
+       <div class="row-layout group_1">
+       <div>
+       <img class="avatar" src="${this.selectedCustomer?.avatarUrl}" size="large" [roundShape]="true"></img>
+       <div class="column-layout group_2">
+       <h5 class="content"> 
+         ${this.selectedCustomer?.firstName} ${this.selectedCustomer?.lastName}
+       </h5>
+       <p class="typography__body-1 text">
+       ${this.selectedCustomer?.title}
+       </p>
+       </div>
         <div class="column-layout group_3">
           <p class="typography__subtitle-2 text_1">
             Title
           </p>
           <p class="typography__body-1 content">
-            ${this.selectedCustomer?.contactName}
+            ${this.selectedCustomer?.title}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -197,7 +223,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Email
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.postalCode}
+          Orangebeard@company.com
           </p>
         </div>
         <div class="column-layout group_3">
@@ -205,7 +231,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.phone}
+          ${this.selectedCustomer?.address.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -213,7 +239,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Street
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address}
+          ${this.selectedCustomer?.address.street}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -222,7 +248,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               City
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.city}
+            ${this.selectedCustomer?.address.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -230,7 +256,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               State
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.city}
+            ${this.selectedCustomer?.address.region}
             </p>
           </div>
         </div>
@@ -239,7 +265,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Country
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.country}
+          ${this.selectedCustomer?.address.country}
           </p>
         </div>
       </div>
@@ -247,7 +273,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

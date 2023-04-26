@@ -4,6 +4,7 @@ import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import FinancialService from '../service/Financial-service';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcComboComponent);
 
@@ -139,8 +140,14 @@ export default class ComboDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
-  }, err => console.log(err));
+      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+      this.grid.selectRows([10248]);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
+    }, err => console.log(err));
   }
+
+  @property()
+  private grid!: IgcGridComponent;
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
@@ -164,24 +171,25 @@ export default class ComboDetails extends LitElement {
   @property()
   private selectedCustomer?: any;
 
+  
   onSelectCustomer(ev: any) {
     ev.preventDefault();
     const currentCustomerName = ev.target.value;
     this.selectedCustomer = this.northwindCloudAppCustomers?.find(customer => customer.contactName === currentCustomerName);
-}
-onSelectOrder(args: any) {
+  }
+  onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
     this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
-}
+  }
 
   render() {
-    return html `
+    return html`
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <igc-combo ?outlined="${true}"  @mouseleave=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
+        <igc-combo ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
         label="Pick Customer" 
         value-key="contactName" display-key="contactName" ?autoFocusSearch="${true}" class="combo"></igc-combo>
         <div class="row-layout group_1">
@@ -255,7 +263,7 @@ onSelectOrder(args: any) {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

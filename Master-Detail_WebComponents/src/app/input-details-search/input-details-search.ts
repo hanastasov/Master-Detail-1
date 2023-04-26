@@ -105,58 +105,74 @@ export default class InputDetailsSearch extends LitElement {
   constructor() {
     super();
     this.northwindCloudAppService = new NorthwindCloudAppService();
-    this.northwindCloudAppService.getCustomers().then((data) => {
-      this.northwindCloudAppCustomers = data;
-    }, err => console.log(err));
+    this.northwindCloudAppService.getEmployees().then((data) => {
+      this.employeenorthwindCloudAppEmployees = data;
+      this.filteredValues = data;
+    });
+  }
+
+  onChange(ev: any) {
+    this.inputValue = ev.target.value;
+    this.filteredValues = this.employeenorthwindCloudAppEmployees?.filter(employee => employee.firstName.toLowerCase().includes(this.inputValue.toLowerCase()) || 
+    employee.lastName.toLowerCase().includes(this.inputValue.toLowerCase())) || [];
   }
 
   @property()
-  private northwindCloudAppCustomers?: any[];
+  private inputValue: string = '';
+
+  @property()
+  private employeenorthwindCloudAppEmployees?: any[];
+
+  @property()
+  private filteredValues!: any[];
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   render() {
     const cards = [];
-    if (this.northwindCloudAppCustomers) {
-      for (const customer of this.northwindCloudAppCustomers) {
+    if (this.filteredValues) {
+      for (const employee of this.filteredValues) {
         cards.push(html`<igc-card class="card">
     <div class="group_4">
       <div class="row-layout">
         <igc-card-header>
           <div slot="thumbnail">
             <igc-card-media class="media-content">
-              <img src="/src/assets/a06650fce7091f420c440f26201d916f775db29d.png" />
+              <img src="${employee.avatarUrl}" />
             </igc-card-media>
           </div>
           <h3 slot="title">
-            ${customer.contactName}
+            ${employee.firstName} ${employee.lastName}
           </h3>
           <h5 slot="subtitle">
-            ${customer.customerID}
+            ${employee.title}
           </h5>
         </igc-card-header>
       </div>
       <igc-card-content class="body-content">
+      <a href="/input-details/customer-details?employeeId=${employee.employeeID}" class="button_1">
         <igc-button variant="flat" class="button_1">
           VIEW DETAILS
           <igc-ripple></igc-ripple>
         </igc-button>
+        </a>
       </igc-card-content>
     </div>
     <span class="divider">Divider not yet available in WebComponents</span>
   </igc-card>`);
       }
     }
+
     return html`
   <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
   <link rel='stylesheet' href='../../ig-theme.css'>
   <div class="column-layout group">
     <h5 class="h5">
-      Input details
+          Input details 
     </h5>
     <div class="row-layout group_1">
-      <igc-input label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
+      <igc-input .value=${this.inputValue} @input=${this.onChange} label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
       <igc-button class="button">
         Search
         <igc-ripple></igc-ripple>

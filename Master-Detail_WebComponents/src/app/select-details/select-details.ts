@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcSelectComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcSelectComponent);
 
@@ -130,6 +131,11 @@ export default class SelectDetails extends LitElement {
       flex-grow: 1;
       flex-basis: 0;
     }
+
+    igc-select::part(list) {
+      max-height: 200px;
+      overflow-y: scroll;
+    }
   `;
 
   constructor() {
@@ -143,6 +149,9 @@ export default class SelectDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+      this.grid.selectRows([10248]);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
   }, err => console.log(err));
   }
 
@@ -165,6 +174,9 @@ export default class SelectDetails extends LitElement {
 
   @property()
   private selectedCustomer?: any;
+
+  @property()
+  private grid!: IgcGridComponent;
 
   onSelectCustomer(ev: any) {
     ev.preventDefault();

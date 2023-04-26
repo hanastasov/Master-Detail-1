@@ -18,8 +18,12 @@ let ComboDetails = class ComboDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
+            var _a;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.grid = this.renderRoot.querySelector('#grid');
+            this.grid.selectRows([10248]);
+            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
         }, err => console.log(err));
     }
     onSelectCustomer(ev) {
@@ -41,7 +45,7 @@ let ComboDetails = class ComboDetails extends LitElement {
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <igc-combo ?outlined="${true}"  @mouseleave=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
+        <igc-combo ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
         label="Pick Customer" 
         value-key="contactName" display-key="contactName" ?autoFocusSearch="${true}" class="combo"></igc-combo>
         <div class="row-layout group_1">
@@ -115,7 +119,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -480,6 +484,9 @@ ComboDetails.styles = css `
       flex-basis: 0;
     }
   `;
+__decorate([
+    property()
+], ComboDetails.prototype, "grid", void 0);
 __decorate([
     property()
 ], ComboDetails.prototype, "northwindCloudAppOrder", void 0);

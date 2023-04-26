@@ -1,0 +1,338 @@
+@page "/"
+@using NorthwindCloudApp
+@inject INorthwindCloudAppService northwindCloudAppService
+
+<div class="row-layout select-details-container">
+    <div class="column-layout group">
+        <IgbSelect Outlined="true" Label="Pick customer" class="select" select_details-scope>
+            <IgbSelectItem Value="Option">
+                Option
+            </IgbSelectItem>
+        </IgbSelect>
+        <div class="row-layout group_1">
+            <div class="column-layout group_2">
+                <h5 class="content">
+                    Heading
+                </h5>
+                <p class="typography__body-1 text">
+                    About
+                </p>
+                <div class="column-layout group_3">
+                    <p class="typography__subtitle-2 text_1">
+                        Title
+                    </p>
+                    <p class="typography__body-1 content">
+                        Body 1
+                    </p>
+                </div>
+                <div class="column-layout group_3">
+                    <p class="typography__subtitle-2 text_2">
+                        Email
+                    </p>
+                    <p class="typography__body-1 content">
+                        Body 1
+                    </p>
+                </div>
+                <div class="column-layout group_3">
+                    <p class="typography__subtitle-2 text_2">
+                        Phone
+                    </p>
+                    <p class="typography__body-1 content">
+                        Body 1
+                    </p>
+                </div>
+                <div class="column-layout group_3">
+                    <p class="typography__subtitle-2 text_2">
+                        Street
+                    </p>
+                    <p class="typography__body-1 content">
+                        Body 1
+                    </p>
+                </div>
+                <div class="row-layout group_3">
+                    <div class="column-layout group_4">
+                        <p class="typography__subtitle-2 text_2">
+                            City
+                        </p>
+                        <p class="typography__body-1 content">
+                            Body 1
+                        </p>
+                    </div>
+                    <div class="column-layout group_5">
+                        <p class="typography__subtitle-2 text_2">
+                            State
+                        </p>
+                        <p class="typography__body-1 content">
+                            Body 1
+                        </p>
+                    </div>
+                </div>
+                <div class="column-layout group_3">
+                    <p class="typography__subtitle-2 text_2">
+                        Country
+                    </p>
+                    <p class="typography__body-1 content">
+                        Body 1
+                    </p>
+                </div>
+            </div>
+            <div class="column-layout group_6">
+                <p class="typography__body-1 content">
+                    Should be allowed to query data based on param or filter after fetching data
+                </p>
+                <IgbGrid Data="northwindCloudAppOrder" PrimaryKey="EmployeeID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" class="ig-typography grid" select_details-scope>
+                    <IgbGridToolbar>
+                        <IgbGridToolbarTitle>Orders</IgbGridToolbarTitle>
+                    </IgbGridToolbar>
+                    <IgbColumn Field="OrderID" DataType="GridColumnDataType.Number" Header="orderID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="CustomerID" DataType="GridColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="EmployeeID" DataType="GridColumnDataType.Number" Header="employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="OrderDate" DataType="GridColumnDataType.Date" Header="orderDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="RequiredDate" DataType="GridColumnDataType.Date" Header="requiredDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShippedDate" DataType="GridColumnDataType.Date" Header="shippedDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipVia" DataType="GridColumnDataType.Number" Header="shipVia" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Freight" DataType="GridColumnDataType.Number" Header="freight" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipName" DataType="GridColumnDataType.String" Header="shipName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipAddress" DataType="GridColumnDataType.String" Header="shipAddress" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipCity" DataType="GridColumnDataType.String" Header="shipCity" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipRegion" DataType="GridColumnDataType.String" Header="shipRegion" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipPostalCode" DataType="GridColumnDataType.String" Header="shipPostalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipCountry" DataType="GridColumnDataType.String" Header="shipCountry" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.CustomerID" DataType="GridColumnDataType.String" Header="customer customerID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.CompanyName" DataType="GridColumnDataType.String" Header="customer companyName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.ContactName" DataType="GridColumnDataType.String" Header="customer contactName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.ContactTitle" DataType="GridColumnDataType.String" Header="customer contactTitle" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.Address" DataType="GridColumnDataType.String" Header="customer address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.City" DataType="GridColumnDataType.String" Header="customer city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.Region" DataType="GridColumnDataType.String" Header="customer region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.PostalCode" DataType="GridColumnDataType.String" Header="customer postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.Country" DataType="GridColumnDataType.String" Header="customer country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.Phone" DataType="GridColumnDataType.String" Header="customer phone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Customer.Fax" DataType="GridColumnDataType.String" Header="customer fax" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.EmployeeID" DataType="GridColumnDataType.Number" Header="employee employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.LastName" DataType="GridColumnDataType.String" Header="employee lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.FirstName" DataType="GridColumnDataType.String" Header="employee firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Title" DataType="GridColumnDataType.String" Header="employee title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="employee titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.BirthDate" DataType="GridColumnDataType.Date" Header="employee birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.HireDate" DataType="GridColumnDataType.Date" Header="employee hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Address" DataType="GridColumnDataType.String" Header="employee address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.City" DataType="GridColumnDataType.String" Header="employee city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Region" DataType="GridColumnDataType.String" Header="employee region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.PostalCode" DataType="GridColumnDataType.String" Header="employee postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Country" DataType="GridColumnDataType.String" Header="employee country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.HomePhone" DataType="GridColumnDataType.String" Header="employee homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Extension" DataType="GridColumnDataType.String" Header="employee extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Photo" DataType="GridColumnDataType.String" Header="employee photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.Notes" DataType="GridColumnDataType.String" Header="employee notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsTo" DataType="GridColumnDataType.Number" Header="employee reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.PhotoPath" DataType="GridColumnDataType.String" Header="employee photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="employee reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="employee reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="employee reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="employee reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="employee reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="employee reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="employee reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="employee reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="employee reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="employee reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="employee reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="employee reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="employee reportsToNavigation reportsToNavigation reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipViaNavigation.ShipperID" DataType="GridColumnDataType.Number" Header="shipViaNavigation shipperID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipViaNavigation.CompanyName" DataType="GridColumnDataType.String" Header="shipViaNavigation companyName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ShipViaNavigation.Phone" DataType="GridColumnDataType.String" Header="shipViaNavigation phone" Sortable="true" Selectable="false"></IgbColumn>
+                </IgbGrid>
+                <IgbGrid Data="northwindCloudAppOrderDetail" PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" class="ig-typography grid_1" select_details-scope>
+                    <IgbGridToolbar>
+                        <IgbGridToolbarTitle>Order details</IgbGridToolbarTitle>
+                    </IgbGridToolbar>
+                    <IgbColumn Field="OrderID" DataType="GridColumnDataType.Number" Header="orderID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="ProductID" DataType="GridColumnDataType.Number" Header="productID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="UnitPrice" DataType="GridColumnDataType.Number" Header="unitPrice" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Quantity" DataType="GridColumnDataType.Number" Header="quantity" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Discount" DataType="GridColumnDataType.Number" Header="discount" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.OrderID" DataType="GridColumnDataType.Number" Header="order orderID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.CustomerID" DataType="GridColumnDataType.String" Header="order customerID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.EmployeeID" DataType="GridColumnDataType.Number" Header="order employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.OrderDate" DataType="GridColumnDataType.Date" Header="order orderDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.RequiredDate" DataType="GridColumnDataType.Date" Header="order requiredDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShippedDate" DataType="GridColumnDataType.Date" Header="order shippedDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipVia" DataType="GridColumnDataType.Number" Header="order shipVia" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Freight" DataType="GridColumnDataType.Number" Header="order freight" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipName" DataType="GridColumnDataType.String" Header="order shipName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipAddress" DataType="GridColumnDataType.String" Header="order shipAddress" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipCity" DataType="GridColumnDataType.String" Header="order shipCity" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipRegion" DataType="GridColumnDataType.String" Header="order shipRegion" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipPostalCode" DataType="GridColumnDataType.String" Header="order shipPostalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipCountry" DataType="GridColumnDataType.String" Header="order shipCountry" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.CustomerID" DataType="GridColumnDataType.String" Header="order customer customerID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.CompanyName" DataType="GridColumnDataType.String" Header="order customer companyName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.ContactName" DataType="GridColumnDataType.String" Header="order customer contactName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.ContactTitle" DataType="GridColumnDataType.String" Header="order customer contactTitle" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.Address" DataType="GridColumnDataType.String" Header="order customer address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.City" DataType="GridColumnDataType.String" Header="order customer city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.Region" DataType="GridColumnDataType.String" Header="order customer region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.PostalCode" DataType="GridColumnDataType.String" Header="order customer postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.Country" DataType="GridColumnDataType.String" Header="order customer country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.Phone" DataType="GridColumnDataType.String" Header="order customer phone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Customer.Fax" DataType="GridColumnDataType.String" Header="order customer fax" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.EmployeeID" DataType="GridColumnDataType.Number" Header="order employee employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.LastName" DataType="GridColumnDataType.String" Header="order employee lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.FirstName" DataType="GridColumnDataType.String" Header="order employee firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Title" DataType="GridColumnDataType.String" Header="order employee title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="order employee titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.BirthDate" DataType="GridColumnDataType.Date" Header="order employee birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.HireDate" DataType="GridColumnDataType.Date" Header="order employee hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Address" DataType="GridColumnDataType.String" Header="order employee address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.City" DataType="GridColumnDataType.String" Header="order employee city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Region" DataType="GridColumnDataType.String" Header="order employee region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.PostalCode" DataType="GridColumnDataType.String" Header="order employee postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Country" DataType="GridColumnDataType.String" Header="order employee country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.HomePhone" DataType="GridColumnDataType.String" Header="order employee homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Extension" DataType="GridColumnDataType.String" Header="order employee extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Photo" DataType="GridColumnDataType.String" Header="order employee photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.Notes" DataType="GridColumnDataType.String" Header="order employee notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsTo" DataType="GridColumnDataType.Number" Header="order employee reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.PhotoPath" DataType="GridColumnDataType.String" Header="order employee photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.EmployeeID" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation employeeID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.LastName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation lastName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.FirstName" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation firstName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Title" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation title" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.TitleOfCourtesy" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation titleOfCourtesy" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.BirthDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation birthDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.HireDate" DataType="GridColumnDataType.Date" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation hireDate" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Address" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.City" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Region" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.PostalCode" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Country" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.HomePhone" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation homePhone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Extension" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation extension" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Photo" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation photo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.Notes" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation notes" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.ReportsTo" DataType="GridColumnDataType.Number" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation reportsTo" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.Employee.ReportsToNavigation.ReportsToNavigation.ReportsToNavigation.PhotoPath" DataType="GridColumnDataType.String" Header="order employee reportsToNavigation reportsToNavigation reportsToNavigation photoPath" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipViaNavigation.ShipperID" DataType="GridColumnDataType.Number" Header="order shipViaNavigation shipperID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipViaNavigation.CompanyName" DataType="GridColumnDataType.String" Header="order shipViaNavigation companyName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Order.ShipViaNavigation.Phone" DataType="GridColumnDataType.String" Header="order shipViaNavigation phone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.ProductID" DataType="GridColumnDataType.Number" Header="product productID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.ProductName" DataType="GridColumnDataType.String" Header="product productName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.SupplierID" DataType="GridColumnDataType.Number" Header="product supplierID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.CategoryID" DataType="GridColumnDataType.Number" Header="product categoryID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.QuantityPerUnit" DataType="GridColumnDataType.String" Header="product quantityPerUnit" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.UnitPrice" DataType="GridColumnDataType.Number" Header="product unitPrice" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.UnitsInStock" DataType="GridColumnDataType.Number" Header="product unitsInStock" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.UnitsOnOrder" DataType="GridColumnDataType.Number" Header="product unitsOnOrder" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.ReorderLevel" DataType="GridColumnDataType.Number" Header="product reorderLevel" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Discontinued" DataType="GridColumnDataType.Boolean" Header="product discontinued" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Category.CategoryID" DataType="GridColumnDataType.Number" Header="product category categoryID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Category.CategoryName" DataType="GridColumnDataType.String" Header="product category categoryName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Category.Description" DataType="GridColumnDataType.String" Header="product category description" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Category.Picture" DataType="GridColumnDataType.String" Header="product category picture" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.SupplierID" DataType="GridColumnDataType.Number" Header="product supplier supplierID" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.CompanyName" DataType="GridColumnDataType.String" Header="product supplier companyName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.ContactName" DataType="GridColumnDataType.String" Header="product supplier contactName" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.ContactTitle" DataType="GridColumnDataType.String" Header="product supplier contactTitle" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.Address" DataType="GridColumnDataType.String" Header="product supplier address" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.City" DataType="GridColumnDataType.String" Header="product supplier city" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.Region" DataType="GridColumnDataType.String" Header="product supplier region" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.PostalCode" DataType="GridColumnDataType.String" Header="product supplier postalCode" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.Country" DataType="GridColumnDataType.String" Header="product supplier country" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.Phone" DataType="GridColumnDataType.String" Header="product supplier phone" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.Fax" DataType="GridColumnDataType.String" Header="product supplier fax" Sortable="true" Selectable="false"></IgbColumn>
+                    <IgbColumn Field="Product.Supplier.HomePage" DataType="GridColumnDataType.String" Header="product supplier homePage" Sortable="true" Selectable="false"></IgbColumn>
+                </IgbGrid>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Order> northwindCloudAppOrder = new();
+    private List<Order_Detail> northwindCloudAppOrderDetail = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        northwindCloudAppOrder = await northwindCloudAppService.GetOrder();
+        northwindCloudAppOrderDetail = await northwindCloudAppService.GetOrder_Detail();
+    }
+}

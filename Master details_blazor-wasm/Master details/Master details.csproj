@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IgniteUI.Blazor" Version="22.2.65" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pages/Select_Details.razor.css" CssScope="select_details-scope" />
+    <None Update="Pages/Combo_details.razor.css" CssScope="combo_details-scope" />
+    <None Update="Pages/List_details.razor.css" CssScope="list_details-scope" />
+    <None Update="Pages/Input_details_search.razor.css" CssScope="input_details_search-scope" />
+    <None Update="Pages/Input_details_customer_details.razor.css" CssScope="input_details_customer_details-scope" />
+    <None Update="Pages/Cascade_select.razor.css" CssScope="cascade_select-scope" />
+  </ItemGroup>
+
+</Project>

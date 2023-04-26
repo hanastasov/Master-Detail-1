@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcListComponent, IgcListItemComponent);
 
@@ -150,9 +151,15 @@ export default class ListDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+      this.grid.selectRows([10248]);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
     }, err => console.log(err));
   }
 
+  @property()
+  private grid!: IgcGridComponent;
+  
   onSelectCustomer(customer: any) {
     this.selectedCustomer = customer;
   }

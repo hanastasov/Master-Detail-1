@@ -3,6 +3,7 @@ import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 export default class ComboDetails extends LitElement {
     static styles: import("lit").CSSResult;
     constructor();
+    private grid;
     private northwindCloudAppService;
     private financialService;
     private northwindCloudAppOrder?;

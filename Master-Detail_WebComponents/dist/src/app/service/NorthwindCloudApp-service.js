@@ -1,3 +1,4 @@
+import { Northwind } from '../static-data/northwind';
 const API_ENDPOINT = 'https://northwindcloud.azurewebsites.net';
 export default class NorthwindCloudAppService {
     constructor() {
@@ -14,6 +15,9 @@ export default class NorthwindCloudAppService {
                 return Promise.resolve(null);
             }
             return response.json();
+        };
+        this.getEmployees = async () => {
+            return Northwind.Employees;
         };
         this.getOrder_Detail = async () => {
             const response = await fetch(`${API_ENDPOINT}/api/order_details`);

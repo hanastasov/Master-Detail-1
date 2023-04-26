@@ -3,6 +3,7 @@ import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 export default class ListDetails extends LitElement {
     static styles: import("lit").CSSResult;
     constructor();
+    private grid;
     onSelectCustomer(customer: any): void;
     onSelectOrder(args: any): void;
     private northwindCloudAppService;
