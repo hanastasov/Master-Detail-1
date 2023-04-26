@@ -7,16 +7,23 @@ defineComponents(IgcInputComponent, IgcButtonComponent, IgcRippleComponent, IgcC
 let InputDetailsSearch = class InputDetailsSearch extends LitElement {
     constructor() {
         super();
+        this.inputValue = '';
         this.northwindCloudAppService = new NorthwindCloudAppService();
         this.northwindCloudAppService = new NorthwindCloudAppService();
         this.northwindCloudAppService.getCustomers().then((data) => {
             this.northwindCloudAppCustomers = data;
+            this.filteredValues = data;
         }, err => console.log(err));
+    }
+    onChange(ev) {
+        var _a;
+        this.inputValue = ev.target.value;
+        this.filteredValues = ((_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.filter(customer => customer.contactName.toLowerCase().includes(this.inputValue.toLowerCase()))) || [];
     }
     render() {
         const cards = [];
-        if (this.northwindCloudAppCustomers) {
-            for (const customer of this.northwindCloudAppCustomers) {
+        if (this.filteredValues) {
+            for (const customer of this.filteredValues) {
                 cards.push(html `<igc-card class="card">
     <div class="group_4">
       <div class="row-layout">
@@ -51,10 +58,10 @@ let InputDetailsSearch = class InputDetailsSearch extends LitElement {
   <link rel='stylesheet' href='../../ig-theme.css'>
   <div class="column-layout group">
     <h5 class="h5">
-      Input details
+          Input details 
     </h5>
     <div class="row-layout group_1">
-      <igc-input label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
+      <igc-input .value=${this.inputValue} @input=${this.onChange} label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
       <igc-button class="button">
         Search
         <igc-ripple></igc-ripple>
@@ -166,7 +173,13 @@ InputDetailsSearch.styles = css `
   `;
 __decorate([
     property()
+], InputDetailsSearch.prototype, "inputValue", void 0);
+__decorate([
+    property()
 ], InputDetailsSearch.prototype, "northwindCloudAppCustomers", void 0);
+__decorate([
+    property()
+], InputDetailsSearch.prototype, "filteredValues", void 0);
 InputDetailsSearch = __decorate([
     customElement('app-input-details-search')
 ], InputDetailsSearch);

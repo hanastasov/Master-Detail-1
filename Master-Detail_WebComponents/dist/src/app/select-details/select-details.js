@@ -16,8 +16,12 @@ let SelectDetails = class SelectDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
+            var _a;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.grid = this.renderRoot.querySelector('#grid');
+            this.grid.selectRows([10248]);
+            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
         }, err => console.log(err));
     }
     onSelectCustomer(ev) {
@@ -489,6 +493,11 @@ SelectDetails.styles = css `
       flex-grow: 1;
       flex-basis: 0;
     }
+
+    igc-select::part(list) {
+      max-height: 200px;
+      overflow-y: scroll;
+    }
   `;
 __decorate([
     property()
@@ -508,6 +517,9 @@ __decorate([
 __decorate([
     property()
 ], SelectDetails.prototype, "selectedCustomer", void 0);
+__decorate([
+    property()
+], SelectDetails.prototype, "grid", void 0);
 SelectDetails = __decorate([
     customElement('app-select-details')
 ], SelectDetails);

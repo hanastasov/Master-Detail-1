@@ -2,6 +2,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
 @customElement('app-input-details-customer-details')
 export default class InputDetailsCustomerDetails extends LitElement {
@@ -135,8 +136,14 @@ export default class InputDetailsCustomerDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+      this.grid.selectRows([10248]);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
   }, err => console.log(err));
   }
+
+  @property()
+  private grid!: IgcGridComponent;
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
@@ -247,7 +254,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

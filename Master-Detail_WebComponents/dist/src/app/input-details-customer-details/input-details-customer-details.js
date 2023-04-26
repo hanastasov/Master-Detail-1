@@ -14,8 +14,12 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
+            var _a;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.grid = this.renderRoot.querySelector('#grid');
+            this.grid.selectRows([10248]);
+            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
         }, err => console.log(err));
     }
     onSelectCustomer(customer) {
@@ -108,7 +112,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -473,6 +477,9 @@ InputDetailsCustomerDetails.styles = css `
       flex-basis: 0;
     }
   `;
+__decorate([
+    property()
+], InputDetailsCustomerDetails.prototype, "grid", void 0);
 __decorate([
     property()
 ], InputDetailsCustomerDetails.prototype, "northwindCloudAppOrder", void 0);

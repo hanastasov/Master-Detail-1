@@ -107,18 +107,30 @@ export default class InputDetailsSearch extends LitElement {
     this.northwindCloudAppService = new NorthwindCloudAppService();
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
+      this.filteredValues = data;
     }, err => console.log(err));
   }
 
+  onChange(ev: any) {
+    this.inputValue = ev.target.value;
+    this.filteredValues = this.northwindCloudAppCustomers?.filter(customer => customer.contactName.toLowerCase().includes(this.inputValue.toLowerCase())) || [];
+  }
+
+  @property()
+  private inputValue: string = '';
+
   @property()
   private northwindCloudAppCustomers?: any[];
+
+  @property()
+  private filteredValues!: any[];
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   render() {
     const cards = [];
-    if (this.northwindCloudAppCustomers) {
-      for (const customer of this.northwindCloudAppCustomers) {
+    if (this.filteredValues) {
+      for (const customer of this.filteredValues) {
         cards.push(html`<igc-card class="card">
     <div class="group_4">
       <div class="row-layout">
@@ -147,16 +159,17 @@ export default class InputDetailsSearch extends LitElement {
   </igc-card>`);
       }
     }
+
     return html`
   <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
   <link rel='stylesheet' href='../../ig-theme.css'>
   <div class="column-layout group">
     <h5 class="h5">
-      Input details
+          Input details 
     </h5>
     <div class="row-layout group_1">
-      <igc-input label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
+      <igc-input .value=${this.inputValue} @input=${this.onChange} label="Label/Placeholder" ?outlined="${true}" class="input"></igc-input>
       <igc-button class="button">
         Search
         <igc-ripple></igc-ripple>
