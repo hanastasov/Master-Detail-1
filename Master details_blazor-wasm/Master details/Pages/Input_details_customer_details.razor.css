@@ -44,7 +44,7 @@
     min-height: 50px;
 }
 .group_3 {
-    border: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
     justify-content: flex-start;
     align-items: stretch;
     align-content: flex-start;
@@ -53,7 +53,7 @@
     min-height: 50px;
 }
 .group_4 {
-    border: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
     justify-content: flex-start;
     align-items: stretch;
     align-content: flex-start;
