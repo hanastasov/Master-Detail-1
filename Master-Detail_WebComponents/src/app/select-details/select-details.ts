@@ -203,6 +203,7 @@ export default class SelectDetails extends LitElement {
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
         <igc-select @mouseleave=${this.onSelectCustomer} ?outlined="${true}" label="Pick customer" class="select">
+        <igc-select-item selected .value='Maria Anders'>Maria Anders</igc-select-item>
         ${customersData}
         </igc-select>
         <div class="row-layout group_1">

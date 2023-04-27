@@ -24,6 +24,13 @@ let ComboDetails = class ComboDetails extends LitElement {
             this.grid = this.renderRoot.querySelector('#grid');
             this.grid.selectRows([10248]);
             this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
+            this.combo = this.renderRoot.querySelector("#combo");
+            if (this.northwindCloudAppCustomers) {
+                setTimeout(() => {
+                    this.combo.valueKey = 'contactName';
+                    this.combo.select(['Maria Anders']);
+                }, 1);
+            }
         }, err => console.log(err));
     }
     onSelectCustomer(ev) {
@@ -45,7 +52,7 @@ let ComboDetails = class ComboDetails extends LitElement {
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <igc-combo ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
+        <igc-combo id="combo" ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
         label="Pick Customer" 
         value-key="contactName" display-key="contactName" ?autoFocusSearch="${true}" class="combo"></igc-combo>
         <div class="row-layout group_1">
@@ -505,6 +512,9 @@ __decorate([
 __decorate([
     property()
 ], ComboDetails.prototype, "selectedCustomer", void 0);
+__decorate([
+    property()
+], ComboDetails.prototype, "combo", void 0);
 ComboDetails = __decorate([
     customElement('app-combo-details')
 ], ComboDetails);

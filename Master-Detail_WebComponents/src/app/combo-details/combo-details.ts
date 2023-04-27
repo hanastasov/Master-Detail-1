@@ -143,6 +143,13 @@ export default class ComboDetails extends LitElement {
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
       this.grid.selectRows([10248]);
       this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
+      this.combo = this.renderRoot.querySelector("#combo") as IgcComboComponent<any>;
+      if (this.northwindCloudAppCustomers) {
+        setTimeout(() => {
+          this.combo.valueKey = 'contactName';
+          this.combo.select(['Maria Anders']);
+        }, 1)
+      }
     }, err => console.log(err));
   }
 
@@ -171,6 +178,8 @@ export default class ComboDetails extends LitElement {
   @property()
   private selectedCustomer?: any;
 
+  @property()
+  private combo!: IgcComboComponent<any>;
   
   onSelectCustomer(ev: any) {
     ev.preventDefault();
@@ -189,7 +198,7 @@ export default class ComboDetails extends LitElement {
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <igc-combo ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
+        <igc-combo id="combo" ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
         label="Pick Customer" 
         value-key="contactName" display-key="contactName" ?autoFocusSearch="${true}" class="combo"></igc-combo>
         <div class="row-layout group_1">
