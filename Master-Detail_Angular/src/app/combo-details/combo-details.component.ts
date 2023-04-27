@@ -16,6 +16,7 @@ export class ComboDetailsComponent implements OnInit {
   public northwindOrderDetails: any = null;
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
+  public selectedRows = [10355];
   public selectedCustomerData: any = [
     {
       "customerID": "AROUT",
@@ -41,6 +42,7 @@ export class ComboDetailsComponent implements OnInit {
     this.northwindService.getData('order_details').subscribe(data => this.northwindOrderDetails = data);
     this.selectedCustomer = this.northwindCustomers[0].customerID;
     this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+    this.selectedOrdersDetails  = this.northwindOrderDetails.filter(el => el.orderID === this.selectedRows[0]);
   }
 
   handleClosed() {

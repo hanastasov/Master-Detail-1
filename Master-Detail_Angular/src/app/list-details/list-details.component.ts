@@ -14,6 +14,7 @@ export class ListDetailsComponent implements OnInit {
   public detailsAreLoading = true;
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
+  public selectedRows = [10355];
   public selectedCustomerData: any = [
     {
       "customerID": "AROUT",
@@ -38,18 +39,16 @@ export class ListDetailsComponent implements OnInit {
     this.northwindService.getData('Orders').subscribe(data => this.northwindOrders = data);
     this.northwindService.getData('order_details').subscribe(data => this.northwindOrderDetails = data);
     this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+    this.selectedOrdersDetails  = this.northwindOrderDetails.filter(el => el.orderID === this.selectedRows[0]);
   }
 
   onItemClicked(item: any) {
     this.selectedCustomerData = new Array;
     this.selectedCustomerData.push(item);
     this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0].customerID);
-    this.detailsAreLoading = false;
   }
 
   public orderSelected(orderID: IRowSelectionEventArgs) {
-    this.detailsAreLoading = true;
     this.selectedOrdersDetails = this.northwindOrderDetails.filter(el => el.orderID === orderID.newSelection[0]);
-    this.detailsAreLoading = false;
   }
 }

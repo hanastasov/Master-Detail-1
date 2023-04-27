@@ -91,7 +91,7 @@
     </div>
     <div class="column-layout group_12">
       <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
-        [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
+        [selectedRows]="selectedRows" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
         (rowSelectionChanging)="orderSelected($event)">
         <igx-grid-toolbar>
           <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>

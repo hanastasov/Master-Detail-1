@@ -15,6 +15,7 @@ export class CustomerDetailsComponent implements OnInit {
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
   public detailsAreLoading = true;
+  public selectedRows = [10265];
 
   constructor(private route: ActivatedRoute, private northwindService: NorthwindService) { }
 
@@ -28,6 +29,7 @@ export class CustomerDetailsComponent implements OnInit {
       })
     });
     this.northwindService.getData('order_details').subscribe(data => this.northwindOrderDetails = data);
+    this.selectedOrdersDetails  = this.northwindOrderDetails.filter(el => el.orderID === this.selectedRows[0]);
   }
 
   public orderSelected(orderID: IRowSelectionEventArgs) {

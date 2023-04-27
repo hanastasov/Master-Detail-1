@@ -80,7 +80,7 @@
   </div>
   <div class="column-layout group_10">
     <igx-grid primaryKey="orderID" [data]="northwindOrders" displayDensity="cosy" rowSelection="single" [hideRowSelectors]="true"
-      [allowFiltering]="true" filterMode="excelStyleFilter" class="grid" (rowSelectionChanging)="orderSelected($event)">
+      [selectedRows]="selectedRows" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid" (rowSelectionChanging)="orderSelected($event)">
       <igx-grid-toolbar>
         <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
       </igx-grid-toolbar>

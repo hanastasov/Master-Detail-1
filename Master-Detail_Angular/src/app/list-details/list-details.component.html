@@ -90,7 +90,7 @@
       </div>
       <div class="column-layout group_18">
         <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
-          [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
+          [selectedRows]="selectedRows" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
           (rowSelectionChanging)="orderSelected($event)">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
@@ -128,7 +128,7 @@
       <div class="column-layout group_18">
         <igx-grid [data]="selectedOrdersDetails" primaryKey="productID" displayDensity="cosy" rowSelection="single"
           cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
-          class="grid" [isLoading]="detailsAreLoading">
+          class="grid">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
           </igx-grid-toolbar>
