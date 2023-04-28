@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7Su8VS8RjvB4w43SAseDuh/1c1eZc7OFr/2JLGyPxTCmeZlPi1maRBpHV1DQMedC4bRFAr6gLNDrV+sutLslOg==",
+  "dgSpecHash": "Agk57y/h8+qoe79ryTOVLVfCozlKlMHiws6DvYdr2C0XpizmY+HMRaN02+/5jiBPhdQ8lTAhsW69EonuTZAdbA==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
+  "projectFilePath": "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SNovoselski\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\SNovoselski\\.nuget\\packages\\anglesharp.css\\0.16.4\\anglesharp.css.0.16.4.nupkg.sha512",

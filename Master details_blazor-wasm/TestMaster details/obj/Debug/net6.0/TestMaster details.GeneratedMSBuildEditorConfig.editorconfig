@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TestMaster_details
-build_property.ProjectDir = C:\Projects\test\Master-Detail\Master details_blazor-wasm\TestMaster details\
+build_property.ProjectDir = C:\Projects\Master-Detail\Master details_blazor-wasm\TestMaster details\

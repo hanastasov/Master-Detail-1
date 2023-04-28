@@ -7880,14 +7880,14 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
+      "projectUniqueName": "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
       "projectName": "TestMaster details",
-      "projectPath": "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
+      "projectPath": "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\TestMaster details.csproj",
       "packagesPath": "C:\\Users\\SNovoselski\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\obj\\",
+      "outputPath": "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\TestMaster details\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\NuGet.Config",
+        "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\NuGet.Config",
         "C:\\Users\\SNovoselski\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -7904,8 +7904,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\Master details\\Master details.csproj": {
-              "projectPath": "C:\\Projects\\test\\Master-Detail\\Master details_blazor-wasm\\Master details\\Master details.csproj"
+            "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\Master details\\Master details.csproj": {
+              "projectPath": "C:\\Projects\\Master-Detail\\Master details_blazor-wasm\\Master details\\Master details.csproj"
             }
           }
         }
