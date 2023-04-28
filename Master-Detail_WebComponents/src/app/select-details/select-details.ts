@@ -27,7 +27,7 @@ export default class SelectDetails extends LitElement {
       align-content: flex-start;
       position: relative;
       margin: 0;
-      width: 1441px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -89,7 +89,7 @@ export default class SelectDetails extends LitElement {
       align-items: stretch;
       align-content: flex-start;
       position: relative;
-      width: 1020px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -151,7 +151,7 @@ export default class SelectDetails extends LitElement {
       this.selectedCustomer = data[0];
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
       this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
+      this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === 10248);
   }, err => console.log(err));
   }
 
@@ -185,7 +185,7 @@ export default class SelectDetails extends LitElement {
   }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
-    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+    this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
   }
 
   render() {
@@ -383,7 +383,7 @@ export default class SelectDetails extends LitElement {
               <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
               <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
             </igc-grid>
-            <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+            <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
               </igc-grid-toolbar>

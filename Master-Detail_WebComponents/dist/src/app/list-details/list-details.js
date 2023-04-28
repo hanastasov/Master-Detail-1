@@ -21,7 +21,7 @@ let ListDetails = class ListDetails extends LitElement {
             this.selectedCustomer = data[0];
             this.grid = this.renderRoot.querySelector('#grid');
             this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
+            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === 10248);
         }, err => console.log(err));
     }
     onSelectCustomer(customer) {
@@ -30,7 +30,7 @@ let ListDetails = class ListDetails extends LitElement {
     onSelectOrder(args) {
         var _a;
         this.selectedOrder = args.detail.newSelection[0];
-        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
+        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
         var _a, _b, _c, _d, _e, _f;
@@ -214,7 +214,7 @@ let ListDetails = class ListDetails extends LitElement {
         <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
         <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
       </igc-grid>
-      <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+      <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
         </igc-grid-toolbar>
@@ -367,6 +367,9 @@ ListDetails.styles = css `
       width: 214px;
       height: max-content;
       flex-shrink: 0;
+      position: fixed;
+      max-height: 100vh;
+      z-index: 1;
     }
     .grid {
       margin: 20px 0;
@@ -391,7 +394,7 @@ ListDetails.styles = css `
       align-content: flex-start;
       gap: 0 2rem;
       position: relative;
-      width: 1234px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }

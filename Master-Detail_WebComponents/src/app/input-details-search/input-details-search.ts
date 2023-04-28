@@ -25,7 +25,7 @@ export default class InputDetailsSearch extends LitElement {
       align-content: flex-start;
       position: relative;
       padding: 2rem;
-      width: 1448px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
