@@ -45,7 +45,7 @@ export class SelectDetailsComponent implements OnInit {
     this.selectedOrdersDetails  = this.northwindOrderDetails.filter(el => el.orderID === this.selectedRows[0]);
   }
 
-  handleSelection() {
+  handleClosed() {
     this.selectedCustomerData = new Array;
     this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
     this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0].customerID);

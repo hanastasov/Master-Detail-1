@@ -1,5 +1,5 @@
 <div class="column-layout group">
-  <igx-select type="border" class="select" (selectionChanging)="handleSelection()" [(ngModel)]="selectedCustomer">
+  <igx-select type="border" class="select" (closed)="handleClosed()" [(ngModel)]="selectedCustomer">
     <igx-select-item [value]="item.customerID" *ngFor="let item of northwindCustomers">
       {{ item.contactName }}
     </igx-select-item>
