@@ -6,7 +6,7 @@
 
 <div class="row-layout select-details-container">
     <div class="column-layout group">
-        <IgbSelect Outlined="true" Label="Pick customer" class="select" select_details-scope>
+        <IgbSelect Outlined="true" @onchange="ChangeSelectedElement" Label="Pick customer" class="select" select_details-scope>
             <IgbSelectItem Selected Value="Maria Anders">
                 Maria Anders
             </IgbSelectItem>
@@ -88,7 +88,8 @@
                 <p class="typography__body-1 content">
                     Should be allowed to query data based on param or filter after fetching data
                 </p>
-                <IgbGrid Data="northwindCloudAppOrder" RowSelection="GridSelectionMode.Single" RowSelectionChangingScript='rowSelectionChangingHandler'
+                <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single" 
+                RowSelectionChangingScript='rowSelectionChangingHandler'
                          PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter"
                          AutoGenerate="false" class="ig-typography grid" select_details-scope>
                     <IgbGridToolbar>
@@ -213,12 +214,14 @@
 
 @code {
     private static List<Order> northwindCloudAppOrder = new();
+    private static List<Order> northwindCloudAppOrderFiltered = new();
     private static List<Order_Detail> northwindCloudAppOrderDetail = new List<Order_Detail>();
     private List<Customer> customers = new List<Customer>();
     private Customer selectedCustomer = new Customer();
     private static List<Order_Detail> selectedOrders = new List<Order_Detail>();
-    public object[] selectedRows = { 10248 };
+    public object[] selectedRows;
     public static Select_Details app;
+    private IgbGrid Grid;
 
     protected override async Task OnInitializedAsync()
     {
@@ -226,11 +229,12 @@
         northwindCloudAppOrderDetail = await northwindCloudAppService.GetOrder_Detail();
         customers = await northwindCloudAppService.GetCustomers();
         selectedCustomer = customers[0];
-        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == 10248).ToList();
+        northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.CustomerID == selectedCustomer.CustomerID).ToList();
+        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
         app = this;
     }
 
-    private void ChangeSelectedElement(ChangeEventArgs ev)
+    private async Task ChangeSelectedElement(ChangeEventArgs ev)
     {
         selectedCustomer = customers?.FirstOrDefault(c => c.ContactName == ev.Value.ToString());
     }

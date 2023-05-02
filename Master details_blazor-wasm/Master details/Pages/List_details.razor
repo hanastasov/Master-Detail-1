@@ -5,92 +5,31 @@
 
 <div class="row-layout list-details-container">
     <IgbList class="list" list_details-scope>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
-        <IgbListItem>
-            <div slot="title">Around the Horn</div>
-            <div slot="subtitle">AROUT</div>
-        </IgbListItem>
+        @foreach(var customer in customers) 
+        {
+            <IgbListItem @onclick="() => SelectCustomer(customer.CustomerID)">
+                <div slot="title">@customer.ContactName</div>
+                <div slot="subtitle">@customer.CustomerID</div>
+            </IgbListItem>        
+        }
     </IgbList>
     <div class="column-layout group">
         <div class="column-layout group_1">
             <img src="assets/10a04583112d68e72f71ea3d9a5d02a35bbdf8d8.png" class="image" />
             <h5 class="h5">
-                Patricio Simpson
+                @selectedCustomer.ContactName
             </h5>
             <p class="typography__subtitle-1 text">
-                CACTU
+                @selectedCustomer.CustomerID
             </p>
         </div>
         <div class="row-layout group_2">
             <div class="column-layout group_3">
                 <p class="typography__subtitle-2 text_1">
-                    Title
+                    Company Name
                 </p>
                 <p class="typography__body-2 text_1">
-                    Body 1
+                    @selectedCustomer.CompanyName
                 </p>
             </div>
             <div class="column-layout group_4">
@@ -98,17 +37,17 @@
                     Street
                 </p>
                 <p class="typography__body-2 text_1">
-                    Body 1
+                    @selectedCustomer.Address
                 </p>
             </div>
         </div>
         <div class="row-layout group_2">
             <div class="column-layout group_3">
                 <p class="typography__subtitle-2 text_1">
-                    Email
+                    Id
                 </p>
                 <p class="typography__body-2 text_1">
-                    Body 1
+                    @selectedCustomer.CustomerID
                 </p>
             </div>
             <div class="row-layout group_5">
@@ -117,7 +56,7 @@
                         City
                     </p>
                     <p class="typography__body-2 text_1">
-                        Body 1
+                        @selectedCustomer.City
                     </p>
                 </div>
                 <div class="column-layout group_4">
@@ -125,7 +64,7 @@
                         State
                     </p>
                     <p class="typography__body-2 text_1">
-                        Body 1
+                        @selectedCustomer.City
                     </p>
                 </div>
             </div>
@@ -136,7 +75,7 @@
                     Phone
                 </p>
                 <p class="typography__body-2 text_1">
-                    Body 1
+                    @selectedCustomer.Phone
                 </p>
             </div>
             <div class="column-layout group_4">
@@ -144,12 +83,12 @@
                     Country
                 </p>
                 <p class="typography__body-2 text_1">
-                    Body 1
+                    @selectedCustomer.Country
                 </p>
             </div>
         </div>
         <div class="column-layout group_6">
-            <IgbGrid Data="northwindCloudAppOrder" RowSelection="GridSelectionMode.Single" RowSelectionChangingScript='rowSelectionListDetailsChangingHandler' PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" Width="709px" class="ig-typography grid" list_details-scope>
+            <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single" RowSelectionChangingScript='rowSelectionListDetailsChangingHandler' PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" Width="709px" class="ig-typography grid" list_details-scope>
                 <IgbGridToolbar>
                     <IgbGridToolbarTitle>Orders</IgbGridToolbarTitle>
                 </IgbGridToolbar>
@@ -270,11 +209,12 @@
 
 @code {
     private static List<Order> northwindCloudAppOrder = new();
+    private static List<Order> northwindCloudAppOrderFiltered = new();
+
     private static List<Order_Detail> northwindCloudAppOrderDetail = new List<Order_Detail>();
     private List<Customer> customers = new List<Customer>();
     private Customer selectedCustomer = new Customer();
     private static List<Order_Detail> selectedOrders = new List<Order_Detail>();
-    public object[] selectedRows = { 10248 };
     public static List_details app;
 
     protected override async Task OnInitializedAsync()
@@ -283,13 +223,21 @@
         northwindCloudAppOrderDetail = await northwindCloudAppService.GetOrder_Detail();
         customers = await northwindCloudAppService.GetCustomers();
         selectedCustomer = customers[0];
-        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == 10248).ToList();
+        northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.CustomerID == selectedCustomer.CustomerID).ToList();
+        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
         app = this;
     }
 
     private void ChangeSelectedElement(ChangeEventArgs ev)
     {
         selectedCustomer = customers?.FirstOrDefault(c => c.ContactName == ev.Value.ToString());
+    }
+
+    private void SelectCustomer(string id)
+    {
+        selectedCustomer = customers?.FirstOrDefault(c => c.CustomerID == id);
+        northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.CustomerID == selectedCustomer.CustomerID).ToList();
+        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
     }
 
     [JSInvokable]
