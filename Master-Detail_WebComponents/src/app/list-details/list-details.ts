@@ -225,7 +225,7 @@ export default class ListDetails extends LitElement {
             ${this.selectedCustomer?.contactName}
           </h5>
           <p class="typography__subtitle-1 text">
-            CACTU
+          ${this.selectedCustomer?.customerID}
           </p>
         </div>
         <div class="row-layout group_2">

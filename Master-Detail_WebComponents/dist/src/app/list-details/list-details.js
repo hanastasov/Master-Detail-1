@@ -39,7 +39,7 @@ let ListDetails = class ListDetails extends LitElement {
         this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         const customersData = [];
         if (this.northwindCloudAppCustomers) {
             for (const customer of this.northwindCloudAppCustomers) {
@@ -64,7 +64,7 @@ let ListDetails = class ListDetails extends LitElement {
             ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
           </h5>
           <p class="typography__subtitle-1 text">
-            CACTU
+          ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.customerID}
           </p>
         </div>
         <div class="row-layout group_2">
@@ -73,7 +73,7 @@ let ListDetails = class ListDetails extends LitElement {
               Title
             </p>
             <p class="typography__body-2 text_1">
-            ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.contactName}
+            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
             </p>
           </div>
           <div class="column-layout group_4">
@@ -81,7 +81,7 @@ let ListDetails = class ListDetails extends LitElement {
               Street
             </p>
             <p class="typography__body-2 text_1">
-            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.address}
+            ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.address}
             </p>
           </div>
         </div>
@@ -91,7 +91,7 @@ let ListDetails = class ListDetails extends LitElement {
               Email
             </p>
             <p class="typography__body-2 text_1">
-            ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
+            ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.postalCode}
             </p>
           </div>
           <div class="row-layout group_5">
@@ -100,7 +100,7 @@ let ListDetails = class ListDetails extends LitElement {
                 City
               </p>
               <p class="typography__body-2 text_1">
-              ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.city}
+              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
               </p>
             </div>
             <div class="column-layout group_4">
@@ -108,7 +108,7 @@ let ListDetails = class ListDetails extends LitElement {
                 State
               </p>
               <p class="typography__body-2 text_1">
-              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
+              ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
               </p>
             </div>
           </div>
