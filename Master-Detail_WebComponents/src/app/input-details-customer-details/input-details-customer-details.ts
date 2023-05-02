@@ -137,22 +137,29 @@ export default class InputDetailsCustomerDetails extends LitElement {
 
   constructor() {
     super();
-    const urlParams = new URLSearchParams(window.location.search);
-    const employeeId = urlParams.get('employeeId');
+    
     this.northwindCloudAppService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
+      console.log(this.northwindCloudAppOrder)
       if (this.northwindCloudAppOrder) {
+        const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('employeeId');
         this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.employeeID == employeeId);
         const firstOrder = this.northwindCloudAppOrderFiltered[0];
         this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-        this.grid.selectRows([firstOrder.orderID]);
-        this.northwindCloudAppService.getOrder_Detail().then((data) => {
-          this.northwindCloudAppOrderDetail = data;
-          this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID == firstOrder.orderID);
-        }, err => console.log(err));
-      }
+        if (firstOrder) {
+          this.grid.selectRows([firstOrder.orderID]);
+          this.northwindCloudAppService.getOrder_Detail().then((data) => {
+            this.northwindCloudAppOrderDetail = data;
+            this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID == firstOrder.orderID);
+          }, err => console.log(err));
+        }
+        }
     }, err => console.log(err));
+    
     this.northwindCloudAppService.getEmployees().then((data) => {
+      const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('employeeId');
       this.selectedEmployee = data.find((x: any) => x.employeeID == employeeId);
     }, (err: any) => console.log(err));
   }

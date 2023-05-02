@@ -7,24 +7,29 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
     constructor() {
         super();
         this.northwindCloudAppService = new NorthwindCloudAppService();
-        const urlParams = new URLSearchParams(window.location.search);
-        const employeeId = urlParams.get('employeeId');
         this.northwindCloudAppService.getOrder().then((data) => {
             var _a;
             this.northwindCloudAppOrder = data;
+            console.log(this.northwindCloudAppOrder);
             if (this.northwindCloudAppOrder) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const employeeId = urlParams.get('employeeId');
                 this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.employeeID == employeeId);
                 const firstOrder = this.northwindCloudAppOrderFiltered[0];
                 this.grid = this.renderRoot.querySelector('#grid');
-                this.grid.selectRows([firstOrder.orderID]);
-                this.northwindCloudAppService.getOrder_Detail().then((data) => {
-                    var _a;
-                    this.northwindCloudAppOrderDetail = data;
-                    this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID == firstOrder.orderID);
-                }, err => console.log(err));
+                if (firstOrder) {
+                    this.grid.selectRows([firstOrder.orderID]);
+                    this.northwindCloudAppService.getOrder_Detail().then((data) => {
+                        var _a;
+                        this.northwindCloudAppOrderDetail = data;
+                        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID == firstOrder.orderID);
+                    }, err => console.log(err));
+                }
             }
         }, err => console.log(err));
         this.northwindCloudAppService.getEmployees().then((data) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const employeeId = urlParams.get('employeeId');
             this.selectedEmployee = data.find((x) => x.employeeID == employeeId);
         }, (err) => console.log(err));
     }
