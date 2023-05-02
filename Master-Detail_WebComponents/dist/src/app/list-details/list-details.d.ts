@@ -8,6 +8,7 @@ export default class ListDetails extends LitElement {
     onSelectOrder(args: any): void;
     private northwindCloudAppService;
     private northwindCloudAppOrder?;
+    private northwindCloudAppOrderFiltered?;
     private northwindCloudAppOrderDetail?;
     private northwindCloudAppCustomers?;
     private orderDetails?;

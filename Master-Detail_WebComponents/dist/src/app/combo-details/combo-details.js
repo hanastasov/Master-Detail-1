@@ -18,12 +18,16 @@ let ComboDetails = class ComboDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
-            var _a;
+            var _a, _b;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
             this.grid = this.renderRoot.querySelector('#grid');
-            this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === 10248);
+            if (this.northwindCloudAppOrderFiltered) {
+                const firstOrder = this.northwindCloudAppOrderFiltered[0];
+                this.grid.selectRows([firstOrder.orderID]);
+                this.orderDetails = (_b = this.northwindCloudAppOrderDetail) === null || _b === void 0 ? void 0 : _b.filter(order => order.orderID === firstOrder.orderID);
+            }
             this.combo = this.renderRoot.querySelector("#combo");
             if (this.northwindCloudAppCustomers) {
                 setTimeout(() => {
@@ -34,10 +38,11 @@ let ComboDetails = class ComboDetails extends LitElement {
         }, err => console.log(err));
     }
     onSelectCustomer(ev) {
-        var _a;
+        var _a, _b;
         ev.preventDefault();
         const currentCustomerName = ev.target.value;
         this.selectedCustomer = (_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.find(customer => customer.contactName === currentCustomerName);
+        this.northwindCloudAppOrderFiltered = (_b = this.northwindCloudAppOrder) === null || _b === void 0 ? void 0 : _b.filter((x) => x.customerID === this.selectedCustomer.customerID);
     }
     onSelectOrder(args) {
         var _a;
@@ -127,7 +132,7 @@ let ComboDetails = class ComboDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

@@ -7,27 +7,26 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
     constructor() {
         super();
         this.northwindCloudAppService = new NorthwindCloudAppService();
+        const urlParams = new URLSearchParams(window.location.search);
+        const employeeId = urlParams.get('employeeId');
         this.northwindCloudAppService.getOrder().then((data) => {
-            this.northwindCloudAppOrder = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getOrder_Detail().then((data) => {
-            this.northwindCloudAppOrderDetail = data;
-        }, err => console.log(err));
-        this.northwindCloudAppService.getCustomers().then((data) => {
             var _a;
-            this.northwindCloudAppCustomers = data;
-            this.northwindCloudAppService.getEmployees().then(employees => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const employeeId = urlParams.get('employeeId');
-                this.selectedCustomer = employees.find((em) => em.employeeID == employeeId);
-            });
-            this.grid = this.renderRoot.querySelector('#grid');
-            this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === 10248);
+            this.northwindCloudAppOrder = data;
+            if (this.northwindCloudAppOrder) {
+                this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.employeeID == employeeId);
+                const firstOrder = this.northwindCloudAppOrderFiltered[0];
+                this.grid = this.renderRoot.querySelector('#grid');
+                this.grid.selectRows([firstOrder.orderID]);
+                this.northwindCloudAppService.getOrder_Detail().then((data) => {
+                    var _a;
+                    this.northwindCloudAppOrderDetail = data;
+                    this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID == firstOrder.orderID);
+                }, err => console.log(err));
+            }
         }, err => console.log(err));
-    }
-    onSelectCustomer(customer) {
-        this.selectedCustomer = customer;
+        this.northwindCloudAppService.getEmployees().then((data) => {
+            this.selectedEmployee = data.find((x) => x.employeeID == employeeId);
+        }, (err) => console.log(err));
     }
     onSelectOrder(args) {
         var _a;
@@ -47,13 +46,13 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
         </h5>
        <div class="row-layout group_1">
        <div>
-       <img class="avatar" src="${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.avatarUrl}" size="large" [roundShape]="true"></img>
+       <img class="avatar" src="${(_a = this.selectedEmployee) === null || _a === void 0 ? void 0 : _a.avatarUrl}" size="large" [roundShape]="true"></img>
        <div class="column-layout group_2">
        <h5 class="content"> 
-         ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.firstName} ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.lastName}
+         ${(_b = this.selectedEmployee) === null || _b === void 0 ? void 0 : _b.firstName} ${(_c = this.selectedEmployee) === null || _c === void 0 ? void 0 : _c.lastName}
        </h5>
        <p class="typography__body-1 text">
-       ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.title}
+       ${(_d = this.selectedEmployee) === null || _d === void 0 ? void 0 : _d.title}
        </p>
        </div>
         <div class="column-layout group_3">
@@ -61,7 +60,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Title
           </p>
           <p class="typography__body-1 content">
-            ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.title}
+            ${(_e = this.selectedEmployee) === null || _e === void 0 ? void 0 : _e.title}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -77,7 +76,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.address.phone}
+          ${(_f = this.selectedEmployee) === null || _f === void 0 ? void 0 : _f.address.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -85,7 +84,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Street
           </p>
           <p class="typography__body-1 content">
-          ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.address.street}
+          ${(_g = this.selectedEmployee) === null || _g === void 0 ? void 0 : _g.address.street}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -94,7 +93,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
               City
             </p>
             <p class="typography__body-1 content">
-            ${(_h = this.selectedCustomer) === null || _h === void 0 ? void 0 : _h.address.city}
+            ${(_h = this.selectedEmployee) === null || _h === void 0 ? void 0 : _h.address.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -102,7 +101,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
               State
             </p>
             <p class="typography__body-1 content">
-            ${(_j = this.selectedCustomer) === null || _j === void 0 ? void 0 : _j.address.region}
+            ${(_j = this.selectedEmployee) === null || _j === void 0 ? void 0 : _j.address.region}
             </p>
           </div>
         </div>
@@ -111,7 +110,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             Country
           </p>
           <p class="typography__body-1 content">
-          ${(_k = this.selectedCustomer) === null || _k === void 0 ? void 0 : _k.address.country}
+          ${(_k = this.selectedEmployee) === null || _k === void 0 ? void 0 : _k.address.country}
           </p>
         </div>
       </div>
@@ -119,7 +118,7 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -503,10 +502,10 @@ __decorate([
 ], InputDetailsCustomerDetails.prototype, "northwindCloudAppOrder", void 0);
 __decorate([
     property()
-], InputDetailsCustomerDetails.prototype, "northwindCloudAppOrderDetail", void 0);
+], InputDetailsCustomerDetails.prototype, "northwindCloudAppOrderFiltered", void 0);
 __decorate([
     property()
-], InputDetailsCustomerDetails.prototype, "northwindCloudAppCustomers", void 0);
+], InputDetailsCustomerDetails.prototype, "northwindCloudAppOrderDetail", void 0);
 __decorate([
     property()
 ], InputDetailsCustomerDetails.prototype, "orderDetails", void 0);
@@ -515,7 +514,7 @@ __decorate([
 ], InputDetailsCustomerDetails.prototype, "selectedOrder", void 0);
 __decorate([
     property()
-], InputDetailsCustomerDetails.prototype, "selectedCustomer", void 0);
+], InputDetailsCustomerDetails.prototype, "selectedEmployee", void 0);
 InputDetailsCustomerDetails = __decorate([
     customElement('app-input-details-customer-details')
 ], InputDetailsCustomerDetails);

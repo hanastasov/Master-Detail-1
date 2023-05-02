@@ -140,9 +140,14 @@ export default class ComboDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === 10248);
+      if (this.northwindCloudAppOrderFiltered) {
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid.selectRows([firstOrder.orderID]);
+        this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === firstOrder.orderID);
+      }
+      
       this.combo = this.renderRoot.querySelector("#combo") as IgcComboComponent<any>;
       if (this.northwindCloudAppCustomers) {
         setTimeout(() => {
@@ -162,6 +167,7 @@ export default class ComboDetails extends LitElement {
 
   @property()
   private northwindCloudAppOrder?: any[];
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
   private northwindCloudAppOrderDetail?: any[];
@@ -185,6 +191,7 @@ export default class ComboDetails extends LitElement {
     ev.preventDefault();
     const currentCustomerName = ev.target.value;
     this.selectedCustomer = this.northwindCloudAppCustomers?.find(customer => customer.contactName === currentCustomerName);
+    this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
   }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
@@ -273,7 +280,7 @@ export default class ComboDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

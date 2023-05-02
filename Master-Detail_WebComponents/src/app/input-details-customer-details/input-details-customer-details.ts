@@ -137,25 +137,24 @@ export default class InputDetailsCustomerDetails extends LitElement {
 
   constructor() {
     super();
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('employeeId');
     this.northwindCloudAppService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
+      if (this.northwindCloudAppOrder) {
+        this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.employeeID == employeeId);
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+        this.grid.selectRows([firstOrder.orderID]);
+        this.northwindCloudAppService.getOrder_Detail().then((data) => {
+          this.northwindCloudAppOrderDetail = data;
+          this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID == firstOrder.orderID);
+        }, err => console.log(err));
+      }
     }, err => console.log(err));
-    this.northwindCloudAppService.getOrder_Detail().then((data) => {
-      this.northwindCloudAppOrderDetail = data;
-    }, err => console.log(err));
-    this.northwindCloudAppService.getCustomers().then((data) => {
-      this.northwindCloudAppCustomers = data;
-      
-      this.northwindCloudAppService.getEmployees().then(employees => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const employeeId = urlParams.get('employeeId');
-        this.selectedCustomer = employees.find((em: any) => em.employeeID == employeeId);
-      });
-      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === 10248);
-    }, err => console.log(err));
+    this.northwindCloudAppService.getEmployees().then((data) => {
+      this.selectedEmployee = data.find((x: any) => x.employeeID == employeeId);
+    }, (err: any) => console.log(err));
   }
 
   @property()
@@ -167,14 +166,11 @@ export default class InputDetailsCustomerDetails extends LitElement {
   private northwindCloudAppOrder?: any[];
 
   @property()
-  private northwindCloudAppOrderDetail?: any[];
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
-  private northwindCloudAppCustomers?: any[];
+  private northwindCloudAppOrderDetail?: any[];
 
-  onSelectCustomer(customer: any) {
-    this.selectedCustomer = customer;
-  }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
     this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
@@ -187,7 +183,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
   private selectedOrder?: any;
 
   @property()
-  private selectedCustomer?: any;
+  private selectedEmployee?: any;
 
   render() {
     return html`
@@ -201,13 +197,13 @@ export default class InputDetailsCustomerDetails extends LitElement {
         </h5>
        <div class="row-layout group_1">
        <div>
-       <img class="avatar" src="${this.selectedCustomer?.avatarUrl}" size="large" [roundShape]="true"></img>
+       <img class="avatar" src="${this.selectedEmployee?.avatarUrl}" size="large" [roundShape]="true"></img>
        <div class="column-layout group_2">
        <h5 class="content"> 
-         ${this.selectedCustomer?.firstName} ${this.selectedCustomer?.lastName}
+         ${this.selectedEmployee?.firstName} ${this.selectedEmployee?.lastName}
        </h5>
        <p class="typography__body-1 text">
-       ${this.selectedCustomer?.title}
+       ${this.selectedEmployee?.title}
        </p>
        </div>
         <div class="column-layout group_3">
@@ -215,7 +211,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Title
           </p>
           <p class="typography__body-1 content">
-            ${this.selectedCustomer?.title}
+            ${this.selectedEmployee?.title}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -231,7 +227,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.phone}
+          ${this.selectedEmployee?.address.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -239,7 +235,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Street
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.street}
+          ${this.selectedEmployee?.address.street}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -248,7 +244,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               City
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.address.city}
+            ${this.selectedEmployee?.address.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -256,7 +252,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               State
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.address.region}
+            ${this.selectedEmployee?.address.region}
             </p>
           </div>
         </div>
@@ -265,7 +261,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Country
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.country}
+          ${this.selectedEmployee?.address.country}
           </p>
         </div>
       </div>
@@ -273,7 +269,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>

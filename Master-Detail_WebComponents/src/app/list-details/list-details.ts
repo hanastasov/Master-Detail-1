@@ -154,9 +154,13 @@ export default class ListDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === 10248);
+      if (this.northwindCloudAppOrderFiltered) {
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid.selectRows([firstOrder.orderID]);
+        this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === firstOrder.orderID);
+      }
     }, err => console.log(err));
   }
 
@@ -165,6 +169,7 @@ export default class ListDetails extends LitElement {
   
   onSelectCustomer(customer: any) {
     this.selectedCustomer = customer;
+    this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
   }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
@@ -175,6 +180,9 @@ export default class ListDetails extends LitElement {
 
   @property()
   private northwindCloudAppOrder?: any[];
+
+  @property()
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
   private northwindCloudAppOrderDetail?: any[];
@@ -267,7 +275,7 @@ export default class ListDetails extends LitElement {
           </div>
         </div>
         <div class="column-layout group_6">
-        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
+        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" 
         display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>

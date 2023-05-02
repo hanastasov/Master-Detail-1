@@ -6,12 +6,11 @@ export default class InputDetailsCustomerDetails extends LitElement {
     private grid;
     private northwindCloudAppService;
     private northwindCloudAppOrder?;
+    private northwindCloudAppOrderFiltered?;
     private northwindCloudAppOrderDetail?;
-    private northwindCloudAppCustomers?;
-    onSelectCustomer(customer: any): void;
     onSelectOrder(args: any): void;
     private orderDetails?;
     private selectedOrder?;
-    private selectedCustomer?;
+    private selectedEmployee?;
     render(): import("lit-html").TemplateResult<1>;
 }

@@ -16,16 +16,22 @@ let ListDetails = class ListDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
-            var _a;
+            var _a, _b;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
             this.grid = this.renderRoot.querySelector('#grid');
-            this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === 10248);
+            if (this.northwindCloudAppOrderFiltered) {
+                const firstOrder = this.northwindCloudAppOrderFiltered[0];
+                this.grid.selectRows([firstOrder.orderID]);
+                this.orderDetails = (_b = this.northwindCloudAppOrderDetail) === null || _b === void 0 ? void 0 : _b.filter(order => order.orderID === firstOrder.orderID);
+            }
         }, err => console.log(err));
     }
     onSelectCustomer(customer) {
+        var _a;
         this.selectedCustomer = customer;
+        this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
     }
     onSelectOrder(args) {
         var _a;
@@ -108,7 +114,7 @@ let ListDetails = class ListDetails extends LitElement {
           </div>
         </div>
         <div class="column-layout group_6">
-        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
+        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" 
         display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
@@ -494,6 +500,9 @@ __decorate([
 __decorate([
     property()
 ], ListDetails.prototype, "northwindCloudAppOrder", void 0);
+__decorate([
+    property()
+], ListDetails.prototype, "northwindCloudAppOrderFiltered", void 0);
 __decorate([
     property()
 ], ListDetails.prototype, "northwindCloudAppOrderDetail", void 0);
