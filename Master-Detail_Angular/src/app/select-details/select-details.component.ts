@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 
@@ -9,10 +9,6 @@ import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 })
 export class SelectDetailsComponent implements OnInit {
   public northwindCustomers: Customer[] | null = null;
-  public northwindOrders: any = null;
-  public northwindProducts: any = null;
-  public northwindOrderDetails: any = null;
-  public detailsAreLoading = true;
   public selectedCustomer = '';
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
@@ -23,38 +19,48 @@ export class SelectDetailsComponent implements OnInit {
       "companyName": "Around the Horn",
       "contactName": "Thomas Hardy",
       "contactTitle": "Sales Representative",
-      "address": {
-        "street": "120 Hanover Sq.",
-        "city": "London",
-        "region": null,
-        "postalCode": "WA1 1DP",
-        "country": "UK",
-        "phone": "(171) 555-7788"
-      }
+      "address": "120 Hanover Sq.",
+      "city": "London",
+      "region": null,
+      "postalCode": "WA1 1DP",
+      "country": "UK",
+      "phone": "(171) 555-7788",
+      "fax": "(171) 555-6750",
+      "orders": [],
+      "customerTypes": []
     }
   ];
 
-  constructor(private northwindService: NorthwindService) { }
+  constructor(private northwindService: NorthwindService, private cdref: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.northwindService.getData('Customers').subscribe(data => this.northwindCustomers = data);
-    this.northwindService.getData('Orders').subscribe(data => this.northwindOrders = data);
-    this.northwindService.getData('order_details').subscribe(data => this.northwindOrderDetails = data);
-    this.selectedCustomer = this.northwindCustomers[0].customerID;
-    this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
-    this.selectedOrdersDetails  = this.northwindOrderDetails.filter(el => el.orderID === this.selectedRows[0]);
+    this.northwindService.getCustomer().subscribe(data => {
+      this.northwindCustomers = data;
+      this.cdref.detectChanges();
+    });
+
+    this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
+      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+      this.selectedCustomer = data[0].customerID;
+    });
+
+    this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
+      this.selectedOrdersDetails = data;
+    });
   }
 
   handleClosed() {
-    this.selectedCustomerData = new Array;
-    this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
-    this.selectedOrdersData = this.northwindOrders.filter(el => el.customerID === this.selectedCustomerData[0].customerID);
-    this.detailsAreLoading = false;
+    this.northwindService.getCustomerOrdersResult(this.selectedCustomer).subscribe(data => {
+      this.selectedCustomerData = new Array;
+      this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
+      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+      this.selectedOrdersDetails = [];
+    });
   }
 
   public orderSelected(orderID: IRowSelectionEventArgs) {
-    this.detailsAreLoading = true;
-    this.selectedOrdersDetails = this.northwindOrderDetails.filter(el => el.orderID === orderID.newSelection[0]);
-    this.detailsAreLoading = false;
+    this.northwindService.getCustOrdersDetailResult(orderID.newSelection[0].toString()).subscribe(data => {
+      this.selectedOrdersDetails = data;
+    });
   }
 }

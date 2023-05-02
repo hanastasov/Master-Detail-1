@@ -43,7 +43,7 @@
           Phone
         </p>
         <p class="content">
-          {{ item.address.phone }}
+          {{ item.phone }}
         </p>
       </div>
       <div class="column-layout group_8">
@@ -51,7 +51,7 @@
           Street
         </p>
         <p class="content">
-          {{ item.address.street }}
+          {{ item.address }}
         </p>
       </div>
       <div class="row-layout group_9">
@@ -60,7 +60,7 @@
             City
           </p>
           <p class="content">
-            {{ item.address.city }}
+            {{ item.city }}
           </p>
         </div>
         <div class="column-layout group_11">
@@ -68,7 +68,7 @@
             State
           </p>
           <p class="content">
-            {{ item.address.country }}
+            {{ item.region ?? null }}
           </p>
         </div>
       </div>
@@ -77,7 +77,7 @@
           Country
         </p>
         <p class="content">
-          Germany
+          {{ item.country }}
         </p>
       </div>
     </div>
@@ -123,26 +123,16 @@
         </igx-grid>
       </div>
       <div class="column-layout group_18">
-        <igx-grid [data]="selectedOrdersDetails" primaryKey="productID" displayDensity="cosy" rowSelection="single"
-          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
-          class="grid" [isLoading]="detailsAreLoading">
+        <igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
+          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
           </igx-grid-toolbar>
-          <igx-column field="orderId" dataType="number" header="orderId" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="productID" dataType="string" header="productID" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="unitPrice" dataType="string" header="unitPrice" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="quantity" dataType="string" header="quantity" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="discount" dataType="string" header="discount" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="order" dataType="string" header="order" [sortable]="true"
-            [selectable]="false"></igx-column>
-          <igx-column field="product" dataType="string" header="product" [sortable]="true"
-            [selectable]="false"></igx-column>
+          <igx-column field="productName" dataType="string" header="productName" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="number" header="discount" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true" [selectable]="false"></igx-column>
         </igx-grid>
       </div>
     </div>

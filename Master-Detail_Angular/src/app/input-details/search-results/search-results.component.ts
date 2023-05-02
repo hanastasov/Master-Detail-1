@@ -16,7 +16,7 @@ export class SearchResultsComponent implements OnInit {
   constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
-    this.northwindService.getData('Employees').subscribe(data => this.northwindEmployees = data);
+    this.northwindService.getEmployees('Employees').subscribe(data => this.northwindEmployees = data);
   }
 
   ngAfterContentInit() {
@@ -24,7 +24,7 @@ export class SearchResultsComponent implements OnInit {
       .pipe(debounceTime(300))
       .subscribe(value => {
         this.value = value
-        this.northwindService.getData('Employees')
+        this.northwindService.getEmployees('Employees')
           .subscribe(
             response => {
               this.northwindEmployees = response.filter(employee => {

@@ -114,21 +114,23 @@
         [selectable]="false"></igx-column>
     </igx-grid>
     <div class="row-layout group_7">
-      <igx-grid primaryKey="productName" displayDensity="cosy" [allowFiltering]="true" filterMode="excelStyleFilter"
-      [data]="selectedOrdersDetails" class="grid">
+      <igx-grid primaryKey="productID" displayDensity="cosy" [allowFiltering]="true" filterMode="excelStyleFilter"
+        [data]="selectedOrdersDetails" class="grid">
         <igx-grid-toolbar>
           <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
         </igx-grid-toolbar>
-        <igx-column field="productName" dataType="string" header="productName" [sortable]="true"
+        <igx-column field="productID" dataType="number" header="productID" [sortable]="true"
+        [selectable]="false"></igx-column>
+        <igx-column field="orderID" dataType="string" header="orderID" [sortable]="true"
           [selectable]="false"></igx-column>
         <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true"
           [selectable]="false"></igx-column>
-        <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true"
-          [selectable]="false"></igx-column>
         <igx-column field="discount" dataType="number" header="discount" [sortable]="true"
           [selectable]="false"></igx-column>
-        <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
+        <igx-column field="order" dataType="number" header="order" [sortable]="true"
           [selectable]="false"></igx-column>
+        <igx-column field="product" dataType="number" header="product" [sortable]="true"
+        [selectable]="false"></igx-column>
       </igx-grid>
     </div>
   </div>

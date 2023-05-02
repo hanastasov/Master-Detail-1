@@ -1,19 +1,19 @@
 <div class="row-layout group">
   <igx-select type="border" class="select">
-    <igx-select-item [value]="item.regionID" *ngFor="let item of northwindRegions">
-      {{ item.name }}
+    <igx-select-item [value]="item.customerID" *ngFor="let item of northwindJasonCustomer">
+      {{ item.country }}
     </igx-select-item>
     <label igxLabel>Pick country</label>
   </igx-select>
   <igx-select type="border" class="select">
-    <igx-select-item [value]="item.unitPrice" *ngFor="let item of northwindProducts">
-      {{ item.categoryID }}
+    <igx-select-item [value]="item.customerID" *ngFor="let item of northwindJasonCustomer">
+      {{ item.city }}
     </igx-select-item>
     <label igxLabel>Pick Region</label>
   </igx-select>
   <igx-select type="border" class="select">
-    <igx-select-item [value]="item.name" *ngFor="let item of northwindCategories">
-      {{ item.description }}
+    <igx-select-item value="Option">
+      Option
     </igx-select-item>
     <label igxLabel>Pick state</label>
   </igx-select>
