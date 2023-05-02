@@ -7,6 +7,7 @@ export default class ComboDetails extends LitElement {
     private northwindCloudAppService;
     private financialService;
     private northwindCloudAppOrder?;
+    private northwindCloudAppOrderFiltered?;
     private northwindCloudAppOrderDetail?;
     private northwindCloudAppCustomers?;
     private orderDetails?;

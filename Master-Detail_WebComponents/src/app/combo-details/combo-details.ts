@@ -28,7 +28,7 @@ export default class ComboDetails extends LitElement {
       align-content: flex-start;
       position: relative;
       margin: 0;
-      width: 1441px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -90,7 +90,7 @@ export default class ComboDetails extends LitElement {
       align-items: stretch;
       align-content: flex-start;
       position: relative;
-      width: 1020px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -140,9 +140,14 @@ export default class ComboDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
+      if (this.northwindCloudAppOrderFiltered) {
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid.selectRows([firstOrder.orderID]);
+        this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === firstOrder.orderID);
+      }
+      
       this.combo = this.renderRoot.querySelector("#combo") as IgcComboComponent<any>;
       if (this.northwindCloudAppCustomers) {
         setTimeout(() => {
@@ -162,6 +167,7 @@ export default class ComboDetails extends LitElement {
 
   @property()
   private northwindCloudAppOrder?: any[];
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
   private northwindCloudAppOrderDetail?: any[];
@@ -185,10 +191,11 @@ export default class ComboDetails extends LitElement {
     ev.preventDefault();
     const currentCustomerName = ev.target.value;
     this.selectedCustomer = this.northwindCloudAppCustomers?.find(customer => customer.contactName === currentCustomerName);
+    this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
   }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
-    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+    this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
   }
 
   render() {
@@ -198,7 +205,8 @@ export default class ComboDetails extends LitElement {
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
-        <igc-combo id="combo" ?outlined="${true}" single-select @blur=${this.onSelectCustomer} .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
+        <igc-combo id="combo" ?outlined="${true}" single-select @click=${this.onSelectCustomer} 
+        .data="${!this.northwindCloudAppCustomers ? [] : this.northwindCloudAppCustomers}" 
         label="Pick Customer" 
         value-key="contactName" display-key="contactName" ?autoFocusSearch="${true}" class="combo"></igc-combo>
         <div class="row-layout group_1">
@@ -272,7 +280,7 @@ export default class ComboDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -377,7 +385,7 @@ export default class ComboDetails extends LitElement {
               <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
               <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
             </igc-grid>
-            <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+            <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
               </igc-grid-toolbar>

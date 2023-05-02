@@ -16,24 +16,29 @@ let SelectDetails = class SelectDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
-            var _a;
+            var _a, _b;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
             this.grid = this.renderRoot.querySelector('#grid');
-            this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
+            if (this.northwindCloudAppOrderFiltered) {
+                const firstOrder = this.northwindCloudAppOrderFiltered[0];
+                this.grid.selectRows([firstOrder.orderID]);
+                this.orderDetails = (_b = this.northwindCloudAppOrderDetail) === null || _b === void 0 ? void 0 : _b.filter(order => order.orderID === firstOrder.orderID);
+            }
         }, err => console.log(err));
     }
     onSelectCustomer(ev) {
-        var _a;
+        var _a, _b;
         ev.preventDefault();
         const currentCustomerName = ev.target.value;
         this.selectedCustomer = (_a = this.northwindCloudAppCustomers) === null || _a === void 0 ? void 0 : _a.find(customer => customer.contactName === currentCustomerName);
+        this.northwindCloudAppOrderFiltered = (_b = this.northwindCloudAppOrder) === null || _b === void 0 ? void 0 : _b.filter((x) => x.customerID === this.selectedCustomer.customerID);
     }
     onSelectOrder(args) {
         var _a;
         this.selectedOrder = args.detail.newSelection[0];
-        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
+        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
         var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -124,7 +129,7 @@ let SelectDetails = class SelectDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
+            <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" 
               display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
@@ -230,7 +235,7 @@ let SelectDetails = class SelectDetails extends LitElement {
               <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
               <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
             </igc-grid>
-            <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+            <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -390,7 +395,7 @@ SelectDetails.styles = css `
       align-content: flex-start;
       position: relative;
       margin: 0;
-      width: 1441px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -452,7 +457,7 @@ SelectDetails.styles = css `
       align-items: stretch;
       align-content: flex-start;
       position: relative;
-      width: 1020px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -506,6 +511,9 @@ __decorate([
 __decorate([
     property()
 ], SelectDetails.prototype, "northwindCloudAppOrder", void 0);
+__decorate([
+    property()
+], SelectDetails.prototype, "northwindCloudAppOrderFiltered", void 0);
 __decorate([
     property()
 ], SelectDetails.prototype, "northwindCloudAppCustomers", void 0);

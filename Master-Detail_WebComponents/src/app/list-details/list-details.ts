@@ -21,6 +21,9 @@ export default class ListDetails extends LitElement {
       width: 214px;
       height: max-content;
       flex-shrink: 0;
+      position: fixed;
+      max-height: 100vh;
+      z-index: 1;
     }
     .grid {
       margin: 20px 0;
@@ -45,7 +48,7 @@ export default class ListDetails extends LitElement {
       align-content: flex-start;
       gap: 0 2rem;
       position: relative;
-      width: 1234px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -151,9 +154,13 @@ export default class ListDetails extends LitElement {
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
+      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
+      if (this.northwindCloudAppOrderFiltered) {
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid.selectRows([firstOrder.orderID]);
+        this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === firstOrder.orderID);
+      }
     }, err => console.log(err));
   }
 
@@ -162,16 +169,20 @@ export default class ListDetails extends LitElement {
   
   onSelectCustomer(customer: any) {
     this.selectedCustomer = customer;
+    this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
   }
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
-    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+    this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
   }
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   @property()
   private northwindCloudAppOrder?: any[];
+
+  @property()
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
   private northwindCloudAppOrderDetail?: any[];
@@ -214,7 +225,7 @@ export default class ListDetails extends LitElement {
             ${this.selectedCustomer?.contactName}
           </h5>
           <p class="typography__subtitle-1 text">
-            CACTU
+          ${this.selectedCustomer?.customerID}
           </p>
         </div>
         <div class="row-layout group_2">
@@ -264,7 +275,7 @@ export default class ListDetails extends LitElement {
           </div>
         </div>
         <div class="column-layout group_6">
-        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
+        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" 
         display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
@@ -370,7 +381,7 @@ export default class ListDetails extends LitElement {
         <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
         <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
       </igc-grid>
-      <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+      <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
         </igc-grid-toolbar>

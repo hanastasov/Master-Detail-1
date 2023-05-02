@@ -16,24 +16,30 @@ let ListDetails = class ListDetails extends LitElement {
             this.northwindCloudAppOrderDetail = data;
         }, err => console.log(err));
         this.northwindCloudAppService.getCustomers().then((data) => {
-            var _a;
+            var _a, _b;
             this.northwindCloudAppCustomers = data;
             this.selectedCustomer = data[0];
+            this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
             this.grid = this.renderRoot.querySelector('#grid');
-            this.grid.selectRows([10248]);
-            this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === 10248);
+            if (this.northwindCloudAppOrderFiltered) {
+                const firstOrder = this.northwindCloudAppOrderFiltered[0];
+                this.grid.selectRows([firstOrder.orderID]);
+                this.orderDetails = (_b = this.northwindCloudAppOrderDetail) === null || _b === void 0 ? void 0 : _b.filter(order => order.orderID === firstOrder.orderID);
+            }
         }, err => console.log(err));
     }
     onSelectCustomer(customer) {
+        var _a;
         this.selectedCustomer = customer;
+        this.northwindCloudAppOrderFiltered = (_a = this.northwindCloudAppOrder) === null || _a === void 0 ? void 0 : _a.filter((x) => x.customerID === this.selectedCustomer.customerID);
     }
     onSelectOrder(args) {
         var _a;
         this.selectedOrder = args.detail.newSelection[0];
-        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.find(order => order.orderID === this.selectedOrder.orderID);
+        this.orderDetails = (_a = this.northwindCloudAppOrderDetail) === null || _a === void 0 ? void 0 : _a.filter(order => order.orderID === this.selectedOrder.orderID);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         const customersData = [];
         if (this.northwindCloudAppCustomers) {
             for (const customer of this.northwindCloudAppCustomers) {
@@ -58,7 +64,7 @@ let ListDetails = class ListDetails extends LitElement {
             ${(_a = this.selectedCustomer) === null || _a === void 0 ? void 0 : _a.contactName}
           </h5>
           <p class="typography__subtitle-1 text">
-            CACTU
+          ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.customerID}
           </p>
         </div>
         <div class="row-layout group_2">
@@ -67,7 +73,7 @@ let ListDetails = class ListDetails extends LitElement {
               Title
             </p>
             <p class="typography__body-2 text_1">
-            ${(_b = this.selectedCustomer) === null || _b === void 0 ? void 0 : _b.contactName}
+            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.contactName}
             </p>
           </div>
           <div class="column-layout group_4">
@@ -75,7 +81,7 @@ let ListDetails = class ListDetails extends LitElement {
               Street
             </p>
             <p class="typography__body-2 text_1">
-            ${(_c = this.selectedCustomer) === null || _c === void 0 ? void 0 : _c.address}
+            ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.address}
             </p>
           </div>
         </div>
@@ -85,7 +91,7 @@ let ListDetails = class ListDetails extends LitElement {
               Email
             </p>
             <p class="typography__body-2 text_1">
-            ${(_d = this.selectedCustomer) === null || _d === void 0 ? void 0 : _d.postalCode}
+            ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.postalCode}
             </p>
           </div>
           <div class="row-layout group_5">
@@ -94,7 +100,7 @@ let ListDetails = class ListDetails extends LitElement {
                 City
               </p>
               <p class="typography__body-2 text_1">
-              ${(_e = this.selectedCustomer) === null || _e === void 0 ? void 0 : _e.city}
+              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
               </p>
             </div>
             <div class="column-layout group_4">
@@ -102,13 +108,13 @@ let ListDetails = class ListDetails extends LitElement {
                 State
               </p>
               <p class="typography__body-2 text_1">
-              ${(_f = this.selectedCustomer) === null || _f === void 0 ? void 0 : _f.city}
+              ${(_g = this.selectedCustomer) === null || _g === void 0 ? void 0 : _g.city}
               </p>
             </div>
           </div>
         </div>
         <div class="column-layout group_6">
-        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrder}" primary-key="orderID" 
+        <igc-grid @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" id="grid" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" 
         display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
@@ -214,7 +220,7 @@ let ListDetails = class ListDetails extends LitElement {
         <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
         <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
       </igc-grid>
-      <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+      <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
         <igc-grid-toolbar>
           <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
         </igc-grid-toolbar>
@@ -367,6 +373,9 @@ ListDetails.styles = css `
       width: 214px;
       height: max-content;
       flex-shrink: 0;
+      position: fixed;
+      max-height: 100vh;
+      z-index: 1;
     }
     .grid {
       margin: 20px 0;
@@ -391,7 +400,7 @@ ListDetails.styles = css `
       align-content: flex-start;
       gap: 0 2rem;
       position: relative;
-      width: 1234px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -491,6 +500,9 @@ __decorate([
 __decorate([
     property()
 ], ListDetails.prototype, "northwindCloudAppOrder", void 0);
+__decorate([
+    property()
+], ListDetails.prototype, "northwindCloudAppOrderFiltered", void 0);
 __decorate([
     property()
 ], ListDetails.prototype, "northwindCloudAppOrderDetail", void 0);

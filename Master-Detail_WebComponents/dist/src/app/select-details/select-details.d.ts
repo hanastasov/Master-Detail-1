@@ -6,6 +6,7 @@ export default class SelectDetails extends LitElement {
     private northwindCloudAppService;
     private northwindCloudAppOrderDetail?;
     private northwindCloudAppOrder?;
+    private northwindCloudAppOrderFiltered?;
     private northwindCloudAppCustomers?;
     private orderDetails?;
     private selectedOrder?;

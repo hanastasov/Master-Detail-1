@@ -31,7 +31,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
       position: relative;
       margin: 0;
       padding: 0;
-      width: 1441px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -93,7 +93,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
       align-items: stretch;
       align-content: flex-start;
       position: relative;
-      width: 1020px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
@@ -137,25 +137,30 @@ export default class InputDetailsCustomerDetails extends LitElement {
 
   constructor() {
     super();
+    
     this.northwindCloudAppService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
-    }, err => console.log(err));
-    this.northwindCloudAppService.getOrder_Detail().then((data) => {
-      this.northwindCloudAppOrderDetail = data;
-    }, err => console.log(err));
-    this.northwindCloudAppService.getCustomers().then((data) => {
-      this.northwindCloudAppCustomers = data;
-      
-      this.northwindCloudAppService.getEmployees().then(employees => {
+      if (this.northwindCloudAppOrder) {
         const urlParams = new URLSearchParams(window.location.search);
-        const employeeId = urlParams.get('employeeId');
-        this.selectedCustomer = employees.find((em: any) => em.employeeID == employeeId);
-      });
-
-      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
-      this.grid.selectRows([10248]);
-      this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === 10248);
-  }, err => console.log(err));
+    const employeeId = urlParams.get('employeeId');
+        this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.employeeID == employeeId);
+        const firstOrder = this.northwindCloudAppOrderFiltered[0];
+        this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+        if (firstOrder) {
+          this.grid.selectRows([firstOrder.orderID]);
+          this.northwindCloudAppService.getOrder_Detail().then((data) => {
+            this.northwindCloudAppOrderDetail = data;
+            this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID == firstOrder.orderID);
+          }, err => console.log(err));
+        }
+        }
+    }, err => console.log(err));
+    
+    this.northwindCloudAppService.getEmployees().then((data) => {
+      const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('employeeId');
+      this.selectedEmployee = data.find((x: any) => x.employeeID == employeeId);
+    }, (err: any) => console.log(err));
   }
 
   @property()
@@ -167,17 +172,14 @@ export default class InputDetailsCustomerDetails extends LitElement {
   private northwindCloudAppOrder?: any[];
 
   @property()
-  private northwindCloudAppOrderDetail?: any[];
+  private northwindCloudAppOrderFiltered?: any[];
 
   @property()
-  private northwindCloudAppCustomers?: any[];
-  
-  onSelectCustomer(customer: any) {
-    this.selectedCustomer = customer;
-  }
+  private northwindCloudAppOrderDetail?: any[];
+
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
-    this.orderDetails = this.northwindCloudAppOrderDetail?.find(order => order.orderID === this.selectedOrder.orderID);
+    this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
   }
 
   @property()
@@ -187,7 +189,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
   private selectedOrder?: any;
 
   @property()
-  private selectedCustomer?: any;
+  private selectedEmployee?: any;
 
   render() {
     return html`
@@ -201,13 +203,13 @@ export default class InputDetailsCustomerDetails extends LitElement {
         </h5>
        <div class="row-layout group_1">
        <div>
-       <img class="avatar" src="${this.selectedCustomer?.avatarUrl}" size="large" [roundShape]="true"></img>
+       <img class="avatar" src="${this.selectedEmployee?.avatarUrl}" size="large" [roundShape]="true"></img>
        <div class="column-layout group_2">
        <h5 class="content"> 
-         ${this.selectedCustomer?.firstName} ${this.selectedCustomer?.lastName}
+         ${this.selectedEmployee?.firstName} ${this.selectedEmployee?.lastName}
        </h5>
        <p class="typography__body-1 text">
-       ${this.selectedCustomer?.title}
+       ${this.selectedEmployee?.title}
        </p>
        </div>
         <div class="column-layout group_3">
@@ -215,7 +217,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Title
           </p>
           <p class="typography__body-1 content">
-            ${this.selectedCustomer?.title}
+            ${this.selectedEmployee?.title}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -231,7 +233,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Phone
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.phone}
+          ${this.selectedEmployee?.address.phone}
           </p>
         </div>
         <div class="column-layout group_3">
@@ -239,7 +241,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Street
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.street}
+          ${this.selectedEmployee?.address.street}
           </p>
         </div>
         <div class="row-layout group_3">
@@ -248,7 +250,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               City
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.address.city}
+            ${this.selectedEmployee?.address.city}
             </p>
           </div>
           <div class="column-layout group_5">
@@ -256,7 +258,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               State
             </p>
             <p class="typography__body-1 content">
-            ${this.selectedCustomer?.address.region}
+            ${this.selectedEmployee?.address.region}
             </p>
           </div>
         </div>
@@ -265,7 +267,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             Country
           </p>
           <p class="typography__body-1 content">
-          ${this.selectedCustomer?.address.country}
+          ${this.selectedEmployee?.address.country}
           </p>
         </div>
       </div>
@@ -273,7 +275,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
             <p class="typography__body-1 content">
               Should be allowed to query data based on param or filter after fetching data
             </p>
-            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrder}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+            <igc-grid id="grid" @rowSelectionChanging=${this.onSelectOrder} row-selection="Single" .data="${this.northwindCloudAppOrderFiltered}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Orders</igc-grid-toolbar-title>
               </igc-grid-toolbar>
@@ -378,7 +380,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
               <igc-column field="shipViaNavigation.companyName" data-type="string" header="shipViaNavigation companyName" sortable="true" selectable="false"></igc-column>
               <igc-column field="shipViaNavigation.phone" data-type="string" header="shipViaNavigation phone" sortable="true" selectable="false"></igc-column>
             </igc-grid>
-            <igc-grid .data="${!this.orderDetails ? [] : [this.orderDetails]}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
+            <igc-grid .data="${this.orderDetails ? this.orderDetails : []}" primary-key="orderID" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid_1">
               <igc-grid-toolbar>
                 <igc-grid-toolbar-title>Order details</igc-grid-toolbar-title>
               </igc-grid-toolbar>

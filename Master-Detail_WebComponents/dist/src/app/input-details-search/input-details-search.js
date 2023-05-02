@@ -97,7 +97,7 @@ InputDetailsSearch.styles = css `
       align-content: flex-start;
       position: relative;
       padding: 2rem;
-      width: 1448px;
+      width: 100%;
       min-width: 50px;
       min-height: 50px;
     }
