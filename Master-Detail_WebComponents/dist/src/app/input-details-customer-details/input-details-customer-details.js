@@ -10,7 +10,6 @@ let InputDetailsCustomerDetails = class InputDetailsCustomerDetails extends LitE
         this.northwindCloudAppService.getOrder().then((data) => {
             var _a;
             this.northwindCloudAppOrder = data;
-            console.log(this.northwindCloudAppOrder);
             if (this.northwindCloudAppOrder) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const employeeId = urlParams.get('employeeId');

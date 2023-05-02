@@ -140,7 +140,6 @@ export default class InputDetailsCustomerDetails extends LitElement {
     
     this.northwindCloudAppService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
-      console.log(this.northwindCloudAppOrder)
       if (this.northwindCloudAppOrder) {
         const urlParams = new URLSearchParams(window.location.search);
     const employeeId = urlParams.get('employeeId');
