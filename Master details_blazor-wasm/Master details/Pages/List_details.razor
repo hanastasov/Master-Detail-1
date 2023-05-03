@@ -1,4 +1,4 @@
-@page "/"
+@page "/list-details"
 @using NorthwindCloudApp
 @using Financial
 @inject INorthwindCloudAppService northwindCloudAppService
@@ -88,7 +88,8 @@
             </div>
         </div>
         <div class="column-layout group_6">
-            <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single" RowSelectionChangingScript='rowSelectionListDetailsChangingHandler' PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" Width="709px" class="ig-typography grid" list_details-scope>
+            <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single"
+                     SelectedRowsChanged="(ev) => UpdateSelectedRow(ev)" PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" Width="709px" class="ig-typography grid" list_details-scope>
                 <IgbGridToolbar>
                     <IgbGridToolbarTitle>Orders</IgbGridToolbarTitle>
                 </IgbGridToolbar>
@@ -210,7 +211,6 @@
 @code {
     private static List<Order> northwindCloudAppOrder = new();
     private static List<Order> northwindCloudAppOrderFiltered = new();
-
     private static List<Order_Detail> northwindCloudAppOrderDetail = new List<Order_Detail>();
     private List<Customer> customers = new List<Customer>();
     private Customer selectedCustomer = new Customer();
@@ -240,10 +240,10 @@
         selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
     }
 
-    [JSInvokable]
-    public static void UpdateSelectedRowFunc(int value)
+    public void UpdateSelectedRow(object[] value)
     {
-        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == value).ToList();
+        var orderId = (value[0] as Order).OrderID;
+        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == orderId).ToList();
         app.StateHasChanged();
     }
 }

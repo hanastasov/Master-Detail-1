@@ -1,4 +1,4 @@
-@page "/select-details"
+@page "/"
 @using NorthwindCloudApp
 @using System.Reflection;
 @inject INorthwindCloudAppService northwindCloudAppService
@@ -6,7 +6,7 @@
 
 <div class="row-layout select-details-container">
     <div class="column-layout group">
-        <IgbSelect Outlined="true" @onchange="ChangeSelectedElement" Label="Pick customer" class="select" select_details-scope>
+        <IgbSelect Outlined="true"  Change="(ev) => ChangeSelectedElement(ev)" Label="Pick customer" class="select" select_details-scope>
             <IgbSelectItem Selected Value="Maria Anders">
                 Maria Anders
             </IgbSelectItem>
@@ -88,8 +88,8 @@
                 <p class="typography__body-1 content">
                     Should be allowed to query data based on param or filter after fetching data
                 </p>
-                <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single" 
-                RowSelectionChangingScript='rowSelectionChangingHandler'
+                <IgbGrid Data="northwindCloudAppOrderFiltered" RowSelection="GridSelectionMode.Single"
+                         SelectedRowsChanged="(ev) => UpdateSelectedRow(ev)"
                          PrimaryKey="OrderID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter"
                          AutoGenerate="false" class="ig-typography grid" select_details-scope>
                     <IgbGridToolbar>
@@ -234,15 +234,17 @@
         app = this;
     }
 
-    private async Task ChangeSelectedElement(ChangeEventArgs ev)
+    private async Task ChangeSelectedElement(IgbDropdownItemComponentEventArgs ev)
     {
-        selectedCustomer = customers?.FirstOrDefault(c => c.ContactName == ev.Value.ToString());
+        selectedCustomer = customers?.FirstOrDefault(c => c.ContactName == ev.Detail.Value);
+        northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.CustomerID == selectedCustomer.CustomerID).ToList();
+        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
     }
 
-    [JSInvokable]
-    public static void UpdateSelectedRow(int value)
+    public void UpdateSelectedRow(object[] value)
     {
-        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == value).ToList();
+        var orderId = (value[0] as Order).OrderID;
+        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == orderId).ToList();
         app.StateHasChanged();
     }
 }

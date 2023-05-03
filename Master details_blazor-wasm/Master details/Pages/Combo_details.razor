@@ -80,7 +80,7 @@
                 </p>
                 <IgbGrid Data="northwindCloudAppOrderFiltered" PrimaryKey="OrderID" 
                     RowSelection="GridSelectionMode.Single"
-                         RowSelectionChangingScript='rowSelectionChangingHandlerCombo'
+                         SelectedRowsChanged="(ev) => UpdateSelectedRow(ev)"
                          DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" 
                 AutoGenerate="false" class="ig-typography grid" combo_details-scope>
                     <IgbGridToolbar>
@@ -224,10 +224,10 @@
         app = this;
     }
 
-    [JSInvokable]
-    public static void UpdateSelectedRowCombo(int value)
+    public void UpdateSelectedRow(object[] value)
     {
-        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == value).ToList();
+        var orderId = (value[0] as Order).OrderID;
+        selectedOrders = northwindCloudAppOrderDetail.Where(or => or.OrderID == orderId).ToList();
         app.StateHasChanged();
     }
 }

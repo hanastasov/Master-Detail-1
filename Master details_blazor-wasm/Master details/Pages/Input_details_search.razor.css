@@ -47,6 +47,9 @@
     position: relative;
     min-width: 50px;
     min-height: 50px;
+    flex-wrap: wrap;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 .card {
     margin: 1rem;
