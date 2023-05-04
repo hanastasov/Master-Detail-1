@@ -5,8 +5,8 @@
 
 <div class="row-layout combo-details-container">
     <div class="column-layout group">
-        <IgbCombo Outlined="true" Data="customers" Label="Pick Customer" ValueKey="customerID" 
-        DisplayKey="contactName" autoFocusSearch="true" class="combo" combo_details-scope></IgbCombo>
+        <IgbCombo SingleSelect Outlined="true" @ref="Combo" Data="customers" Label="Pick Customer" ValueKey="ContactName"
+                  DisplayKey="ContactName" autoFocusSearch="true" class="combo" combo_details-scope></IgbCombo>
         <div class="row-layout group_1">
             <div class="column-layout group_2">
                 <h5 class="content">
@@ -20,7 +20,7 @@
                         Title
                     </p>
                     <p class="typography__body-1 content">
-                        Body 1
+                        @selectedCustomer.ContactName
                     </p>
                 </div>
                 <div class="column-layout group_3">
@@ -28,7 +28,7 @@
                         Email
                     </p>
                     <p class="typography__body-1 content">
-                        Body 1
+                        Orangebeard@company.com
                     </p>
                 </div>
                 <div class="column-layout group_3">
@@ -36,7 +36,7 @@
                         Phone
                     </p>
                     <p class="typography__body-1 content">
-                        Body 1
+                        @selectedCustomer.Phone
                     </p>
                 </div>
                 <div class="column-layout group_3">
@@ -44,7 +44,7 @@
                         Street
                     </p>
                     <p class="typography__body-1 content">
-                        Body 1
+                        @selectedCustomer.Address
                     </p>
                 </div>
                 <div class="row-layout group_3">
@@ -53,7 +53,7 @@
                             City
                         </p>
                         <p class="typography__body-1 content">
-                            Body 1
+                            @selectedCustomer.City
                         </p>
                     </div>
                     <div class="column-layout group_5">
@@ -61,7 +61,7 @@
                             State
                         </p>
                         <p class="typography__body-1 content">
-                            Body 1
+                            @selectedCustomer.City
                         </p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         Country
                     </p>
                     <p class="typography__body-1 content">
-                        Body 1
+                        @selectedCustomer.Country
                     </p>
                 </div>
             </div>
@@ -212,6 +212,7 @@
     private static List<Order_Detail> selectedOrders = new List<Order_Detail>();
     public object[] selectedRows;
     public static Combo_details app;
+    private IgbCombo Combo;
 
     protected override async Task OnInitializedAsync()
     {
@@ -222,6 +223,11 @@
         northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.CustomerID == selectedCustomer.CustomerID).ToList();
         selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
         app = this;
+    }
+
+    public void HandleChange(object value)
+    {
+        //TODO handle combo value changed
     }
 
     public void UpdateSelectedRow(object[] value)

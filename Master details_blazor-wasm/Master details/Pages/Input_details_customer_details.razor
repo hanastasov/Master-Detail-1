@@ -223,7 +223,10 @@
         var employees = await northwindCloudAppService.GetEmployees();
         employee = employees.FirstOrDefault(x => x.EmployeeID == int.Parse(EmployeeID));
         northwindCloudAppOrderFiltered = northwindCloudAppOrder.Where(x => x.EmployeeID == employee.EmployeeID).ToList();
-        selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
+        if (northwindCloudAppOrderFiltered.Count > 0)
+        {
+            selectedOrders = northwindCloudAppOrderDetail.Where(x => x.OrderID == northwindCloudAppOrderFiltered[0].OrderID).ToList();
+        }
         app = this;
     }
 
