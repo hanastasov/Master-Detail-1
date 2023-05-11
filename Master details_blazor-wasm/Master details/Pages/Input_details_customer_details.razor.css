@@ -18,7 +18,7 @@
     position: relative;
     margin: 0;
     padding: 0;
-    width: 1441px;
+    width: 100%;
     min-width: 50px;
     min-height: 50px;
 }
@@ -63,8 +63,7 @@
     min-height: 50px;
 }
 .group_5 {
-    border-color: hsla(var(--ig-gray-900));
-    border-style: solid;
+    border-bottom: 1px solid #E0E0E0;
     justify-content: flex-start;
     align-items: stretch;
     align-content: flex-start;

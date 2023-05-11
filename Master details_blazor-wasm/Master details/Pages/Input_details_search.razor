@@ -1,6 +1,7 @@
-@page "/input_details_search"
+@page "/input-details/search-results"
+@using Master_details.Models;
 @using NorthwindCloudApp
-@using Financial
+@inject INorthwindCloudAppService northwindCloudAppService
 
 <div class="row-layout input-details-search-container">
     <div class="column-layout group">
@@ -8,7 +9,7 @@
             Input details
         </h5>
         <div class="row-layout group_1">
-            <IgbInput Label="Label/Placeholder" Outlined="true" class="input" input_details_search-scope></IgbInput>
+            <IgbInput ValueChanging="HandleValueChanged" Label="Label/Placeholder" Outlined="true" class="input" input_details_search-scope></IgbInput>
             <IgbButton Size="SizableComponentSize.Large" class="button" input_details_search-scope>
                 Search
                 <IgbRipple></IgbRipple>
@@ -16,328 +17,58 @@
         </div>
         <div class="column-layout group_2">
             <div class="row-layout group_3">
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
+                @foreach (var employee in employeesFiltered)
+                {
+                    <IgbCard Outlined="true" class="card" input_details_search-scope>
+                        <div class="group_4">
+                            <div class="row-layout">
+                                <IgbCardHeader>
+                                    <div slot="thumbnail">
+                                        <IgbCardMedia class="media-content" input_details_search-scope>
+                                            <img src="@employee.AvatarUrl" />
+                                        </IgbCardMedia>
+                                    </div>
+                                    <h3 slot="title">
+                                        @employee.FirstName @employee.LastName
+                                    </h3>
+                                    <h5 slot="subtitle">
+                                        @employee.Title
+                                    </h5>
+                                </IgbCardHeader>
+                            </div>
+                            <IgbCardContent class="body-content" input_details_search-scope>
+                                <a href="/input-details/customer-details/@employee.EmployeeID">
+                                    <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
+                                        VIEW DETAILS 
+                                        <IgbRipple></IgbRipple>
+                                    </IgbButton>
+                                </a>
+                            </IgbCardContent>
                         </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-            </div>
-            <div class="row-layout group_3">
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-            </div>
-            <div class="row-layout group_3">
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-            </div>
-            <div class="row-layout group_3">
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
-                <IgbCard Outlined="true" class="card" input_details_search-scope>
-                    <div class="group_4">
-                        <div class="row-layout">
-                            <IgbCardHeader>
-                                <div slot="thumbnail">
-                                    <IgbCardMedia class="media-content" input_details_search-scope>
-                                        <img src="assets/a06650fce7091f420c440f26201d916f775db29d.png" />
-                                    </IgbCardMedia>
-                                </div>
-                                <h3 slot="title">
-                                    Title goes here...
-                                </h3>
-                                <h5 slot="subtitle">
-                                    Subtitle goes here...
-                                </h5>
-                            </IgbCardHeader>
-                        </div>
-                        <IgbCardContent class="body-content" input_details_search-scope>
-                            <IgbButton Variant="ButtonVariant.Flat" Size="SizableComponentSize.Large" class="button_1" input_details_search-scope>
-                                VIEW DETAILS
-                                <IgbRipple></IgbRipple>
-                            </IgbButton>
-                        </IgbCardContent>
-                    </div>
-                    <span class="divider">Divider not yet available in Blazor</span>
-                </IgbCard>
+                        <span class="divider">Divider not yet available in Blazor</span>
+                    </IgbCard>
+                }
             </div>
         </div>
     </div>
 </div>
 
 @code {
+    private List<EmployeeModel> employees = new List<EmployeeModel>();
+    private List<EmployeeModel> employeesFiltered = new List<EmployeeModel>();
+    public static Input_details_search app;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await northwindCloudAppService.GetEmployees();
+        employeesFiltered = employees;
+        app = this;
+    }
+
+    private void HandleValueChanged(string value)
+    {
+        value = value.ToLower();
+        employeesFiltered = employees.Where(x => x.FirstName.ToLower().Contains(value) || x.LastName.ToLower().Contains(value)).ToList();
+        app.StateHasChanged();
+    }
 }

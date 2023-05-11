@@ -17,7 +17,7 @@
     align-content: flex-start;
     position: relative;
     padding: 2rem;
-    width: 1448px;
+    width: 100%;
     min-width: 50px;
     min-height: 50px;
 }
@@ -47,6 +47,9 @@
     position: relative;
     min-width: 50px;
     min-height: 50px;
+    flex-wrap: wrap;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 .card {
     margin: 1rem;
