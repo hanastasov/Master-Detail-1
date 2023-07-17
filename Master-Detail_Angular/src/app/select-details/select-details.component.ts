@@ -34,7 +34,7 @@ export class SelectDetailsComponent implements OnInit {
   constructor(private northwindService: NorthwindService, private cdref: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.northwindService.getCustomer().subscribe(data => {
+    this.northwindService.getCustomers().subscribe(data => {
       this.northwindCustomers = data;
       this.cdref.detectChanges();
     });

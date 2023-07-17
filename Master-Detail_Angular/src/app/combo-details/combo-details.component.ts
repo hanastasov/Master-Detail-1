@@ -33,7 +33,7 @@ export class ComboDetailsComponent implements OnInit {
   constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
-    this.northwindService.getCustomer().subscribe(data => this.northwindCustomers = data);
+    this.northwindService.getCustomers().subscribe(data => this.northwindCustomers = data);
     this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
       this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
       this.selectedCustomer = data[0].customerID;

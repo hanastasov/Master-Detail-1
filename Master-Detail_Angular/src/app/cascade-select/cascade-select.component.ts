@@ -15,6 +15,6 @@ export class CascadeSelectComponent implements OnInit {
 
   ngOnInit() {
     // depending on implementation, data subscriptions might need to be unsubbed later
-    this.northwindJasonService.getCustomer().subscribe(data => this.northwindJasonCustomer = data);
+    this.northwindJasonService.getCustomers().subscribe(data => this.northwindJasonCustomer = data);
   }
 }

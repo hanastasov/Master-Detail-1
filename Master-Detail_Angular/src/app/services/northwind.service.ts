@@ -51,7 +51,7 @@ export class NorthwindService {
     return of(Northwind[tableName]);
   }
 
-  public getCustomer(): Observable<any> {
+  public getCustomers(): Observable<any> {
     return this.http.get(`${API_ENDPOINT}/api/customers`);
   }
 
