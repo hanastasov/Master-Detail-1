@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
 import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 import { ActivatedRoute } from '@angular/router';
@@ -32,32 +32,27 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
     // }
   ];
 
+  @Input()
   private defCustomerId: string;
   private dataLoaded = new EventEmitter();
 
-  constructor(private northwindService: NorthwindService,
-    private route: ActivatedRoute) { } // inject the ActivatedRoute service
+  constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { text: string, defCustomerId: string }) => { // kvp with value being a primitive
-      // assign data to whatever
-      this.defCustomerId = data.defCustomerId;
+    this.northwindService.getCustomers().subscribe(data => {
+      this.northwindCustomers = data;
+      const defCustomer = this.northwindCustomers.find(c => c.customerID === this.defCustomerId);
+      this.selectedCustomerData.push(defCustomer);
+      this.dataLoaded.emit();
+    });
 
-      this.northwindService.getCustomers().subscribe(data => {
-        this.northwindCustomers = data;
-        const defCustomer = this.northwindCustomers.find(c => c.customerID === this.defCustomerId);
-        this.selectedCustomerData.push(defCustomer);
-        this.dataLoaded.emit();
+    this.dataLoaded.subscribe(() => {
+      this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
+        this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
       });
 
-      this.dataLoaded.subscribe(() => {
-        this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
-          this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
-        });
-
-        this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
-          this.selectedOrdersDetails = data;
-        });
+      this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
+        this.selectedOrdersDetails = data;
       });
     });
   }
