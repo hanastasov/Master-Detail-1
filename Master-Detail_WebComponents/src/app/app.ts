@@ -1,7 +1,7 @@
 import { Router } from '@vaadin/router';
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { routes } from './app-routing.js';
+import { routings } from './app-routing.js';
 
 @customElement('app-root')
 export class App extends LitElement {
@@ -27,7 +27,7 @@ export class App extends LitElement {
 
   firstUpdated() {
     const outlet = this.shadowRoot?.querySelector('router-outlet');
-    const router = new Router(outlet);
-    router.setRoutes(routes);
+    routings.router = new Router(outlet);
+    routings.router.setRoutes(routings.routes);
   }
 }
