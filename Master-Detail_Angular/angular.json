@@ -126,7 +126,6 @@
       }
     }
   },
-  "defaultProject": "master-detail-same-page-working",
   "cli": {
     "schematicCollections": [
       "@angular-eslint/schematics"
