@@ -1,4 +1,4 @@
-import { Route, Router } from '@vaadin/router';
+import { Route } from '@vaadin/router';
 import './not-found/not-found.js';
 import './select-details/select-details';
 import './combo-details/combo-details';
@@ -8,7 +8,7 @@ import './input-details-search/input-details-search';
 import './input-details-customer-details/input-details-customer-details';
 import './cascade-select/cascade-select';
 
-const routes: Route[] = [
+export const routes: Route[] = [
   { path: '', redirect: 'list-details', name: 'List Details' },
   { path: 'select-details', component: 'app-select-details', name: 'Select Details' },
   { path: 'combo-details', component: 'app-combo-details', name: 'Combo details' },
@@ -23,6 +23,3 @@ const routes: Route[] = [
   // The fallback route should always be after other alternatives.
   { path: '(.*)', component: 'app-not-found' }
 ];
-
-let router!: Router;
-export const routings = { router, routes };

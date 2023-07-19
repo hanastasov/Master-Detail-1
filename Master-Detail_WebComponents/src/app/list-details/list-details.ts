@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
-import { routings } from '../app-routing';
+// import { routings } from '../app-routing';
+import { getRouter } from '../app-router';
 
 defineComponents(IgcListComponent, IgcListItemComponent);
 
@@ -154,7 +156,8 @@ export default class ListDetails extends LitElement {
     }, err => console.log(err));
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
-      this.selectedCustomer = this.northwindCloudAppCustomers?.find(c => c.customerID === (routings.router?.location?.params?.id ?? data[0].customerID));
+      this.selectedCustomer = this.northwindCloudAppCustomers
+        ?.find(c => c.customerID === (getRouter()?.location?.params?.id ?? data[0].customerID));
       this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
       if (this.northwindCloudAppOrderFiltered) {
