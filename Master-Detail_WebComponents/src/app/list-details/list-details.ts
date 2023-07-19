@@ -7,6 +7,7 @@ import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 // import { routings } from '../app-routing';
 import { getRouter } from '../app-router';
+import DataService from '../service/data-service';
 
 defineComponents(IgcListComponent, IgcListItemComponent);
 
@@ -156,8 +157,9 @@ export default class ListDetails extends LitElement {
     }, err => console.log(err));
     this.northwindCloudAppService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
+      // obtaining a customerID through context bound parameters or from an instanced service
       this.selectedCustomer = this.northwindCloudAppCustomers
-        ?.find(c => c.customerID === (getRouter()?.location?.params?.id ?? data[0].customerID));
+        ?.find(c => c.customerID === (getRouter()?.location?.params?.customerID ?? this.dataService.customerID));
       this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
       if (this.northwindCloudAppOrderFiltered) {
@@ -167,6 +169,8 @@ export default class ListDetails extends LitElement {
       }
     }, err => console.log(err));
   }
+
+  private dataService: DataService = new DataService();
 
   @property()
   private grid!: IgcGridComponent;

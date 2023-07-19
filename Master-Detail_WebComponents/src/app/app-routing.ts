@@ -14,7 +14,7 @@ export const routes: Route[] = [
   { path: 'combo-details', component: 'app-combo-details', name: 'Combo details' },
   {
     path: 'list-details', component: 'app-list-details', name: 'List details', children: listRoutes, action: (context) => {
-      context.params = { id: 'ANATR' };
+      context.params = { customerID: 'ANATR' };
     }
   },
   { path: 'input-details/search-results', component: 'app-input-details-search', name: 'Input details search' },

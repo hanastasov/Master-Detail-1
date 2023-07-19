@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
 import { Customer, NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
-import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-list-details',
@@ -14,33 +14,19 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
   public selectedRows = [10355];
-  public selectedCustomerData: any = [
-    // {
-    //   "customerID": "AROUT",
-    //   "companyName": "Around the Horn",
-    //   "contactName": "Thomas Hardy",
-    //   "contactTitle": "Sales Representative",
-    //   "address": "120 Hanover Sq.",
-    //   "city": "London",
-    //   "region": null,
-    //   "postalCode": "WA1 1DP",
-    //   "country": "UK",
-    //   "phone": "(171) 555-7788",
-    //   "fax": "(171) 555-6750",
-    //   "orders": [],
-    //   "customerTypes": []
-    // }
-  ];
+  public selectedCustomerData: any = [];
 
   @Input()
-  private defCustomerId: string;
+  private defCustomerId: string; // bound from data context in route
   private dataLoaded = new EventEmitter();
 
-  constructor(private northwindService: NorthwindService) { }
+  constructor(private northwindService: NorthwindService,
+    private dataService: DataService) { }
 
   ngOnInit() {
     this.northwindService.getCustomers().subscribe(data => {
       this.northwindCustomers = data;
+      // this.dataService.customerID - obtained through an injected service
       const defCustomer = this.northwindCustomers.find(c => c.customerID === this.defCustomerId);
       this.selectedCustomerData.push(defCustomer);
       this.dataLoaded.emit();
