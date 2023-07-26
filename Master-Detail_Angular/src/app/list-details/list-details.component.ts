@@ -14,10 +14,10 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
   public selectedRows = [10355];
-  public selectedCustomerData: any = [];
+  public selectedCustomerData: any;
 
   @Input()
-  private defCustomerId: string; // bound from data context in route
+  private customerId: string;
   private dataLoaded = new EventEmitter();
 
   constructor(private northwindService: NorthwindService,
@@ -27,14 +27,14 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
     this.northwindService.getCustomers().subscribe(data => {
       this.northwindCustomers = data;
       // this.dataService.customerID - obtained through an injected service
-      const defCustomer = this.northwindCustomers.find(c => c.customerID === this.defCustomerId);
-      this.selectedCustomerData.push(defCustomer);
+      const targetCustomer = this.northwindCustomers.find(c => c.customerID === this.customerId);
+      this.selectedCustomerData = targetCustomer;
       this.dataLoaded.emit();
     });
 
     this.dataLoaded.subscribe(() => {
-      this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
-        this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+      this.northwindService.getCustomerOrdersResult(this.selectedCustomerData.customerID).subscribe(data => {
+        this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData?.customerID);
       });
 
       this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
@@ -49,15 +49,14 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
 
   onItemClicked(item: any) {
     this.northwindService.getCustomerOrdersResult(item.customerID).subscribe(data => {
-      this.selectedCustomerData = new Array;
-      this.selectedCustomerData.push(item);
-      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
+      this.selectedCustomerData = item;
+      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData?.customerID);
       this.selectedOrdersDetails = [];
     });
   }
 
-  public orderSelected(orderID: IRowSelectionEventArgs) {
-    this.northwindService.getCustOrdersDetailResult(orderID.newSelection[0].toString()).subscribe(data => {
+  public orderSelected(args: IRowSelectionEventArgs) {
+    this.northwindService.getCustOrdersDetailResult(args.newSelection[0].orderID.toString()).subscribe(data => {
       this.selectedOrdersDetails = data;
     });
   }

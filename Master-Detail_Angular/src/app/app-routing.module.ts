@@ -15,7 +15,9 @@ export const routes: Routes = [
   { path: 'combo-details', component: ComboDetailsComponent, data: { text: 'Combo-details' } },
   { path: 'select-details', component: SelectDetailsComponent, data: { text: 'Select-details' } },
   { path: '', redirectTo: 'list-details', pathMatch: 'full' },
-  { path: 'list-details', component: ListDetailsComponent, data: { text: 'List-details', defCustomerId: "ANATR" } },
+
+  { path: 'list-details/:customerId', component: ListDetailsComponent },
+
   { path: 'input-details', loadChildren: () => import('./input-details/input-details.module').then(m => m.InputDetailsModule) },
   { path: 'cascade-select', component: CascadeSelectComponent, data: { text: 'Cascade select' } },
   { path: '**', component: PageNotFoundComponent } // must always be last
