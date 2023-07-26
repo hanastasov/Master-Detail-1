@@ -12,11 +12,8 @@ export const routes: Route[] = [
   { path: '', redirect: 'list-details', name: 'List Details' },
   { path: 'select-details', component: 'app-select-details', name: 'Select Details' },
   { path: 'combo-details', component: 'app-combo-details', name: 'Combo details' },
-  {
-    path: 'list-details', component: 'app-list-details', name: 'List details', children: listRoutes, action: (context) => {
-      context.params = { customerID: 'ANATR' };
-    }
-  },
+  { path: 'list-details/:customerID', component: 'app-list-details', name: 'List details', children: listRoutes },
+  { path: 'list-details', redirect: 'list-details/ANATR', name: 'List details', children: listRoutes },
   { path: 'input-details/search-results', component: 'app-input-details-search', name: 'Input details search' },
   { path: 'input-details/customer-details', component: 'app-input-details-customer-details', name: 'Input details customer details' },
   { path: 'cascade-select', component: 'app-cascade-select', name: 'Cascade select' },

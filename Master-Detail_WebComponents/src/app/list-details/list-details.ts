@@ -5,14 +5,15 @@ import { defineComponents, IgcListComponent, IgcListItemComponent } from 'ignite
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
 import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
-// import { routings } from '../app-routing';
-import { getRouter } from '../app-router';
 import DataService from '../service/data-service';
+import { BeforeEnterObserver, Router, RouterLocation } from '@vaadin/router';
+
+//HasUrlParameter
 
 defineComponents(IgcListComponent, IgcListItemComponent);
 
 @customElement('app-list-details')
-export default class ListDetails extends LitElement {
+export default class ListDetails extends LitElement implements BeforeEnterObserver {
   static styles = css`
     :host {
       height: 100%;
@@ -159,7 +160,7 @@ export default class ListDetails extends LitElement {
       this.northwindCloudAppCustomers = data;
       // obtaining a customerID through context bound parameters or from an instanced service
       this.selectedCustomer = this.northwindCloudAppCustomers
-        ?.find(c => c.customerID === (getRouter()?.location?.params?.customerID ?? this.dataService.customerID));
+        ?.find(c => c.customerID === (this.customerID ?? this.dataService.customerID));
       this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
       this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
       if (this.northwindCloudAppOrderFiltered) {
@@ -182,6 +183,11 @@ export default class ListDetails extends LitElement {
   onSelectOrder(args: any) {
     this.selectedOrder = args.detail.newSelection[0];
     this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
+  }
+
+  private customerID!: string;
+  public onBeforeEnter(location: RouterLocation) {
+    this.customerID = location.params.customerID as string;
   }
 
   private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
@@ -209,14 +215,14 @@ export default class ListDetails extends LitElement {
 
   render() {
     const customersData = [];
-        if (this.northwindCloudAppCustomers) {
-            for (const customer of this.northwindCloudAppCustomers) {
-                customersData.push(html `<igc-list-item @click=${() => this.onSelectCustomer(customer)}>
+    if (this.northwindCloudAppCustomers) {
+      for (const customer of this.northwindCloudAppCustomers) {
+        customersData.push(html`<igc-list-item @click=${() => { Router.go(`/list-details/${customer.customerID}`); this.onSelectCustomer(customer); }}>
         <div slot="title">${customer.contactName}</div>
         <div slot="subtitle">${customer.customerID}</div>
       </igc-list-item>`);
-            }
-        }
+      }
+    }
 
     return html`
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
