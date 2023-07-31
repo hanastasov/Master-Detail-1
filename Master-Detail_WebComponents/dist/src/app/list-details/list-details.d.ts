@@ -1,12 +1,15 @@
 import { LitElement } from 'lit';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
-export default class ListDetails extends LitElement {
+import { BeforeEnterObserver, RouterLocation } from '@vaadin/router';
+export default class ListDetails extends LitElement implements BeforeEnterObserver {
     static styles: import("lit").CSSResult;
     constructor();
     private dataService;
     private grid;
     onSelectCustomer(customer: any): void;
     onSelectOrder(args: any): void;
+    private customerID;
+    onBeforeEnter(location: RouterLocation): void;
     private northwindCloudAppService;
     private northwindCloudAppOrder?;
     private northwindCloudAppOrderFiltered?;

@@ -1,12 +1,13 @@
 <div class="column-layout group">
   <igx-list class="list">
-    <igx-list-item [isHeader]="false" *ngFor="let item of northwindCustomers index as i" (click)="onItemClicked(item)">
+    <igx-list-item [isHeader]="false" *ngFor="let item of northwindCustomers index as i"
+      [routerLink]="['/list-details/' + item.customerID]" (click)="onItemClicked(item)">
       <span igxListLineTitle>{{ item.companyName }}</span>
       <span igxListLineSubTitle>{{ item.customerID }}</span>
     </igx-list-item>
   </igx-list>
 </div>
-<div class="column-layout group_1" *ngFor="let item of selectedCustomerData">
+<div class="column-layout group_1" *ngIf="selectedCustomerData">
   <div class="column-layout group_2">
     <div class="row-layout group_3">
       <div class="column-layout group_4">
@@ -14,10 +15,10 @@
           <igx-avatar src="/assets/Avatar3.png" size="large" shape="circle" class="avatar"></igx-avatar>
           <div class="column-layout group_6">
             <h5 class="content">
-              {{ item.contactName }}
+              {{ selectedCustomerData.contactName }}
             </h5>
             <p class="ig-typography__subtitle-1 content">
-              {{ item.customerID }}
+              {{ selectedCustomerData.customerID }}
             </p>
           </div>
         </div>
@@ -31,7 +32,7 @@
               Title
             </p>
             <p class="text">
-              {{ item.contactTitle }}
+              {{ selectedCustomerData.contactTitle }}
             </p>
           </div>
           <div class="column-layout group_10">
@@ -47,7 +48,7 @@
               Phone
             </p>
             <p class="text">
-              {{ item.phone }}
+              {{ selectedCustomerData.phone }}
             </p>
           </div>
         </div>
@@ -57,7 +58,7 @@
               Street
             </p>
             <p class="text">
-              {{ item.address }}
+              {{ selectedCustomerData.address }}
             </p>
           </div>
           <div class="row-layout group_14">
@@ -66,7 +67,7 @@
                 City
               </p>
               <p class="text">
-                {{ item.city }}
+                {{ selectedCustomerData.city }}
               </p>
             </div>
             <div class="column-layout group_16">
@@ -74,7 +75,7 @@
                 State
               </p>
               <p class="text">
-                {{ item.region ??  null }}
+                {{ selectedCustomerData.region ?? null }}
               </p>
             </div>
           </div>
@@ -83,15 +84,15 @@
               Country
             </p>
             <p class="text">
-              {{ item.country }}
+              {{ selectedCustomerData.country }}
             </p>
           </div>
         </div>
       </div>
       <div class="column-layout group_18">
         <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
-          [selectedRows]="selectedRows" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
-          (rowSelectionChanging)="orderSelected($event)">
+          [selectedRows]="selectedRows" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
+          class="grid" (rowSelectionChanging)="orderSelected($event)">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
           </igx-grid-toolbar>
@@ -127,15 +128,21 @@
       </div>
       <div class="column-layout group_18">
         <igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
-          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid">
+          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
+          class="grid">
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
           </igx-grid-toolbar>
-          <igx-column field="productName" dataType="string" header="productName" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="discount" dataType="number" header="discount" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="productName" dataType="string" header="productName" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="number" header="discount" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
         </igx-grid>
       </div>
       <div class="column-layout group_19">

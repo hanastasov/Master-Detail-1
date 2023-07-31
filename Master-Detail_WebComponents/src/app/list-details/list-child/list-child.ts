@@ -1,14 +1,17 @@
 import { LitElement, html } from "lit";
 import { customElement } from 'lit/decorators.js';
-// import { routings } from '../../app-routing';
-import { getRouter } from '../../app-router';
+import { BeforeEnterObserver, RouterLocation } from "@vaadin/router";
 
 @customElement('app-list-child')
-export default class ListChild extends LitElement {
+export default class ListChild extends LitElement implements BeforeEnterObserver {
+  private name!: string;
+  public onBeforeEnter(location: RouterLocation) {
+    this.name = location.params.name as string;
+  }
+
   render() {
-    const router = getRouter();
     return html`
-      <div class="content">Hi, ${router?.location?.params?.name}!</div>
+      <div class="content">Hi, ${this.name}!</div>
     `
   }
 }
