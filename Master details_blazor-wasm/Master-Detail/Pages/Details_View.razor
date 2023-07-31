@@ -1,0 +1,74 @@
+@page "/details_view/{employeeId?}"
+@using Northwind
+@inject INorthwindService northwindService
+
+<div class="row-layout details-view-container">
+    @if (employeesType != null)
+    {
+        <IgbCard Outlined="true" class="card" details_view-scope>
+            <IgbCardMedia class="media-content" details_view-scope>
+                <img src="@employeesType.AvatarUrl" class="image" />
+        </IgbCardMedia>
+        <IgbCardHeader>
+            <h3 slot="title">
+                    @employeesType.LastName
+            </h3>
+            <h5 slot="subtitle">
+                    @employeesType.Title
+            </h5>
+        </IgbCardHeader>
+        <IgbCardContent class="body-content" details_view-scope>
+            <p class="typography__body-1 text">
+                Hire date
+            </p>
+            <p class="typography__body-1 text">
+                    @employeesType.HireDate
+            </p>
+        </IgbCardContent>
+        <IgbCardActions class="actions-content" details_view-scope>
+            <IgbButton Variant="ButtonVariant.Flat" slot="start" Size="SizableComponentSize.Large" class="button" details_view-scope>
+                Button
+                <IgbRipple></IgbRipple>
+            </IgbButton>
+            <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                <span class="material-icons">
+                    favorite
+                </span>
+                <IgbRipple></IgbRipple>
+            </IgbIconButton>
+            <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                <span class="material-icons">
+                    bookmark
+                </span>
+                <IgbRipple></IgbRipple>
+            </IgbIconButton>
+            <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                <span class="material-icons">
+                    share
+                </span>
+                <IgbRipple></IgbRipple>
+            </IgbIconButton>
+        </IgbCardActions>
+    </IgbCard>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public string? EmployeeId { get; set; }
+
+    public EmployeesType employeesType { get; set; }
+
+    private List<EmployeesType> northwindEmployees = new();
+    private IJSObjectReference module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        northwindEmployees = await northwindService.GetEmployees();
+
+        employeesType = northwindEmployees.FirstOrDefault(e => e.EmployeeID == double.Parse(EmployeeId));
+    }
+
+
+}
