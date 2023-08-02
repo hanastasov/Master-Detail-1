@@ -1,0 +1,46 @@
+<div style="display: flex; flex-flow: column;">
+  <igx-card type="outlined" class="card">
+    <igx-card-media height="400px">
+      <img [src]="targetEmployee?.avatarUrl" class="image" />
+    </igx-card-media>
+
+    <igx-card-header>
+      <h3 igxCardHeaderTitle>
+        {{ targetEmployee?.lastName }}
+      </h3>
+      <h5 igxCardHeaderSubtitle>
+        {{ targetEmployee?.title }}
+      </h5>
+    </igx-card-header>
+    <igx-card-content class="body-content">
+      <p class="text">
+        Hire date
+      </p>
+      <p class="text">
+        {{ targetEmployee?.hireDate }}
+      </p>
+    </igx-card-content>
+    <igx-card-actions class="actions-content">
+      <ng-container igxStart>
+        <button igxButton="flat" igxRipple class="button">
+          Button
+        </button>
+      </ng-container>
+      <ng-container igxEnd>
+        <button igxButton="icon" igxRipple>
+          <igx-icon Name="favorite"></igx-icon>
+        </button>
+        <button igxButton="icon" igxRipple>
+          <igx-icon Name="bookmark"></igx-icon>
+        </button>
+        <button igxButton="icon" igxRipple>
+          <igx-icon Name="share"></igx-icon>
+        </button>
+      </ng-container>
+    </igx-card-actions>
+  </igx-card>
+
+  <button style="margin-top: 16px;" (click)="onClickWithGlobalVar()" igxButton="raised" igxRipple class="button">
+    Select Employee With Global Var
+  </button>
+</div>
