@@ -1,0 +1,72 @@
+<ng-container *ngIf="cardVisible">
+  <igx-card type="outlined" *ngFor="let item of northwindExtendedCustomerDto" class="card">
+    <igx-card-header>
+      <h3 igxCardHeaderTitle>
+        {{ item.companyName }}
+      </h3>
+      <h5 igxCardHeaderSubtitle>
+        Subtitle goes here...
+      </h5>
+    </igx-card-header>
+    <igx-card-content class="body-content">
+      <h5 class="h5">
+        Heading
+      </h5>
+    </igx-card-content>
+    <igx-card-actions class="actions-content">
+      <ng-container igxStart>
+        <button igxButton="flat" igxRipple class="button">
+          {{ item.city }}
+        </button>
+      </ng-container>
+      <ng-container igxEnd>
+        <button igxButton="icon" igxRipple>
+          <igx-icon>
+            favorite
+          </igx-icon>
+        </button>
+        <button igxButton="icon" igxRipple>
+          <igx-icon>
+            bookmark
+          </igx-icon>
+        </button>
+        <button igxButton="icon" igxRipple>
+          <igx-icon>
+            share
+          </igx-icon>
+        </button>
+      </ng-container>
+    </igx-card-actions>
+  </igx-card>
+</ng-container>
+<igx-card type="outlined" class="card">
+  <igx-card-header>
+    <h3 igxCardHeaderTitle>
+    </h3>
+    <h5 igxCardHeaderSubtitle>
+    </h5>
+  </igx-card-header>
+  <igx-card-actions class="actions-content">
+    <ng-container igxStart>
+      <button igxButton="flat" igxRipple class="button">
+      </button>
+    </ng-container>
+    <ng-container igxEnd>
+      <button igxButton="icon" igxRipple>
+        <igx-icon>
+          favorite
+        </igx-icon>
+      </button>
+      <button igxButton="icon" igxRipple>
+        <igx-icon>
+          bookmark
+        </igx-icon>
+      </button>
+      <button igxButton="icon" igxRipple>
+        <igx-icon>
+          share
+        </igx-icon>
+      </button>
+    </ng-container>
+  </igx-card-actions>
+</igx-card>
