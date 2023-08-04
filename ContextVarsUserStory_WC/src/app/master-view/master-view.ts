@@ -8,6 +8,8 @@ import { OrderDto } from '../models/northwind-extended/order-dto';
 import { CustomerDto } from '../models/northwind-extended/customer-dto';
 import { OrderDetailDto } from '../models/northwind-extended/order-detail-dto';
 import NorthwindExtendedService from '../services/NorthwindExtended-service';
+import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
+import { Subject } from 'rxjs';
 
 defineComponents(IgcComboComponent, IgcInputComponent);
 
@@ -145,18 +147,39 @@ export default class MasterView extends LitElement {
     this.northwindExtendedService.getCustomerDto().then((data) => {
       this.northwindExtendedCustomerDto = data;
     }, err => console.log(err));
-    this.northwindExtendedService.getOrderDto().then((data) => {
-      this.northwindExtendedOrderDto = data;
-    }, err => console.log(err));
-    this.northwindExtendedService.getOrderDetailDto().then((data) => {
-      this.northwindExtendedOrderDetailDto = data;
-    }, err => console.log(err));
+
+    this.selectedCustomer$.subscribe(value => {
+      this.selectedCustomerID = value;
+
+      this.northwindExtendedService.getCustomerDto1(value).then((data) => {
+        this.northwindExtendedCustomerDto1 = [data];
+      }, err => console.log(err));
+
+      this.northwindExtendedService.getOrderDto(value).then((data) => {
+        this.northwindExtendedOrderDto = data;
+      }, err => console.log(err));
+    });
+
+    this.selectedOrderID$.subscribe(value => {
+      this.northwindExtendedService.getOrderDetailDto(value.toString()).then((data) => {
+        this.northwindExtendedOrderDetailDto = data;
+      }, err => console.log(err));
+    });
   }
+
+  private selectedCustomer$ = new Subject<string>();
+  private selectedCustomerID: string | null = null;
+
+  private selectedOrderID$ = new Subject<number>();
+  private selectedOrderID: number | null = null;
 
   private northwindExtendedService: NorthwindExtendedService = new NorthwindExtendedService();
 
   @property()
-  private northwindExtendedCustomerDto?: CustomerDto;
+  private northwindExtendedCustomerDto?: CustomerDto[] = []; // init as empty arr to make sure it doesn't throw before data is fetched
+
+  @property()
+  private northwindExtendedCustomerDto1?: CustomerDto[] = [];
 
   @property()
   private northwindExtendedOrderDto?: OrderDto[];
@@ -164,14 +187,40 @@ export default class MasterView extends LitElement {
   @property()
   private northwindExtendedOrderDetailDto?: OrderDetailDto[];
 
+  private handleSelectionChanging(args: CustomEvent<IgcComboChangeEventArgs>) {
+    if (args.detail.newValue.length) {
+      this.selectedCustomer$.next(args.detail.newValue[0]);
+      this.selectedCustomerID = args.detail.newValue[0];
+      return;
+    }
+
+    this.selectedCustomerID = null;
+    this.selectedOrderID = null;
+    this.northwindExtendedCustomerDto1 = [];
+    this.northwindExtendedOrderDto = [];
+    this.northwindExtendedOrderDetailDto = [];
+  }
+
+  private handleRowSelectionChanging(args: CustomEvent<any>) { // RowSelectionChanging
+    if (args.detail.newSelection[0]?.orderId) {
+      this.selectedOrderID = args.detail.newSelection[0].orderId;
+      this.selectedOrderID$.next(args.detail.newSelection[0].orderId);
+      return;
+    }
+
+    this.selectedOrderID = null;
+    this.northwindExtendedOrderDetailDto = [];
+  }
+
   render() {
     return html`
       <link rel='stylesheet' href='../../ig-theme.css'>
       <link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
         <div class="row-layout group_1">
-          <igc-combo ?outlined="${true}" .data="${this.northwindExtendedCustomerDto}" value-key="customerId" display-key="customerId" ?single-select="${true}" class="single-select-combo"></igc-combo>
-          <igc-grid .data="${this.northwindExtendedCustomerDto}" primary-key="customerId" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
+          <igc-combo @igcChange=${this.handleSelectionChanging} ?outlined="${true}" .data="${this.northwindExtendedCustomerDto}" value-key="customerId" display-key="customerId" ?single-select="${true}" class="single-select-combo"></igc-combo>
+
+          <igc-grid .data="${this.northwindExtendedCustomerDto1}" primary-key="customerId" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" class="ig-typography ig-scrollbar grid">
             <igc-column field="customerId" data-type="string" header="customerId" sortable="true" selectable="false"></igc-column>
             <igc-column field="companyName" data-type="string" header="companyName" sortable="true" selectable="false"></igc-column>
             <igc-column field="contactName" data-type="string" header="contactName" sortable="true" selectable="false"></igc-column>
@@ -185,40 +234,43 @@ export default class MasterView extends LitElement {
             <igc-column field="fax" data-type="string" header="fax" sortable="true" selectable="false"></igc-column>
           </igc-grid>
         </div>
+
         <div class="row-layout group_2">
           <div class="column-layout group_3">
             <h5 class="h5">
               Customer Details
             </h5>
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.companyName}" label="Company Name" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.contactName}" label="Contract Name" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.contactTitle}" label="Contract Title" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.address}" label="Address" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.city}" label="City" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
-            ${this.northwindExtendedCustomerDto?.map((item) => html`
+            ${this.northwindExtendedCustomerDto1?.map((item) => html`
               <igc-input .value="${item.country}" label="Country" ?disabled="${true}" ?outlined="${true}" class="input"></igc-input>
             `)}
           </div>
+
           <div class="column-layout group_4">
             <div class="row-layout group_5">
               <h5 class="h5">
                 Showing orders for:
               </h5>
               <h5 class="h5_1">
-                selectedCustomerID
+                ${this.selectedCustomerID}
               </h5>
             </div>
-            <igc-grid .data="${this.northwindExtendedOrderDto}" primary-key="orderId" display-density="cosy" row-selection="single" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" height="45%" class="ig-typography ig-scrollbar grid_1">
+
+            <igc-grid .data="${this.northwindExtendedOrderDto}" @rowSelectionChanging=${this.handleRowSelectionChanging} primary-key="orderId" display-density="cosy" row-selection="single" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" height="45%" class="ig-typography ig-scrollbar grid_1">
               <igc-column field="orderId" data-type="number" header="orderId" sortable="true" selectable="false"></igc-column>
               <igc-column field="customerId" data-type="string" header="customerId" sortable="true" selectable="false"></igc-column>
               <igc-column field="employeeId" data-type="number" header="employeeId" sortable="true" selectable="false"></igc-column>
@@ -234,14 +286,16 @@ export default class MasterView extends LitElement {
               <igc-column field="shipPostalCode" data-type="string" header="shipPostalCode" sortable="true" selectable="false"></igc-column>
               <igc-column field="shipCountry" data-type="string" header="shipCountry" sortable="true" selectable="false"></igc-column>
             </igc-grid>
+            
             <div class="row-layout group_5">
               <h5 class="h5">
                 Showing order details for:
               </h5>
               <h5 class="h5_1">
-                selectedOrderID
+                ${this.selectedOrderID}
               </h5>
             </div>
+
             <div class="row-layout group_6">
               <igc-grid .data="${this.northwindExtendedOrderDetailDto}" primary-key="orderId" display-density="cosy" allow-filtering="true" filter-mode="excelStyleFilter" auto-generate="false" width="70%" height="100%" class="ig-typography ig-scrollbar grid_1">
                 <igc-column field="orderId" data-type="number" header="orderId" sortable="true" selectable="false"></igc-column>
@@ -250,6 +304,7 @@ export default class MasterView extends LitElement {
                 <igc-column field="quantity" data-type="number" header="quantity" sortable="true" selectable="false"></igc-column>
                 <igc-column field="discount" data-type="number" header="discount" sortable="true" selectable="false"></igc-column>
               </igc-grid>
+
               <igc-pie-chart .dataSource="${this.northwindExtendedOrderDetailDto}" label-member-path="orderId" value-member-path="orderId" class="pie-chart"></igc-pie-chart>
             </div>
           </div>

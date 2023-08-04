@@ -5,7 +5,15 @@ import { OrderDetailDto } from '../models/northwind-extended/order-detail-dto';
 const API_ENDPOINT = 'https://demodata.grapecity.com';
 
 export default class NorthwindExtendedService {
-	public getCustomerDto = async (id: string = 'ALFKI'): Promise<CustomerDto> => {
+	public getCustomerDto = async (): Promise<CustomerDto[]> => {
+		const response = await fetch(`${API_ENDPOINT}/northwind/api/v1/Customers`);
+		if (!response.ok) {
+			return Promise.reject(response.statusText);
+		}
+		return response.json();
+	}
+
+	public getCustomerDto1 = async (id: string = 'ALFKI'): Promise<CustomerDto> => {
 		const response = await fetch(`${API_ENDPOINT}/northwind/api/v1/Customers/${id}`);
 		if (!response.ok) {
 			return Promise.reject(response.statusText);
@@ -13,7 +21,7 @@ export default class NorthwindExtendedService {
 		return response.json();
 	}
 
-	public getOrderDto = async (id: string = '10248'): Promise<OrderDto[]> => {
+	public getOrderDto = async (id: string = 'ALFKI'): Promise<OrderDto[]> => {
 		const response = await fetch(`${API_ENDPOINT}/northwind/api/v1/Customers/${id}/Orders`);
 		if (!response.ok) {
 			return Promise.reject(response.statusText);

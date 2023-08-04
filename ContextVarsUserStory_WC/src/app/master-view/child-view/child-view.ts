@@ -43,15 +43,15 @@ export default class ChildView extends LitElement {
 
   constructor() {
     super();
-    this.northwindExtendedService.getCustomerDto().then((data) => {
-      this.northwindExtendedCustomerDto = data;
+    this.northwindExtendedService.getCustomerDto1().then((data) => {
+      this.northwindExtendedCustomerDto = [data];
     }, err => console.log(err));
   }
 
   private northwindExtendedService: NorthwindExtendedService = new NorthwindExtendedService();
 
   @property()
-  private northwindExtendedCustomerDto?: CustomerDto;
+  private northwindExtendedCustomerDto?: CustomerDto[];
 
   render() {
     return html`
