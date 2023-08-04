@@ -23,9 +23,6 @@ export class MasterViewComponent implements OnInit, OnDestroy {
   public selectedOrderID$ = new Subject<number>();
   public selectedOrderID = null;
 
-  @ViewChild('orders')
-  private ordersGrid!: IgxGridComponent;
-
   constructor(
     private northwindExtendedService: NorthwindExtendedService,
   ) { }
@@ -59,6 +56,8 @@ export class MasterViewComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.selectedCustomerID = null;
+    this.selectedOrderID = null;
     this.northwindExtendedCustomerDto1 = [];
     this.northwindExtendedOrderDto = [];
     this.northwindExtendedOrderDetailDto = [];
@@ -71,6 +70,7 @@ export class MasterViewComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.selectedOrderID = null;
     this.northwindExtendedOrderDetailDto = [];
   }
 }
