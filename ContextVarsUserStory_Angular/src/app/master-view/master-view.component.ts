@@ -4,7 +4,7 @@ import { OrderDto } from '../models/northwind-extended/order-dto';
 import { CustomerDto } from '../models/northwind-extended/customer-dto';
 import { NorthwindExtendedService } from '../services/northwind-extended.service';
 import { IRowSelectionEventArgs, ISimpleComboSelectionChangingEventArgs, IgxGridComponent } from 'igniteui-angular';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-master-view',
@@ -23,6 +23,8 @@ export class MasterViewComponent implements OnInit, OnDestroy {
   public selectedOrderID$ = new Subject<number>();
   public selectedOrderID = null;
 
+  private destroy$ = new Subject();
+
   constructor(
     private northwindExtendedService: NorthwindExtendedService,
   ) { }
@@ -34,12 +36,14 @@ export class MasterViewComponent implements OnInit, OnDestroy {
     this.northwindExtendedService.getCustomerDto().subscribe(data => this.northwindExtendedCustomerDto = data);
 
     this.selectedCustomerID$
+      .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
         this.northwindExtendedService.getCustomerDto1(value).subscribe(data => this.northwindExtendedCustomerDto1 = [data]); // bind array of items to grid
         this.northwindExtendedService.getOrderDto(value).subscribe(data => this.northwindExtendedOrderDto = data);
       });
 
     this.selectedOrderID$
+      .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
         this.northwindExtendedService.getOrderDetailDto(value.toString()).subscribe(data => this.northwindExtendedOrderDetailDto = data);
       });
@@ -47,6 +51,9 @@ export class MasterViewComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.selectedCustomerID$.complete();
+    this.selectedOrderID$.complete();
+    this.destroy$.next(0);
+    this.destroy$.complete();
   }
 
   public handleSelectionChanging(event: ISimpleComboSelectionChangingEventArgs) {

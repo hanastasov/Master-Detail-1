@@ -9,7 +9,7 @@ import { CustomerDto } from '../models/northwind-extended/customer-dto';
 import { OrderDetailDto } from '../models/northwind-extended/order-detail-dto';
 import NorthwindExtendedService from '../services/NorthwindExtended-service';
 import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { IgcRowSelectionEventArgs } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcComboComponent, IgcInputComponent);
@@ -149,7 +149,7 @@ export default class MasterView extends LitElement {
       this.northwindExtendedCustomerDto = data;
     }, err => console.log(err));
 
-    this.selectedCustomer$.subscribe(value => {
+    this.selectedCustomer$.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.selectedCustomerID = value;
 
       this.northwindExtendedService.getCustomerDto1(value).then((data) => {
@@ -161,11 +161,18 @@ export default class MasterView extends LitElement {
       }, err => console.log(err));
     });
 
-    this.selectedOrderID$.subscribe(value => {
+    this.selectedOrderID$.pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.northwindExtendedService.getOrderDetailDto(value.toString()).then((data) => {
         this.northwindExtendedOrderDetailDto = data;
       }, err => console.log(err));
     });
+  }
+
+  public disconnectedCallback() {
+    this.selectedOrderID$.complete();
+    this.selectedCustomer$.complete();
+    this.destroy$.next(0);
+    this.destroy$.complete();
   }
 
   private selectedCustomer$ = new Subject<string>();
@@ -173,6 +180,8 @@ export default class MasterView extends LitElement {
 
   private selectedOrderID$ = new Subject<number>();
   private selectedOrderID: number | null = null;
+
+  private destroy$ = new Subject();
 
   private northwindExtendedService: NorthwindExtendedService = new NorthwindExtendedService();
 
