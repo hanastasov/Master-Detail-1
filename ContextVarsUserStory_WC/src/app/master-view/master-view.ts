@@ -10,6 +10,7 @@ import { OrderDetailDto } from '../models/northwind-extended/order-detail-dto';
 import NorthwindExtendedService from '../services/NorthwindExtended-service';
 import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
 import { Subject } from 'rxjs';
+import { IgcRowSelectionEventArgs } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcComboComponent, IgcInputComponent);
 
@@ -201,7 +202,7 @@ export default class MasterView extends LitElement {
     this.northwindExtendedOrderDetailDto = [];
   }
 
-  private handleRowSelectionChanging(args: CustomEvent<any>) { // RowSelectionChanging
+  private handleRowSelectionChanging(args: CustomEvent<IgcRowSelectionEventArgs>) {
     if (args.detail.newSelection[0]?.orderId) {
       this.selectedOrderID = args.detail.newSelection[0].orderId;
       this.selectedOrderID$.next(args.detail.newSelection[0].orderId);
