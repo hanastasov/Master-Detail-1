@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
-import { Customer, NorthwindService } from '../services/northwind.service';
+import { NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 import { DataService } from '../services/data.service';
+import { Customer } from '../models/customer';
 
 @Component({
   selector: 'app-list-details',
@@ -33,11 +34,11 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.dataLoaded.subscribe(() => {
-      this.northwindService.getCustomerOrdersResult(this.selectedCustomerData.customerID).subscribe(data => {
+      this.northwindService.getCustomerOrders(this.selectedCustomerData.customerID).subscribe(data => {
         this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData?.customerID);
       });
 
-      this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
+      this.northwindService.getCustomerOrderDetails(this.selectedRows[0]).subscribe(data => {
         this.selectedOrdersDetails = data;
       });
     });
@@ -48,7 +49,7 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   }
 
   onItemClicked(item: any) {
-    this.northwindService.getCustomerOrdersResult(item.customerID).subscribe(data => {
+    this.northwindService.getCustomerOrders(item.customerID).subscribe(data => {
       this.selectedCustomerData = item;
       this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData?.customerID);
       this.selectedOrdersDetails = [];
@@ -56,7 +57,7 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   }
 
   public orderSelected(args: IRowSelectionEventArgs) {
-    this.northwindService.getCustOrdersDetailResult(args.newSelection[0].orderID.toString()).subscribe(data => {
+    this.northwindService.getCustomerOrderDetails(args.newSelection[0].orderID.toString()).subscribe(data => {
       this.selectedOrdersDetails = data;
     });
   }

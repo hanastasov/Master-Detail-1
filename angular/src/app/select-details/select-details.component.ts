@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Customer, NorthwindService } from '../services/northwind.service';
+import { NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
+import { Customer } from '../models/customer';
 
 @Component({
   selector: 'app-select-details',
@@ -39,18 +40,18 @@ export class SelectDetailsComponent implements OnInit {
       this.cdref.detectChanges();
     });
 
-    this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
+    this.northwindService.getCustomerOrders(this.selectedCustomerData[0].customerID).subscribe(data => {
       this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
       this.selectedCustomer = data[0].customerID;
     });
 
-    this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
+    this.northwindService.getCustomerOrderDetails(this.selectedRows[0]).subscribe(data => {
       this.selectedOrdersDetails = data;
     });
   }
 
   handleClosed() {
-    this.northwindService.getCustomerOrdersResult(this.selectedCustomer).subscribe(data => {
+    this.northwindService.getCustomerOrders(this.selectedCustomer).subscribe(data => {
       this.selectedCustomerData = new Array;
       this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
       this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
@@ -59,7 +60,7 @@ export class SelectDetailsComponent implements OnInit {
   }
 
   public orderSelected(orderID: IRowSelectionEventArgs) {
-    this.northwindService.getCustOrdersDetailResult(orderID.newSelection[0].toString()).subscribe(data => {
+    this.northwindService.getCustomerOrderDetails(orderID.newSelection[0].toString()).subscribe(data => {
       this.selectedOrdersDetails = data;
     });
   }

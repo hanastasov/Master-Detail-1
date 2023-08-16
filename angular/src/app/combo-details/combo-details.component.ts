@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer, NorthwindService } from '../services/northwind.service';
-import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
+import { IRowSelectionEventArgs, ISimpleComboSelectionChangingEventArgs } from '@infragistics/igniteui-angular';
+import { Subject, take } from 'rxjs';
+import { Customer } from '../models/customer';
+import { CustomerOrderDetail } from '../models/customer-order-detail';
+import { Order } from '../models/order';
+import { NorthwindService } from '../services/northwind.service';
 
 @Component({
   selector: 'app-combo-details',
@@ -8,54 +12,54 @@ import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
   styleUrls: ['./combo-details.component.scss']
 })
 export class ComboDetailsComponent implements OnInit {
-  public northwindCustomers: Customer[] | null = null;
-  public selectedCustomer: any;
-  public selectedOrdersData: any = [];
-  public selectedOrdersDetails: any = [];
-  public selectedRows = [10355];
-  public selectedCustomerData: any = [
-    {
-      "customerID": "AROUT",
-      "companyName": "Around the Horn",
-      "contactName": "Thomas Hardy",
-      "contactTitle": "Sales Representative",
-      "address": {
-        "street": "120 Hanover Sq.",
-        "city": "London",
-        "region": null,
-        "postalCode": "WA1 1DP",
-        "country": "UK",
-        "phone": "(171) 555-7788"
-      }
-    }
-  ];
+  private $customerOrder: Subject<Customer> = new Subject<Customer>();
+  private $selectedOrder: Subject<Order> = new Subject<Order>();
+  private _selectedCustomer: Customer;
+  private _selectedOrder: Order;
+
+  // TODO: should we make this @Output
+  public get selectedCustomer(): Customer {
+    return this._selectedCustomer;
+  }
+  public set selectedCustomer(v: Customer) {
+    this._selectedCustomer = v;
+    this.$customerOrder.next(v);
+    // TODO: find a way to clear dependent selectedOrder variable
+    this.selectedOrder = undefined;
+  }
+
+  // TODO: should we make this @Output
+  public get selectedOrder(): Order {
+    return this._selectedOrder;
+  }
+  public set selectedOrder(v: Order) {
+    this._selectedOrder = v;
+    this.$selectedOrder.next(v);
+  }
+
+  public northwindCustomers: Customer[] = [];
+  public northwindCustomerOrders: Order[] = [];
+  public northwindCustomerOrderDetails: CustomerOrderDetail[] = [];
 
   constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
     this.northwindService.getCustomers().subscribe(data => this.northwindCustomers = data);
-    this.northwindService.getCustomerOrdersResult(this.selectedCustomerData[0].customerID).subscribe(data => {
-      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
-      this.selectedCustomer = data[0].customerID;
-    });
-
-    this.northwindService.getCustOrdersDetailResult(this.selectedRows[0].toString()).subscribe(data => {
-      this.selectedOrdersDetails = data;
-    });
+    this.$customerOrder.subscribe(c => this.northwindService.getCustomerOrders(this.selectedCustomer?.customerID).pipe(take(1)).subscribe({
+      next: (orders: Order[]) => this.northwindCustomerOrders = orders,
+      error: (_err: any) => this.northwindCustomerOrders = []
+    }));
+    this.$selectedOrder.subscribe(o => this.northwindService.getCustomerOrderDetails(this.selectedOrder.orderID).pipe(take(1)).subscribe({
+      next: (customerOrderDetails: CustomerOrderDetail[]) => this.northwindCustomerOrderDetails = customerOrderDetails,
+      error: (_err: any) => this.northwindCustomerOrderDetails = []
+    }));
   }
 
-  handleClosed() {
-    this.northwindService.getCustomerOrdersResult(this.selectedCustomer).subscribe(data => {
-      this.selectedCustomerData = new Array;
-      this.selectedCustomerData.push(this.northwindCustomers.filter(el => el.customerID === this.selectedCustomer)[0]);
-      this.selectedOrdersData = data.filter(el => el.customerID === this.selectedCustomerData[0]?.customerID);
-      this.selectedOrdersDetails = [];
-    });
+  public comboSelectionChanging(e: ISimpleComboSelectionChangingEventArgs) {
+    this.selectedCustomer = e.newSelection;
   }
 
-  public orderSelected(orderID: IRowSelectionEventArgs) {
-    this.northwindService.getCustOrdersDetailResult(orderID.newSelection[0].toString()).subscribe(data => {
-      this.selectedOrdersDetails = data;
-    });
-  }
+  public gridRowSelectionChanging(e: IRowSelectionEventArgs) {
+    this.selectedOrder = e.newSelection[0];
+  };
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Employees, NorthwindService } from '../../services/northwind.service';
+import { NorthwindService } from '../../services/northwind.service';
 import { Subject, Subscription, debounceTime } from 'rxjs';
+import { EmployeeType } from 'src/app/models/employee-type';
 
 @Component({
   selector: 'app-search-results',
@@ -8,7 +9,7 @@ import { Subject, Subscription, debounceTime } from 'rxjs';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements OnInit {
-  public northwindEmployees: Employees[] | null = null;
+  public northwindEmployees: EmployeeType[] | null = null;
   value: string;
   valueChanged: Subject<string> = new Subject<string>();
   inputSub: Subscription;
@@ -16,7 +17,7 @@ export class SearchResultsComponent implements OnInit {
   constructor(private northwindService: NorthwindService) { }
 
   ngOnInit() {
-    this.northwindService.getEmployees('Employees').subscribe(data => this.northwindEmployees = data);
+    this.northwindService.getData('Employees').subscribe(data => this.northwindEmployees = data);
   }
 
   ngAfterContentInit() {
@@ -24,7 +25,7 @@ export class SearchResultsComponent implements OnInit {
       .pipe(debounceTime(300))
       .subscribe(value => {
         this.value = value
-        this.northwindService.getEmployees('Employees')
+        this.northwindService.getData('Employees')
           .subscribe(
             response => {
               this.northwindEmployees = response.filter(employee => {

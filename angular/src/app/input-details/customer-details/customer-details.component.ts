@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
-import { Employees, NorthwindService } from 'src/app/services/northwind.service';
+import { EmployeeType } from 'src/app/models/employee-type';
+import { Order } from 'src/app/models/order';
+import { NorthwindService } from 'src/app/services/northwind.service';
 
 @Component({
   selector: 'app-customer-details',
@@ -9,8 +11,8 @@ import { Employees, NorthwindService } from 'src/app/services/northwind.service'
   styleUrls: ['./customer-details.component.scss']
 })
 export class CustomerDetailsComponent implements OnInit {
-  public selectedEmployee: Employees[] | null = null;
-  public northwindOrders: any = null;
+  public selectedEmployee: EmployeeType[] | null = null;
+  public northwindOrders: Order[] = [];
   public northwindOrderDetails: any = null;
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
@@ -19,17 +21,17 @@ export class CustomerDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private northwindService: NorthwindService) { }
 
   ngOnInit(): void {
-    this.northwindService.getEmployees('Employees').subscribe(data => this.selectedEmployee = data.filter(employees => {
+    this.northwindService.getData('Employees').subscribe(data => this.selectedEmployee = data.filter(employees => {
       return employees.employeeID == this.route.snapshot.queryParamMap.get('employeeID');
     }));
 
-    this.northwindService.getAllOrders().subscribe(data => {
-      this.northwindOrders = data.filter(orders => {
-        return orders.employeeID == this.route.snapshot.queryParamMap.get('employeeID');
+    this.northwindService.getOrders().subscribe(data => {
+      this.northwindOrders = data.filter(order => {
+        return order.employeeID == Number.parseInt(this.route.snapshot.queryParamMap.get('employeeID'));
       })
     });
 
-    this.northwindService.getAllOrdersDetails().subscribe(data => {
+    this.northwindService.getOrderDetails().subscribe(data => {
       this.northwindOrderDetails = data;
       this.selectedOrdersDetails = data.filter(el => el.orderID === this.selectedRows[0]);
     });

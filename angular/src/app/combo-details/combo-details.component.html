@@ -1,24 +1,18 @@
 <div class="column-layout group">
-  <igx-simple-combo type="border" [data]="northwindCustomers" valueKey="customerID" displayKey="contactName"
-    [(ngModel)]="selectedCustomer" class="combo" (closed)="handleClosed()">
-    <label igxLabel>Pick customer</label>
+  <igx-simple-combo [data]="northwindCustomers" displayKey="contactName"
+    (selectionChanging)="comboSelectionChanging($event)" class="combo">
   </igx-simple-combo>
-  <div class="column-layout group_1">
-    <button igxButton="raised" igxRipple routerLink="/select-details" class="button">
-      Previous
-    </button>
-  </div>
 </div>
 <div class="column-layout group_2">
   <div class="row-layout group_3">
-    <div class="column-layout group_4" *ngFor="let item of selectedCustomerData">
+    <div class="column-layout group_4">
       <div class="row-layout group_5">
         <div class="column-layout group_6">
           <h5 class="content">
-            {{ item.contactName }}
+            {{ selectedCustomer?.contactName }}
           </h5>
           <p class="ig-typography__subtitle-1 content">
-            {{ item.customerID }}
+            {{ selectedCustomer?.customerID }}
           </p>
         </div>
       </div>
@@ -27,7 +21,7 @@
           Title
         </p>
         <p class="content">
-          {{ item.contactTitle }}
+          {{ selectedCustomer?.contactTitle }}
         </p>
       </div>
       <div class="column-layout group_7">
@@ -43,7 +37,7 @@
           Phone
         </p>
         <p class="content">
-          {{ item.phone }}
+          {{ selectedCustomer?.phone }}
         </p>
       </div>
       <div class="column-layout group_8">
@@ -51,7 +45,7 @@
           Street
         </p>
         <p class="content">
-          {{ item.address }}
+          {{ selectedCustomer?.address }}
         </p>
       </div>
       <div class="row-layout group_9">
@@ -60,7 +54,7 @@
             City
           </p>
           <p class="content">
-            {{ item.city }}
+            {{ selectedCustomer?.city }}
           </p>
         </div>
         <div class="column-layout group_11">
@@ -68,7 +62,7 @@
             State
           </p>
           <p class="content">
-            {{ item.region ?? null }}
+            {{ selectedCustomer?.region }}
           </p>
         </div>
       </div>
@@ -77,20 +71,18 @@
           Country
         </p>
         <p class="content">
-          {{ item.country }}
+          {{ selectedCustomer?.country }}
         </p>
       </div>
     </div>
     <div class="column-layout group_12">
-      <p class="content">
-        Should be allowed to query data based on param or filter after fetching data
-      </p>
       <div class="column-layout group_18">
-        <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
-          [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid"
-          [selectedRows]="selectedRows" (rowSelectionChanging)="orderSelected($event)">
+        <igx-grid [data]="northwindCustomerOrders" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
+          [hideRowSelectors]="true" class="grid" (rowSelectionChanging)="gridRowSelectionChanging($event)">
           <igx-grid-toolbar>
-            <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
+            <igx-grid-toolbar-title>
+              Orders for {{selectedCustomer?.contactName}}
+            </igx-grid-toolbar-title>
           </igx-grid-toolbar>
           <igx-column field="orderID" dataType="number" header="orderID" [sortable]="true"
             [selectable]="false"></igx-column>
@@ -110,29 +102,36 @@
             [selectable]="false"></igx-column>
           <igx-column field="shipName" dataType="string" header="shipName" [sortable]="true"
             [selectable]="false"></igx-column>
-          <igx-column field="shipAddress.street" dataType="string" header="shipAddress street" [sortable]="true"
+          <igx-column field="shipAddress" dataType="string" header="shipAddress street" [sortable]="true"
             [selectable]="false"></igx-column>
-          <igx-column field="shipAddress.city" dataType="string" header="shipAddress city" [sortable]="true"
+          <igx-column field="shipCity" dataType="string" header="shipAddress city" [sortable]="true"
             [selectable]="false"></igx-column>
-          <igx-column field="shipAddress.region" dataType="string" header="shipAddress region" [sortable]="true"
+          <igx-column field="shipRegion" dataType="string" header="shipAddress region" [sortable]="true"
             [selectable]="false"></igx-column>
-          <igx-column field="shipAddress.postalCode" dataType="string" header="shipAddress postalCode" [sortable]="true"
+          <igx-column field="shipPostalCode" dataType="string" header="shipAddress postalCode" [sortable]="true"
             [selectable]="false"></igx-column>
-          <igx-column field="shipAddress.country" dataType="string" header="shipAddress country" [sortable]="true"
+          <igx-column field="shipCountry" dataType="string" header="shipAddress country" [sortable]="true"
             [selectable]="false"></igx-column>
         </igx-grid>
       </div>
       <div class="column-layout group_18">
-        <igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
-          cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter" class="grid">
+        <igx-grid [data]="northwindCustomerOrderDetails" primaryKey="productName" displayDensity="cosy"
+          rowSelection="single" cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true"
+          filterMode="excelStyleFilter" class="grid">
           <igx-grid-toolbar>
-            <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
+            <igx-grid-toolbar-title>Order details for order {{selectedOrder?.orderID ?? '???'}} by
+              {{selectedCustomer?.contactName ?? '???'}}</igx-grid-toolbar-title>
           </igx-grid-toolbar>
-          <igx-column field="productName" dataType="string" header="productName" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="discount" dataType="number" header="discount" [sortable]="true" [selectable]="false"></igx-column>
-          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true" [selectable]="false"></igx-column>
+          <igx-column field="productName" dataType="string" header="productName" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="number" header="discount" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
         </igx-grid>
       </div>
     </div>

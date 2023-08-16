@@ -4,7 +4,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComboDetailsComponent } from './combo-details/combo-details.component';
-import { IgxButtonModule, IgxRippleModule, IgxComboModule, IgxInputGroupModule, IgxGridModule, IgxSelectModule, IgxListModule, IgxAvatarModule, IgxSimpleComboModule } from '@infragistics/igniteui-angular';
+import {
+  IgxAvatarModule,
+  IgxButtonModule,
+  IgxComboModule,
+  IgxGridModule,
+  IgxInputGroupModule,
+  IgxListModule,
+  IgxRippleModule,
+  IgxSelectModule,
+  IgxSimpleComboModule
+} from '@infragistics/igniteui-angular';
 import { FormsModule } from '@angular/forms';
 import { SelectDetailsComponent } from './select-details/select-details.component';
 import { ListDetailsComponent } from './list-details/list-details.component';
@@ -24,16 +34,16 @@ import { HttpClientModule } from '@angular/common/http';
     HammerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    IgxButtonModule,
-    IgxRippleModule,
-    IgxComboModule,
-    IgxInputGroupModule,
-    IgxGridModule,
-    FormsModule,
-    IgxSelectModule,
-    IgxListModule,
-    IgxAvatarModule,
     HttpClientModule,
+    FormsModule,
+    IgxAvatarModule,
+    IgxButtonModule,
+    IgxComboModule,
+    IgxGridModule,
+    IgxInputGroupModule,
+    IgxListModule,
+    IgxRippleModule,
+    IgxSelectModule,
     IgxSimpleComboModule
   ],
   providers: [],
