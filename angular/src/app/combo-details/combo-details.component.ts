@@ -25,7 +25,7 @@ export class ComboDetailsComponent implements OnInit {
     this._selectedCustomer = v;
     this.$customerOrder.next(v);
     // TODO: find a way to clear dependent selectedOrder variable
-    this.selectedOrder = undefined;
+    this.selectedOrder = null;
   }
 
   // TODO: should we make this @Output
@@ -49,14 +49,14 @@ export class ComboDetailsComponent implements OnInit {
       next: (orders: Order[]) => this.northwindCustomerOrders = orders,
       error: (_err: any) => this.northwindCustomerOrders = []
     }));
-    this.$selectedOrder.subscribe(o => this.northwindService.getCustomerOrderDetails(this.selectedOrder.orderID).pipe(take(1)).subscribe({
+    this.$selectedOrder.subscribe(o => this.northwindService.getCustomerOrderDetails(this.selectedOrder?.orderID).pipe(take(1)).subscribe({
       next: (customerOrderDetails: CustomerOrderDetail[]) => this.northwindCustomerOrderDetails = customerOrderDetails,
       error: (_err: any) => this.northwindCustomerOrderDetails = []
     }));
   }
 
   public comboSelectionChanging(e: ISimpleComboSelectionChangingEventArgs) {
-    this.selectedCustomer = e.newSelection;
+    this.selectedCustomer = this.northwindCustomers.find(c => c.customerID === e.newSelection);
   }
 
   public gridRowSelectionChanging(e: IRowSelectionEventArgs) {

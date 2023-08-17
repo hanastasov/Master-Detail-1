@@ -212,6 +212,8 @@
         {
             selectedCustomer = value;
             customerOrderSubject.OnNext(value);
+            // TODO: try to describe property depended on other property
+            SelectedOrder = null;
         }
     }
 
