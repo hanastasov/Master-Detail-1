@@ -8,7 +8,6 @@
 <div class="row-layout master-view-container">
     <div class="column-layout group">
         <IgbCombo Data="northwindCustomers"
-                  ValueKey="CustomerID"
                   DisplayKey="ContactName"
                   SingleSelect="true"
                   Change="ComboChange"
@@ -212,7 +211,7 @@
         {
             selectedCustomer = value;
             customerOrderSubject.OnNext(value);
-            // TODO: try to describe property depended on other property
+            // TODO: try to describe property depended on other property - Dependent variable feature!
             SelectedOrder = null;
         }
     }
@@ -227,13 +226,8 @@
         }
     }
 
-    [Parameter]
     public List<Customer> northwindCustomers {get; set;} = new();
-
-    [Parameter]
     public List<Order> northwindCustomerOrders { get; set; } = new();
-
-    [Parameter]
     public List<CustomerOrderDetail> northwindCustomerOrderDetails { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
@@ -242,22 +236,24 @@
         customerOrderSubject.Subscribe(async c =>
         {
             northwindCustomerOrders = await northwindService.GetCustomerOrders(SelectedCustomer?.CustomerID);
+            // TODO: try to not call StateHasChanged
             StateHasChanged();
         });
         selectedOrderSubject.Subscribe(async o =>
         {
             northwindCustomerOrderDetails = await northwindService.GetCustomerOrderDetails(SelectedOrder?.OrderID);
+            // TODO: try to not call StateHasChanged
             StateHasChanged();
         });
     }
 
     private void ComboChange(IgbComboChangeEventArgs e)
     {
-        SelectedCustomer = northwindCustomers.FirstOrDefault(c => c.CustomerID == e.Detail.NewValue.FirstOrDefault());
+        SelectedCustomer = e.Detail.NewValue.FirstOrDefault() as Customer;
     }
 
     private void GridRowSelectionChanging(IgbRowSelectionEventArgs e)
     {
-        SelectedOrder = e.Detail.NewSelection.Cast<Order>().FirstOrDefault();
+        SelectedOrder = e.Detail.NewSelection.FirstOrDefault() as Order;
     }
 }

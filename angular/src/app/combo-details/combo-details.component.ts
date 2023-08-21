@@ -17,18 +17,16 @@ export class ComboDetailsComponent implements OnInit {
   private _selectedCustomer: Customer;
   private _selectedOrder: Order;
 
-  // TODO: should we make this @Output
   public get selectedCustomer(): Customer {
     return this._selectedCustomer;
   }
   public set selectedCustomer(v: Customer) {
     this._selectedCustomer = v;
     this.$customerOrder.next(v);
-    // TODO: find a way to clear dependent selectedOrder variable
+    // TODO: try to describe property depended on other property - Dependent variable feature!
     this.selectedOrder = null;
   }
 
-  // TODO: should we make this @Output
   public get selectedOrder(): Order {
     return this._selectedOrder;
   }
@@ -56,7 +54,7 @@ export class ComboDetailsComponent implements OnInit {
   }
 
   public comboSelectionChanging(e: ISimpleComboSelectionChangingEventArgs) {
-    this.selectedCustomer = this.northwindCustomers.find(c => c.customerID === e.newSelection);
+    this.selectedCustomer = e.newSelection;
   }
 
   public gridRowSelectionChanging(e: IRowSelectionEventArgs) {
