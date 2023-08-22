@@ -3,7 +3,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
-import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import NorthwindCloudAppService from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 import DataService from '../service/data-service';
 import { BeforeEnterObserver, Router, RouterLocation } from '@vaadin/router';
@@ -153,7 +153,7 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
     this.northwindCloudAppService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
     }, err => console.log(err));
-    this.northwindCloudAppService.getOrder_Detail().then((data) => {
+    this.northwindCloudAppService.getOrderDetails().then((data) => {
       this.northwindCloudAppOrderDetail = data;
     }, err => console.log(err));
     this.northwindCloudAppService.getCustomers().then((data) => {

@@ -9,7 +9,7 @@ import './input-details-customer-details/input-details-customer-details';
 import './cascade-select/cascade-select';
 
 export const routes: Route[] = [
-  { path: '', redirect: 'list-details', name: 'List Details' },
+  { path: '', redirect: 'combo-details', name: 'Combo Details' },
   { path: 'select-details', component: 'app-select-details', name: 'Select Details' },
   { path: 'combo-details', component: 'app-combo-details', name: 'Combo details' },
   { path: 'list-details/:customerID', component: 'app-list-details', name: 'List details', children: listRoutes },

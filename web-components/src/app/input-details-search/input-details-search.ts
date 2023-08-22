@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcButtonComponent, IgcCardComponent, IgcInputComponent, IgcRippleComponent } from 'igniteui-webcomponents';
-import NorthwindCloudAppService from '../service/NorthwindCloudApp-service';
+import NorthwindCloudAppService from '../service/northwind-service';
 
 defineComponents(IgcInputComponent, IgcButtonComponent, IgcRippleComponent, IgcCardComponent);
 

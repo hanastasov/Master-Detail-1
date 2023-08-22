@@ -21,14 +21,15 @@
     "infragistics-login": "echo \"IMPORTANT: When prompted for username enter in this format `name!!domain.com`\" && npm adduser --registry=https://packages.infragistics.com/npm/js-licensed/ --scope=@infragistics --always-auth"
   },
   "dependencies": {
-    "@infragistics/igniteui-webcomponents-core": "~4.2.5",
-    "@infragistics/igniteui-webcomponents-grids": "~4.2.5",
-    "@infragistics/igniteui-webcomponents-inputs": "~4.2.5",
-    "@infragistics/igniteui-webcomponents-layouts": "~4.2.5",
+    "@infragistics/igniteui-webcomponents-core": "~4.3.0",
+    "@infragistics/igniteui-webcomponents-grids": "~4.3.0",
+    "@infragistics/igniteui-webcomponents-inputs": "~4.3.0",
+    "@infragistics/igniteui-webcomponents-layouts": "~4.3.0",
     "@vaadin/router": "^1.7.4",
-    "igniteui-webcomponents": "~4.2.0",
-    "igniteui-webcomponents-grids": "^4.2.5",
+    "igniteui-webcomponents": "~4.3.0",
+    "igniteui-webcomponents-grids": "^4.3.0",
     "lit": "^2.6.1",
+    "rxjs": "~7.5.0",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
