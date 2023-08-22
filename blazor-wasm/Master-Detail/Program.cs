@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Master_Detail;
-using IgniteUI.Blazor.Controls;
 using Master_Detail.Northwind;
+using IgniteUI.Blazor.Controls;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
