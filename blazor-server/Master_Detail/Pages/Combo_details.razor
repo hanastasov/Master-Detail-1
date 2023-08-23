@@ -1,0 +1,261 @@
+@page "/"
+@using Master_Detail.Models.Northwind;
+@using Northwind
+@using System.Reactive.Subjects;
+@inject NavigationManager navigationManager
+@inject INorthwindService northwindService
+
+<div class="row-layout master-view-container">
+    <div class="column-layout group">
+        <IgbCombo Data="northwindCustomers"
+                  DisplayKey="ContactName"
+                  SingleSelect="true"
+                  Change="ComboChange"
+                  class="combo">
+        </IgbCombo>
+    </div>
+    <div class="column-layout group_2">
+        <div class="row-layout group_3">
+            <div class="column-layout group_4">
+                <div class="row-layout group_5">
+                    <div class="column-layout group_6">
+                        <h5 class="content">
+                            @SelectedCustomer?.ContactName
+                        </h5>
+                        <p class="ig-typography__subtitle-1 content">
+                            @SelectedCustomer?.CustomerID
+                        </p>
+                    </div>
+                </div>
+                <div class="column-layout group_7">
+                    <p class="ig-typography__subtitle-2 content">
+                        Title
+                    </p>
+                    <p class="content">
+                        @SelectedCustomer?.ContactTitle
+                    </p>
+                </div>
+                <div class="column-layout group_7">
+                    <p class="ig-typography__subtitle-2 content">
+                        Email
+                    </p>
+                    <p class="content">
+                        Email should be here
+                    </p>
+                </div>
+                <div class="column-layout group_7">
+                    <p class="ig-typography__subtitle-2 content">
+                        Phone
+                    </p>
+                    <p class="content">
+                        @SelectedCustomer?.Phone
+                    </p>
+                </div>
+                <div class="column-layout group_8">
+                    <p class="ig-typography__subtitle-2 content">
+                        Street
+                    </p>
+                    <p class="content">
+                        @SelectedCustomer?.Address
+                    </p>
+                </div>
+                <div class="row-layout group_9">
+                    <div class="column-layout group_10">
+                        <p class="ig-typography__subtitle-2 content">
+                            City
+                        </p>
+                        <p class="content">
+                            @SelectedCustomer?.City
+                        </p>
+                    </div>
+                    <div class="column-layout group_11">
+                        <p class="ig-typography__subtitle-2 content">
+                            State
+                        </p>
+                        <p class="content">
+                            @SelectedCustomer?.Region
+                        </p>
+                    </div>
+                </div>
+                <div class="column-layout group_8">
+                    <p class="ig-typography__subtitle-2 content">
+                        Country
+                    </p>
+                    <p class="content">
+                        @SelectedCustomer?.Country
+                    </p>
+                </div>
+            </div>
+            <div class="column-layout group_12">
+                <div class="column-layout group_18">
+                    <h5>Orders for @SelectedCustomer?.ContactName</h5>
+                    <IgbGrid Data="northwindCustomerOrders"
+                             PrimaryKey="OrderID"
+                             RowSelection="GridSelectionMode.Single"
+                             HideRowSelectors="true"
+                             RowSelectionChanging="GridRowSelectionChanging"
+                             class="grid">
+                        <IgbGridToolbar>
+                            <IgbGridToolbarTitle>
+                                Orders for @SelectedCustomer?.ContactName
+                            </IgbGridToolbarTitle>
+                        </IgbGridToolbar>
+                        <IgbColumn Field="OrderID"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="CustomerID"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="EmployeeID"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="OrderDate"
+                                   DataType="GridColumnDataType.Date"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="RequiredDate"
+                                   DataType="GridColumnDataType.Date"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShippedDate"
+                                   DataType="GridColumnDataType.Date"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipVia"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="Freight"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipName"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipAddress"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipCity"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipRegion"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipPostalCode"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ShipCountry"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                    </IgbGrid>
+                </div>
+                <div class="column-layout group_18">
+                    <h5>Order details for order @SelectedOrder?.OrderID by @SelectedCustomer?.ContactName</h5>
+                    <IgbGrid Data="northwindCustomerOrderDetails"
+                             PrimaryKey="ProductName"
+                             RowSelection="GridSelectionMode.Single"
+                             HideRowSelectors="true"
+                             class="grid">
+                        <IgbGridToolbar>
+                            <IgbGridToolbarTitle>
+                                Order details for order @SelectedOrder?.OrderID by @SelectedCustomer?.ContactName
+                            </IgbGridToolbarTitle>
+                        </IgbGridToolbar>
+                        <IgbColumn Field="ProductName"
+                                   DataType="GridColumnDataType.String"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="UnitPrice"
+                                   DataType="GridColumnDataType.Currency"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="Quantity"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="Discount"
+                                   DataType="GridColumnDataType.Number"
+                                   Selectable="false">
+                        </IgbColumn>
+                        <IgbColumn Field="ExtendedPrice"
+                                   DataType="GridColumnDataType.Currency"
+                                   Selectable="false">
+                        </IgbColumn>
+                    </IgbGrid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Subject<Customer> customerOrderSubject = new Subject<Customer>();
+    private Subject<Order> selectedOrderSubject = new Subject<Order>();
+
+    private Customer selectedCustomer;
+    private Order selectedOrder;
+
+    public Customer SelectedCustomer
+    {
+        get { return selectedCustomer; }
+        set
+        {
+            selectedCustomer = value;
+            customerOrderSubject.OnNext(value);
+            // TODO: try to describe property depended on other property - Dependent variable feature!
+            SelectedOrder = null;
+        }
+    }
+
+    public Order SelectedOrder
+    {
+        get { return selectedOrder; }
+        set
+        {
+            selectedOrder = value;
+            selectedOrderSubject.OnNext(value);
+        }
+    }
+
+    public List<Customer> northwindCustomers { get; set; } = new();
+    public List<Order> northwindCustomerOrders { get; set; } = new();
+    public List<CustomerOrderDetail> northwindCustomerOrderDetails { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        northwindCustomers = await northwindService.GetCustomers();
+        customerOrderSubject.Subscribe(async c =>
+        {
+            northwindCustomerOrders = await northwindService.GetCustomerOrders(SelectedCustomer?.CustomerID);
+            // TODO: try to not call StateHasChanged
+            StateHasChanged();
+        });
+        selectedOrderSubject.Subscribe(async o =>
+        {
+            northwindCustomerOrderDetails = await northwindService.GetCustomerOrderDetails(SelectedOrder?.OrderID);
+            // TODO: try to not call StateHasChanged
+            StateHasChanged();
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    private void ComboChange(IgbComboChangeEventArgs e)
+    {
+        SelectedCustomer = e.Detail.NewValue.FirstOrDefault() as Customer;
+    }
+
+    private void GridRowSelectionChanging(IgbRowSelectionEventArgs e)
+    {
+        SelectedOrder = e.Detail.NewSelection.FirstOrDefault() as Order;
+    }
+}

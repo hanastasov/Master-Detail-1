@@ -1,0 +1,139 @@
+<div class="column-layout group">
+  <igx-simple-combo [data]="northwindCustomers" displayKey="contactName"
+    (selectionChanging)="comboSelectionChanging($event)" class="combo">
+  </igx-simple-combo>
+</div>
+<div class="column-layout group_2">
+  <div class="row-layout group_3">
+    <div class="column-layout group_4">
+      <div class="row-layout group_5">
+        <div class="column-layout group_6">
+          <h5 class="content">
+            {{ selectedCustomer?.contactName }}
+          </h5>
+          <p class="ig-typography__subtitle-1 content">
+            {{ selectedCustomer?.customerID }}
+          </p>
+        </div>
+      </div>
+      <div class="column-layout group_7">
+        <p class="ig-typography__subtitle-2 content">
+          Title
+        </p>
+        <p class="content">
+          {{ selectedCustomer?.contactTitle }}
+        </p>
+      </div>
+      <div class="column-layout group_7">
+        <p class="ig-typography__subtitle-2 content">
+          Email
+        </p>
+        <p class="content">
+          Email should be here
+        </p>
+      </div>
+      <div class="column-layout group_7">
+        <p class="ig-typography__subtitle-2 content">
+          Phone
+        </p>
+        <p class="content">
+          {{ selectedCustomer?.phone }}
+        </p>
+      </div>
+      <div class="column-layout group_8">
+        <p class="ig-typography__subtitle-2 content">
+          Street
+        </p>
+        <p class="content">
+          {{ selectedCustomer?.address }}
+        </p>
+      </div>
+      <div class="row-layout group_9">
+        <div class="column-layout group_10">
+          <p class="ig-typography__subtitle-2 content">
+            City
+          </p>
+          <p class="content">
+            {{ selectedCustomer?.city }}
+          </p>
+        </div>
+        <div class="column-layout group_11">
+          <p class="ig-typography__subtitle-2 content">
+            State
+          </p>
+          <p class="content">
+            {{ selectedCustomer?.region }}
+          </p>
+        </div>
+      </div>
+      <div class="column-layout group_8">
+        <p class="ig-typography__subtitle-2 content">
+          Country
+        </p>
+        <p class="content">
+          {{ selectedCustomer?.country }}
+        </p>
+      </div>
+    </div>
+    <div class="column-layout group_12">
+      <div class="column-layout group_18">
+        <igx-grid [data]="northwindCustomerOrders" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
+          [hideRowSelectors]="true" class="grid" (rowSelectionChanging)="gridRowSelectionChanging($event)">
+          <igx-grid-toolbar>
+            <igx-grid-toolbar-title>
+              Orders for {{selectedCustomer?.contactName}}
+            </igx-grid-toolbar-title>
+          </igx-grid-toolbar>
+          <igx-column field="orderID" dataType="number" header="orderID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="customerID" dataType="string" header="customerID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="employeeID" dataType="number" header="employeeID" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="orderDate" dataType="date" header="orderDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="requiredDate" dataType="date" header="requiredDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shippedDate" dataType="date" header="shippedDate" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipVia" dataType="number" header="shipVia" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="freight" dataType="number" header="freight" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipName" dataType="string" header="shipName" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipAddress" dataType="string" header="shipAddress street" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipCity" dataType="string" header="shipAddress city" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipRegion" dataType="string" header="shipAddress region" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipPostalCode" dataType="string" header="shipAddress postalCode" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="shipCountry" dataType="string" header="shipAddress country" [sortable]="true"
+            [selectable]="false"></igx-column>
+        </igx-grid>
+      </div>
+      <div class="column-layout group_18">
+        <igx-grid [data]="northwindCustomerOrderDetails" primaryKey="productName" displayDensity="cosy"
+          rowSelection="single" cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true"
+          filterMode="excelStyleFilter" class="grid">
+          <igx-grid-toolbar>
+            <igx-grid-toolbar-title>Order details for order {{selectedOrder?.orderID ?? '???'}} by
+              {{selectedCustomer?.contactName ?? '???'}}</igx-grid-toolbar-title>
+          </igx-grid-toolbar>
+          <igx-column field="productName" dataType="string" header="productName" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="discount" dataType="number" header="discount" [sortable]="true"
+            [selectable]="false"></igx-column>
+          <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
+            [selectable]="false"></igx-column>
+        </igx-grid>
+      </div>
+    </div>
+  </div>
+</div>
