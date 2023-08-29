@@ -189,40 +189,38 @@ export default class ComboDetails extends LitElement {
     this.northwindService.getCustomers().then((data) => {
       this.northwindCustomers = data
     }, err => console.log(err));
-    this.$customerOrder.subscribe(c => this.northwindService.getCustomerOrders(this.selectedCustomer?.customerID ?? '').then((data) => {
+    // TODO: for string property we may provide undefined and it works great
+    this.$customerOrder.subscribe(c => this.northwindService.getCustomerOrders(c?.customerID).then((data) => {
       this.northwindCustomerOrders = data;
     }, err => this.northwindCustomerOrders = []));
-    this.$selectedOrder.subscribe(o => this.northwindService.getCustomerOrderDetails(this.selectedOrder?.orderID ?? Number.MIN_VALUE).then((data) => {
+    // TODO: for numeric property we should provide default value, as undefined throws error
+    this.$selectedOrder.subscribe(s => this.northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
       this.northwindCustomerOrderDetails = data;
     }, err => this.northwindCustomerOrderDetails = []));
   }
 
   private northwindService: NorthwindService = new NorthwindService();
-  private $customerOrder: Subject<Customer | null> = new Subject<Customer | null>();
-  private $selectedOrder: Subject<Order | null> = new Subject<Order | null>();
-
-  @property()
-  private _selectedCustomer: Customer | null = null;
-
-  @property()
-  private _selectedOrder: Order | null = null;
-
-  public get selectedCustomer(): Customer | null {
+  private $customerOrder: Subject<Customer> = new Subject<Customer>();
+  private $selectedOrder: Subject<Order> = new Subject<Order>();
+  
+  private _selectedCustomer?: Customer;
+  public get selectedCustomer(): Customer | undefined {
     return this._selectedCustomer;
   }
-  public set selectedCustomer(v: Customer | null) {
+  public set selectedCustomer(v: Customer | undefined) {
     this._selectedCustomer = v;
-    this.$customerOrder.next(v);
+    this.$customerOrder.next(v!);
     // TODO: try to describe property depended on other property - Dependent variable feature!
-    this.selectedOrder = null;
+    this.selectedOrder = undefined;
   }
 
-  public get selectedOrder(): Order | null {
+  private _selectedOrder?: Order;
+  public get selectedOrder(): Order | undefined {
     return this._selectedOrder;
   }
-  public set selectedOrder(v: Order | null) {
+  public set selectedOrder(v: Order | undefined) {
     this._selectedOrder = v;
-    this.$selectedOrder.next(v);
+    this.$selectedOrder.next(v!);
   }
 
   @property()
@@ -366,7 +364,7 @@ export default class ComboDetails extends LitElement {
               <igc-grid .data="${this.northwindCustomerOrderDetails}" primary-key="productName" display-density="cosy"
                 row-selection="single" cell-selection="none" hide-row-selectors="true" class="grid">
                 <igc-grid-toolbar>
-                  <igc-grid-toolbar-title>Order details for order {{selectedOrder?.orderID ?? '???'}} by
+                  <igc-grid-toolbar-title>Order details for order ${this.selectedOrder?.orderID ?? '???'} by
                   ${this.selectedCustomer?.contactName ?? '???'}
                   </igc-grid-toolbar-title>
                 </igc-grid-toolbar>
