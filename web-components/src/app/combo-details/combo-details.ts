@@ -194,14 +194,14 @@ export default class ComboDetails extends LitElement {
       this.northwindCustomerOrders = data;
     }, err => this.northwindCustomerOrders = []));
     // TODO: for numeric property we should provide default value, as undefined throws error
-    this.$selectedOrder.subscribe(s => this.northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
+    this.$customerOrderDetail.subscribe(s => this.northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
       this.northwindCustomerOrderDetails = data;
     }, err => this.northwindCustomerOrderDetails = []));
   }
 
   private northwindService: NorthwindService = new NorthwindService();
   private $customerOrder: Subject<Customer> = new Subject<Customer>();
-  private $selectedOrder: Subject<Order> = new Subject<Order>();
+  private $customerOrderDetail: Subject<Order> = new Subject<Order>();
   
   private _selectedCustomer?: Customer;
   public get selectedCustomer(): Customer | undefined {
@@ -220,7 +220,7 @@ export default class ComboDetails extends LitElement {
   }
   public set selectedOrder(v: Order | undefined) {
     this._selectedOrder = v;
-    this.$selectedOrder.next(v!);
+    this.$customerOrderDetail.next(v!);
   }
 
   @property()
