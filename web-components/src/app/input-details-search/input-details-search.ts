@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcButtonComponent, IgcCardComponent, IgcInputComponent, IgcRippleComponent } from 'igniteui-webcomponents';
-import NorthwindCloudAppService from '../service/northwind-service';
+import { northwindService } from '../service/northwind-service';
 
 defineComponents(IgcInputComponent, IgcButtonComponent, IgcRippleComponent, IgcCardComponent);
 
@@ -104,8 +104,7 @@ export default class InputDetailsSearch extends LitElement {
   `;
   constructor() {
     super();
-    this.northwindCloudAppService = new NorthwindCloudAppService();
-    this.northwindCloudAppService.getEmployees().then((data) => {
+    northwindService.getEmployees().then((data) => {
       this.employeenorthwindCloudAppEmployees = data;
       this.filteredValues = data;
     });
@@ -125,8 +124,6 @@ export default class InputDetailsSearch extends LitElement {
 
   @property()
   private filteredValues!: any[];
-
-  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   render() {
     const cards = [];

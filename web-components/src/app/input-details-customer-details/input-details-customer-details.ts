@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
-import NorthwindCloudAppService from '../service/northwind-service';
+import { northwindService } from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 @customElement('app-input-details-customer-details')
 export default class InputDetailsCustomerDetails extends LitElement {
@@ -138,7 +138,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
   constructor() {
     super();
     
-    this.northwindCloudAppService.getOrder().then((data) => {
+    northwindService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
       if (this.northwindCloudAppOrder) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -148,7 +148,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
         this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
         if (firstOrder) {
           this.grid.selectRows([firstOrder.orderID]);
-          this.northwindCloudAppService.getOrderDetails().then((data) => {
+          northwindService.getOrderDetails().then((data) => {
             this.northwindCloudAppOrderDetail = data;
             this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID == firstOrder.orderID);
           }, err => console.log(err));
@@ -156,7 +156,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
         }
     }, err => console.log(err));
     
-    this.northwindCloudAppService.getEmployees().then((data) => {
+    northwindService.getEmployees().then((data) => {
       const urlParams = new URLSearchParams(window.location.search);
     const employeeId = urlParams.get('employeeId');
       this.selectedEmployee = data.find((x: any) => x.employeeID == employeeId);
@@ -165,9 +165,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
 
   @property()
   private grid!: IgcGridComponent;
-
-  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
-
+  
   @property()
   private northwindCloudAppOrder?: any[];
 

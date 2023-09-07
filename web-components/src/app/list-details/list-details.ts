@@ -3,7 +3,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
-import NorthwindCloudAppService from '../service/northwind-service';
+import { northwindService } from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 import DataService from '../service/data-service';
 import { BeforeEnterObserver, Router, RouterLocation } from '@vaadin/router';
@@ -150,13 +150,13 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
 
   constructor() {
     super();
-    this.northwindCloudAppService.getOrder().then((data) => {
+    northwindService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
     }, err => console.log(err));
-    this.northwindCloudAppService.getOrderDetails().then((data) => {
+    northwindService.getOrderDetails().then((data) => {
       this.northwindCloudAppOrderDetail = data;
     }, err => console.log(err));
-    this.northwindCloudAppService.getCustomers().then((data) => {
+    northwindService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       // obtaining a customerID through context bound parameters or from an instanced service
       this.selectedCustomer = this.northwindCloudAppCustomers
@@ -189,8 +189,6 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
   public onBeforeEnter(location: RouterLocation) {
     this.customerID = location.params.customerID as string;
   }
-
-  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   @property()
   private northwindCloudAppOrder?: any[];

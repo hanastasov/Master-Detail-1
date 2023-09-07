@@ -7,7 +7,7 @@ import { Customer } from '../models/northwind/customer';
 import { Order } from '../models/northwind/order';
 import { CustomerOrderDetail } from '../models/northwind/customer-order-detail';
 import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
-import NorthwindService from '../service/northwind-service';
+import { northwindService } from '../service/northwind-service';
 
 defineComponents(IgcComboComponent);
 
@@ -186,20 +186,19 @@ export default class ComboDetails extends LitElement {
 
   constructor() {
     super();
-    this.northwindService.getCustomers().then((data) => {
+    northwindService.getCustomers().then((data) => {
       this.northwindCustomers = data
     }, err => console.log(err));
     // TODO: for string property we may provide undefined and it works great
-    this.$customerOrder.subscribe(c => this.northwindService.getCustomerOrders(c?.customerID).then((data) => {
+    this.$customerOrder.subscribe(c => northwindService.getCustomerOrders(c?.customerID).then((data) => {
       this.northwindCustomerOrders = data;
     }, err => this.northwindCustomerOrders = []));
     // TODO: for numeric property we should provide default value, as undefined throws error
-    this.$customerOrderDetail.subscribe(s => this.northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
+    this.$customerOrderDetail.subscribe(s => northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
       this.northwindCustomerOrderDetails = data;
     }, err => this.northwindCustomerOrderDetails = []));
   }
 
-  private northwindService: NorthwindService = new NorthwindService();
   private $customerOrder: Subject<Customer> = new Subject<Customer>();
   private $customerOrderDetail: Subject<Order> = new Subject<Order>();
   
@@ -238,7 +237,7 @@ export default class ComboDetails extends LitElement {
 
   public gridRowSelectionChanging(e: any) { // TODO: what is the type here?
     this.selectedOrder = e.detail.newSelection[0];
-  };
+  }
 
   render() {
     return html`

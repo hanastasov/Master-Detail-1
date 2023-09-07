@@ -2,7 +2,7 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcSelectComponent } from 'igniteui-webcomponents';
 import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
-import NorthwindCloudAppService from '../service/northwind-service';
+import { northwindService } from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 
 defineComponents(IgcSelectComponent);
@@ -140,13 +140,13 @@ export default class SelectDetails extends LitElement {
 
   constructor() {
     super();
-    this.northwindCloudAppService.getOrder().then((data) => {
+    northwindService.getOrder().then((data) => {
       this.northwindCloudAppOrder = data;
     }, err => console.log(err));
-    this.northwindCloudAppService.getOrderDetails().then((data) => {
+    northwindService.getOrderDetails().then((data) => {
       this.northwindCloudAppOrderDetail = data;
     }, err => console.log(err));
-    this.northwindCloudAppService.getCustomers().then((data) => {
+    northwindService.getCustomers().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
       this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
@@ -158,8 +158,6 @@ export default class SelectDetails extends LitElement {
       }
   }, err => console.log(err));
   }
-
-  private northwindCloudAppService: NorthwindCloudAppService = new NorthwindCloudAppService();
 
   @property()
   private northwindCloudAppOrderDetail?: any[];
