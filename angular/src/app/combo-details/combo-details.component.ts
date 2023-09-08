@@ -12,7 +12,7 @@ import { NorthwindService } from '../services/northwind.service';
   styleUrls: ['./combo-details.component.scss']
 })
 export class ComboDetailsComponent implements OnInit {
-  private $customerOrder: Subject<Customer> = new Subject<Customer>();
+  private $customerOrderDetail: Subject<Customer> = new Subject<Customer>();
   private $selectedOrder: Subject<Order> = new Subject<Order>();
   private _selectedCustomer: Customer;
   private _selectedOrder: Order;
@@ -22,7 +22,7 @@ export class ComboDetailsComponent implements OnInit {
   }
   public set selectedCustomer(v: Customer) {
     this._selectedCustomer = v;
-    this.$customerOrder.next(v);
+    this.$customerOrderDetail.next(v);
     // TODO: try to describe property depended on other property - Dependent variable feature!
     this.selectedOrder = null;
   }
@@ -43,7 +43,7 @@ export class ComboDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.northwindService.getCustomers().subscribe(data => this.northwindCustomers = data);
-    this.$customerOrder.subscribe(c => this.northwindService.getCustomerOrders(this.selectedCustomer?.customerID).pipe(take(1)).subscribe({
+    this.$customerOrderDetail.subscribe(c => this.northwindService.getCustomerOrders(this.selectedCustomer?.customerID).pipe(take(1)).subscribe({
       next: (orders: Order[]) => this.northwindCustomerOrders = orders,
       error: (_err: any) => this.northwindCustomerOrders = []
     }));

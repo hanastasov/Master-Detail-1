@@ -6,7 +6,7 @@ import { OrderDetail } from '../models/northwind/order-detail';
 
 const API_ENDPOINT = 'https://northwindcloud.azurewebsites.net';
 
-export default class NorthwindService {
+class NorthwindService {
   public getOrder = async (): Promise<any> => {
     const response = await fetch(`${API_ENDPOINT}/api/orders`);
     if (!response.ok) {
@@ -64,3 +64,4 @@ export default class NorthwindService {
 		return response.json();
 	}
 }
+export const northwindService: NorthwindService = new NorthwindService();

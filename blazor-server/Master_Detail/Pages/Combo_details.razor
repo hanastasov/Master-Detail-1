@@ -199,7 +199,7 @@
 
 @code {
     private Subject<Customer> customerOrderSubject = new Subject<Customer>();
-    private Subject<Order> selectedOrderSubject = new Subject<Order>();
+    private Subject<Order> customerOrderDetailSubject = new Subject<Order>();
 
     private Customer selectedCustomer;
     private Order selectedOrder;
@@ -222,7 +222,7 @@
         set
         {
             selectedOrder = value;
-            selectedOrderSubject.OnNext(value);
+            customerOrderDetailSubject.OnNext(value);
         }
     }
 
@@ -239,7 +239,7 @@
             // TODO: try to not call StateHasChanged
             StateHasChanged();
         });
-        selectedOrderSubject.Subscribe(async o =>
+        customerOrderDetailSubject.Subscribe(async o =>
         {
             northwindCustomerOrderDetails = await northwindService.GetCustomerOrderDetails(SelectedOrder?.OrderID);
             // TODO: try to not call StateHasChanged
