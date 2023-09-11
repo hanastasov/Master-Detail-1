@@ -4,12 +4,17 @@
     <button [routerLink]="'/third-view'" igxButton="icon">3</button>
 </igx-navbar>
 
-<igx-simple-combo [data]="northwindCustomers" displayKey="contactName"
-    (selectionChanging)="comboSelectionChanging($event)" class="combo">
-</igx-simple-combo>
+<br>
 
 customerService.customerId - {{ customerService.customerId }}
 <br>
 northwind.customer - {{ northwind.customer | json }}
 <br>
 northwind.orders[0] - {{ (northwind.orders ? northwind.orders[0] : null) | json }}
+
+<br>
+<br>
+
+<igx-simple-combo [data]="northwindCustomers" displayKey="contactName"
+    (selectionChanging)="comboSelectionChanging($event)" class="combo">
+</igx-simple-combo>
