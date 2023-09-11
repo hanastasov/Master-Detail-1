@@ -8,5 +8,5 @@ import { CustomerService } from '../services/customer.service';
   styleUrls: ['./third-view.component.scss']
 })
 export class ThirdViewComponent {
-  constructor(public northiwnd: NorthwindService, public customerService: CustomerService) { }
+  constructor(public northwind: NorthwindService, public customerService: CustomerService) { }
 }
