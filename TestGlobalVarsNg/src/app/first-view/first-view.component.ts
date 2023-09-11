@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
 import { NorthwindService } from '../services/northwind.service';
 import { Customer } from '../models/customer';
@@ -12,12 +12,20 @@ import { ISimpleComboSelectionChangingEventArgs } from 'igniteui-angular';
 })
 export class FirstViewComponent implements OnInit, OnDestroy {
   public northwindCustomers!: Customer[];
+
+  public customers$ = new Subject();
   public destroy$ = new Subject();
 
-  constructor(public northiwnd: NorthwindService, public customerService: CustomerService) { }
+  constructor(public northwind: NorthwindService, public customerService: CustomerService) { }
 
   public ngOnInit(): void {
-    this.northiwnd.getCustomers().pipe(take(1)).subscribe(data => this.northwindCustomers = data);
+    this.northwind.getCustomers().pipe(takeUntil(this.destroy$)).subscribe(data => this.northwindCustomers = data);
+
+    this.customers$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(c => this.northwind
+        .getCustomerOrders(this.customerService.customerId).pipe(take(1))
+        .subscribe(o => this.northwind.orders = o));
   }
 
   public ngOnDestroy(): void {
@@ -26,10 +34,8 @@ export class FirstViewComponent implements OnInit, OnDestroy {
   }
 
   public comboSelectionChanging(args: ISimpleComboSelectionChangingEventArgs) {
-    this.northiwnd.customer = args.newSelection;
+    this.northwind.customer = args.newSelection;
     this.customerService.customerId = args.newSelection.customerId;
+    this.customers$.next(0)
   }
-
-  @Input()
-  public customerId: string | undefined = this.customerService.customerId;
 }

@@ -16,7 +16,9 @@ export class NorthwindService {
     this.getCustomer(this.customerService.customerId).pipe(take(1)).subscribe(c => this.customer = c);
   }
   
-  public customer!: Customer;
+  public customer: Customer | undefined;
+
+  public orders: Order[] | undefined;
 
   public getData(tableName: string): Observable<any> {
     return of(Northwind[tableName]);

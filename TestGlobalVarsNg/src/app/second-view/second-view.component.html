@@ -8,8 +8,8 @@
     (selectionChanging)="comboSelectionChanging($event)" class="combo">
 </igx-simple-combo>
 
-Local Input Var - {{ customerId }}
+customerService.customerId - {{ customerService.customerId }}
 <br>
-Var in CustomerService - {{ customerService.customerId }}
+northwind.customer - {{ northwind.customer | json }}
 <br>
-Var in NorthwindService - {{ northiwnd.customer | json }}
+northwind.orders[0] - {{ (northwind.orders ? northwind.orders[0] : null) | json }}
