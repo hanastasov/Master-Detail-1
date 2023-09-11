@@ -24,7 +24,8 @@ export class SecondViewComponent implements OnInit, OnDestroy {
     this.customers$
       .pipe(takeUntil(this.destroy$))
       .subscribe(c => this.northwind
-        .getCustomerOrders(this.customerService.customerId).pipe(take(1))
+        .getCustomerOrders(this.customerService.customerId)
+        .pipe(take(1))
         .subscribe(o => this.northwind.orders = o));
   }
 

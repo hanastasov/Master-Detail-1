@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NorthwindService } from '../services/northwind.service';
-import { ISimpleComboSelectionChangingEventArgs } from 'igniteui-angular';
 import { CustomerService } from '../services/customer.service';
 
 @Component({
@@ -10,7 +9,4 @@ import { CustomerService } from '../services/customer.service';
 })
 export class ThirdViewComponent {
   constructor(public northiwnd: NorthwindService, public customerService: CustomerService) { }
-
-  @Input()
-  public customerId: string | undefined = this.customerService.customerId;
 }
