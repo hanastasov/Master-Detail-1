@@ -36,7 +36,7 @@ export class FirstViewComponent implements OnInit, OnDestroy {
 
   public comboSelectionChanging(args: ISimpleComboSelectionChangingEventArgs) {
     this.northwind.customer = args.newSelection;
-    this.customerService.customerId = args.newSelection.customerId;
+    this.customerService.customerId = args.newSelection?.customerId || null;
     this.customers$.next(0)
   }
 }
