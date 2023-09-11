@@ -18,8 +18,6 @@ export class NorthwindService {
   
   public customer: Customer | undefined;
 
-  public orders: Order[] | undefined;
-
   public getData(tableName: string): Observable<any> {
     return of(Northwind[tableName]);
   }

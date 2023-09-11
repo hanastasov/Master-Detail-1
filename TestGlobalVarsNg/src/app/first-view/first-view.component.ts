@@ -20,13 +20,6 @@ export class FirstViewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.northwind.getCustomers().pipe(takeUntil(this.destroy$)).subscribe(data => this.northwindCustomers = data);
-
-    this.customers$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(c => this.northwind
-        .getCustomerOrders(this.customerService.customerId)
-        .pipe(take(1))
-        .subscribe(o => this.northwind.orders = o));
   }
 
   public ngOnDestroy(): void {
@@ -37,6 +30,6 @@ export class FirstViewComponent implements OnInit, OnDestroy {
   public comboSelectionChanging(args: ISimpleComboSelectionChangingEventArgs) {
     this.northwind.customer = args.newSelection;
     this.customerService.customerId = args.newSelection?.customerId || null;
-    this.customers$.next(0)
+    this.customers$.next(0);
   }
 }
