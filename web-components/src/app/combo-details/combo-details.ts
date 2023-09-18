@@ -1,13 +1,15 @@
 import { html, css, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
-import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
+import 'igniteui-webcomponents-grids/grids/combined.js';
 import { Subject } from 'rxjs';
 import { Customer } from '../models/northwind/customer';
 import { Order } from '../models/northwind/order';
 import { CustomerOrderDetail } from '../models/northwind/customer-order-detail';
 import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
 import { northwindService } from '../service/northwind-service';
+import { customerService } from '../service/customer-service';
+import { orderService } from '../service/order-service';
 
 defineComponents(IgcComboComponent);
 
@@ -197,11 +199,21 @@ export default class ComboDetails extends LitElement {
     this.$customerOrderDetail.subscribe(s => northwindService.getCustomerOrderDetails(s?.orderID ?? -1).then((data) => {
       this.northwindCustomerOrderDetails = data;
     }, err => this.northwindCustomerOrderDetails = []));
+
+    customerService.customer$.subscribe(v => this.customer = v);
+
+    orderService.order.subscribe(v => this.order = v);
   }
 
   private $customerOrder: Subject<Customer> = new Subject<Customer>();
   private $customerOrderDetail: Subject<Order> = new Subject<Order>();
   
+  @state()
+  public order?: Order | null;
+
+  @state()
+  public customer?: Customer | null;
+
   private _selectedCustomer?: Customer;
   public get selectedCustomer(): Customer | undefined {
     return this._selectedCustomer;
@@ -242,12 +254,16 @@ export default class ComboDetails extends LitElement {
   render() {
     return html`
       <link rel='stylesheet' href='../../ig-theme.css'>
-      <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
+      <link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
         <igc-combo .data="${this.northwindCustomers}" display-key="contactName" single-select="true"
           @igcChange="${this.comboSelectionChanging}" class="combo">
         </igx-simple-combo>
       </div>
+
+      <div> ${this.customer?.contactName} </div>
+      <div> ${(this.order as any)?.orderId} </div>
+
       <div class="column-layout group_2">
         <div class="row-layout group_3">
           <div class="column-layout group_4">

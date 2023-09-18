@@ -6,14 +6,32 @@ import { OrderDetail } from '../models/northwind/order-detail';
 
 const API_ENDPOINT = 'https://northwindcloud.azurewebsites.net';
 
+const API_ENDPOINT1 = 'https://demodata.grapecity.com';
+
 class NorthwindService {
-  public getOrder = async (): Promise<any> => {
-    const response = await fetch(`${API_ENDPOINT}/api/orders`);
-    if (!response.ok) {
-      return Promise.resolve(null);
-    }
-    return response.json();
-  }
+	public getOrder = async (): Promise<any> => {
+		const response = await fetch(`${API_ENDPOINT}/api/orders`);
+		if (!response.ok) {
+			return Promise.resolve(null);
+		}
+		return response.json();
+	}
+
+	public getOrderFromApi = async (id: string = '10248'): Promise<Order> => {
+		const response = await fetch(`${API_ENDPOINT1}/northwind/api/v1/Orders/${id}`);
+		if (!response.ok) {
+			return Promise.reject(response.statusText);
+		}
+		return response.json();
+	}
+
+	public getCustomer = async (id: string = 'ALFKI') => {
+		const response = await fetch(`${API_ENDPOINT1}/northwind/api/v1/Customers/${id}`);
+		if (!response.ok) {
+			return Promise.reject(response.statusText);
+		}
+		return response.json();
+	}
 
 	public getCustomers = async (): Promise<Customer[]> => {
 		const response = await fetch(`${API_ENDPOINT}/api/customers`);

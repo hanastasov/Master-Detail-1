@@ -2,7 +2,7 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
-import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
+import 'igniteui-webcomponents-grids/grids/combined.js';
 import { northwindService } from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 import DataService from '../service/data-service';
@@ -226,7 +226,7 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
-      <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
+      <link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <igc-list class="list">
         ${customersData}
       </igc-list>

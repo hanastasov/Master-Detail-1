@@ -1,6 +1,6 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '@infragistics/igniteui-webcomponents-grids/grids/combined.js';
+import 'igniteui-webcomponents-grids/grids/combined.js';
 import { northwindService } from '../service/northwind-service';
 import { IgcGridComponent } from 'igniteui-webcomponents-grids/grids';
 @customElement('app-input-details-customer-details')
@@ -194,7 +194,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
       <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
       <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet'>
       <link rel='stylesheet' href='../../ig-theme.css'>
-      <link rel='stylesheet' href='node_modules/@infragistics/igniteui-webcomponents-grids/grids/themes/light/material.css'>
+      <link rel='stylesheet' href='node_modules/igniteui-webcomponents-grids/grids/themes/light/material.css'>
       <div class="column-layout group">
       <h5 class="h5">
           Input details
