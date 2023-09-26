@@ -140,13 +140,13 @@ export default class SelectDetails extends LitElement {
 
   constructor() {
     super();
-    northwindService.getOrder().then((data) => {
+    northwindService.getOrderDto().then((data) => {
       this.northwindCloudAppOrder = data;
     }, err => console.log(err));
     northwindService.getOrderDetails().then((data) => {
       this.northwindCloudAppOrderDetail = data;
     }, err => console.log(err));
-    northwindService.getCustomers().then((data) => {
+    northwindService.getCustomerDto().then((data) => {
       this.northwindCloudAppCustomers = data;
       this.selectedCustomer = data[0];
       this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);

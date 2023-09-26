@@ -2,14 +2,13 @@ import { html, css, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { defineComponents, IgcComboComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents-grids/grids/combined.js';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Customer } from '../models/northwind/customer';
 import { Order } from '../models/northwind/order';
 import { CustomerOrderDetail } from '../models/northwind/customer-order-detail';
 import { IgcComboChangeEventArgs } from 'igniteui-webcomponents/components/combo/types';
 import { northwindService } from '../service/northwind-service';
 import { customerService } from '../service/customer-service';
-import { orderService } from '../service/order-service';
 
 defineComponents(IgcComboComponent);
 
@@ -188,7 +187,7 @@ export default class ComboDetails extends LitElement {
 
   constructor() {
     super();
-    northwindService.getCustomers().then((data) => {
+    northwindService.getCustomerDto().then((data) => {
       this.northwindCustomers = data
     }, err => console.log(err));
     // TODO: for string property we may provide undefined and it works great
@@ -202,9 +201,10 @@ export default class ComboDetails extends LitElement {
 
     customerService.customer$.subscribe(v => this.customer = v);
 
-    orderService.order.subscribe(v => this.order = v);
+    northwindService.order.pipe(takeUntil(this.destroy$)).subscribe(v => this.order = v);
   }
 
+  private destroy$: Subject<void> = new Subject<void>();
   private $customerOrder: Subject<Customer> = new Subject<Customer>();
   private $customerOrderDetail: Subject<Order> = new Subject<Order>();
   

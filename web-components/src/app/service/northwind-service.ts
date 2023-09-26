@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Customer } from '../models/northwind/customer';
 import { CustomerOrderDetail } from '../models/northwind/customer-order-detail';
 import { Employee } from '../models/northwind/employee';
@@ -6,10 +7,20 @@ import { OrderDetail } from '../models/northwind/order-detail';
 
 const API_ENDPOINT = 'https://northwindcloud.azurewebsites.net';
 
-const API_ENDPOINT1 = 'https://demodata.grapecity.com';
+const API_ENDPOINT_1 = 'https://demodata.grapecity.com';
 
 class NorthwindService {
-	public getOrder = async (): Promise<any> => {
+	private _order$ = new BehaviorSubject<Order | null>(null);
+
+    public get order(): BehaviorSubject<Order | null> {
+        if (!this._order$.value) {
+            this.getOrder().then(v => this._order$.next(v));
+        }
+
+        return this._order$;
+    }
+
+	public getOrderDto = async (): Promise<any> => {
 		const response = await fetch(`${API_ENDPOINT}/api/orders`);
 		if (!response.ok) {
 			return Promise.resolve(null);
@@ -17,8 +28,9 @@ class NorthwindService {
 		return response.json();
 	}
 
-	public getOrderFromApi = async (id: string = '10248'): Promise<Order> => {
-		const response = await fetch(`${API_ENDPOINT1}/northwind/api/v1/Orders/${id}`);
+	// using different endpoint
+	public getOrder = async (id: string = '10248'): Promise<Order> => {
+		const response = await fetch(`${API_ENDPOINT_1}/northwind/api/v1/Orders/${id}`);
 		if (!response.ok) {
 			return Promise.reject(response.statusText);
 		}
@@ -26,14 +38,15 @@ class NorthwindService {
 	}
 
 	public getCustomer = async (id: string = 'ALFKI') => {
-		const response = await fetch(`${API_ENDPOINT1}/northwind/api/v1/Customers/${id}`);
+		const response = await fetch(`${API_ENDPOINT_1}/northwind/api/v1/Customers/${id}`);
 		if (!response.ok) {
 			return Promise.reject(response.statusText);
 		}
 		return response.json();
 	}
+	//
 
-	public getCustomers = async (): Promise<Customer[]> => {
+	public getCustomerDto = async (): Promise<Customer[]> => {
 		const response = await fetch(`${API_ENDPOINT}/api/customers`);
 		if (!response.ok) {
 			return Promise.reject(response.statusText);

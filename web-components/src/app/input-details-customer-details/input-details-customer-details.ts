@@ -138,7 +138,7 @@ export default class InputDetailsCustomerDetails extends LitElement {
   constructor() {
     super();
     
-    northwindService.getOrder().then((data) => {
+    northwindService.getOrderDto().then((data) => {
       this.northwindCloudAppOrder = data;
       if (this.northwindCloudAppOrder) {
         const urlParams = new URLSearchParams(window.location.search);

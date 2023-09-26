@@ -150,13 +150,13 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
 
   constructor() {
     super();
-    northwindService.getOrder().then((data) => {
+    northwindService.getOrderDto().then((data) => {
       this.northwindCloudAppOrder = data;
     }, err => console.log(err));
     northwindService.getOrderDetails().then((data) => {
       this.northwindCloudAppOrderDetail = data;
     }, err => console.log(err));
-    northwindService.getCustomers().then((data) => {
+    northwindService.getCustomerDto().then((data) => {
       this.northwindCloudAppCustomers = data;
       // obtaining a customerID through context bound parameters or from an instanced service
       this.selectedCustomer = this.northwindCloudAppCustomers

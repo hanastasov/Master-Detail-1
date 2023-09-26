@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CustomerService } from '../services/customer.service';
+import { CustomerService as StaticService } from '../services/customer.service';
 import { NorthwindService } from '../services/northwind.service';
 import { Customer } from '../models/customer';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ISimpleComboSelectionChangingEventArgs } from 'igniteui-angular';
 
 @Component({
@@ -16,10 +16,12 @@ export class FirstViewComponent implements OnInit, OnDestroy {
   public customers$ = new Subject();
   public destroy$ = new Subject();
 
-  constructor(public northwind: NorthwindService, public customerService: CustomerService) { }
+  constructor(public northwind: NorthwindService, public staticService: StaticService) { }
 
   public ngOnInit(): void {
-    this.northwind.getCustomers().pipe(takeUntil(this.destroy$)).subscribe(data => this.northwindCustomers = data);
+    // this.northwind.getCustomers().pipe(takeUntil(this.destroy$)).subscribe(data => this.northwindCustomers = data);
+
+    this.northwind.customer.
   }
 
   public ngOnDestroy(): void {
@@ -29,7 +31,7 @@ export class FirstViewComponent implements OnInit, OnDestroy {
 
   public comboSelectionChanging(args: ISimpleComboSelectionChangingEventArgs) {
     this.northwind.customer = args.newSelection;
-    this.customerService.customerId = args.newSelection?.customerId || null;
+    this.staticService.customerId = args.newSelection?.customerId || null;
     this.customers$.next(0);
   }
 }
