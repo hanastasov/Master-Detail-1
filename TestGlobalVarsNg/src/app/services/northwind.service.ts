@@ -10,23 +10,24 @@ const API_ENDPOINT = 'https://demodata.grapecity.com/northwind/api/v1';
   providedIn: 'root'
 })
 export class NorthwindService {
-  constructor(private http: HttpClient, private customerService: CustomerService) {
-    // this.getCustomer(this.customerService.customerId).pipe(take(1)).subscribe(c => this.customer = c);
-  }
+  constructor(private http: HttpClient, private customerService: CustomerService) { }
 
-  private _customer = new BehaviorSubject<Customer | undefined>(undefined);
+  private _customer$ = new BehaviorSubject<Customer | undefined>(undefined);
 
-  public get customer(): BehaviorSubject<Customer> {
-    if (!this._customer.value) {
-      
+  public get customer(): BehaviorSubject<Customer | undefined> {
+    if (!this._customer$.value) {
+      // NOTE: this.customerService.customerId can be the value (in this case 'ALFKI') instead
+      this.getCustomer(this.customerService.customerId).pipe(take(1)).subscribe(v => this._customer$.next(v));
     }
+
+    return this._customer$;
   }
 
   public getCustomer(id: string) {
     return this.http.get<Customer>(`${API_ENDPOINT}/Customers/${id}`);
   }
 
-  public getCustomers(): Observable<Customer[]> {
+  public getCustomerDto(): Observable<Customer[]> {
     return this.http.get<Customer[]>(`${API_ENDPOINT}/Customers`);
   }
 }
