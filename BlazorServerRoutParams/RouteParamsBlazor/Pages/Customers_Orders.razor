@@ -1,0 +1,88 @@
+@page "/customers_orders"
+@using NorthwindCloud
+@using Models.NorthwindCloud
+@using System.Reactive.Linq
+@using System.Reactive.Subjects
+@inject NavigationManager NavigationManager
+@inject INorthwindCloudService NorthwindCloudService
+@implements IDisposable;
+
+<div class="row-layout customers-orders-container">
+    <div class="column-layout group">
+        <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => Navigate(""))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton>
+        <p class="typography__body-1 text">
+            Orders for:
+        </p>
+        <p class="typography__body-1 text_1">
+            @CustomerName
+        </p>
+        <IgbGrid Data="@_northwindCloudCustomerOrdersResult" PrimaryKey="EmployeeID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" class="ig-typography grid" customers_orders-scope>
+            <IgbColumn Field="OrderID" DataType="GridColumnDataType.Number" Header="orderID" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="CustomerID" DataType="GridColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="EmployeeID" DataType="GridColumnDataType.Number" Header="employeeID" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="OrderDate" DataType="GridColumnDataType.Date" Header="orderDate" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="RequiredDate" DataType="GridColumnDataType.Date" Header="requiredDate" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShippedDate" DataType="GridColumnDataType.Date" Header="shippedDate" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipVia" DataType="GridColumnDataType.Number" Header="shipVia" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="Freight" DataType="GridColumnDataType.Number" Header="freight" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipName" DataType="GridColumnDataType.String" Header="shipName" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipAddress" DataType="GridColumnDataType.String" Header="shipAddress" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipCity" DataType="GridColumnDataType.String" Header="shipCity" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipRegion" DataType="GridColumnDataType.String" Header="shipRegion" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipPostalCode" DataType="GridColumnDataType.String" Header="shipPostalCode" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="ShipCountry" DataType="GridColumnDataType.String" Header="shipCountry" Sortable="true" Selectable="false"></IgbColumn>
+        </IgbGrid>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string CustomerName { get; set; }
+
+    private string customerId;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string CustomerId
+    {
+        get { return customerId; }
+        set
+        {
+            customerId = value;
+            _northwindCloudCustomerOrdersResultSubject.OnNext(value);
+        }
+    }
+
+    private List<CustomerOrdersResult> _northwindCloudCustomerOrdersResult = new();
+    private Subject<object> _northwindCloudCustomerOrdersResultSubject = new Subject<object>();
+
+    private Subject<object> destroy = new();
+
+    public void Navigate(string path)
+    {
+        NavigationManager.NavigateTo(path);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _northwindCloudCustomerOrdersResult = await NorthwindCloudService.GetCustomerOrdersResultList($"{CustomerId}");
+        _northwindCloudCustomerOrdersResultSubject.TakeUntil(this.destroy).Subscribe(async s =>
+        {
+            _northwindCloudCustomerOrdersResult = await NorthwindCloudService.GetCustomerOrdersResultList($"{CustomerId}");
+            await InvokeAsync(StateHasChanged);
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    public void Dispose()
+    {
+        this.destroy.OnNext(null);
+        this.destroy.Dispose();
+    }
+}
