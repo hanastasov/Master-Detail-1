@@ -126,8 +126,8 @@
             [selectable]="false"></igx-column>
         </igx-grid>
       </div>
-      <div class="column-layout group_18">
-        <igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
+       <div class="column-layout group_18">
+        <!--<igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
           cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
           class="grid">
           <igx-grid-toolbar>
@@ -143,7 +143,9 @@
             [selectable]="false"></igx-column>
           <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
             [selectable]="false"></igx-column>
-        </igx-grid>
+        </igx-grid> -->
+        <!-- Orders For Customer outlet -->
+        <router-outlet></router-outlet>
       </div>
       <div class="column-layout group_19">
         <button igxButton="raised" igxRipple routerLink="/select-details" class="navigation-button">

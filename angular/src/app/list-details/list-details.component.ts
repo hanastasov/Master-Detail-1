@@ -3,6 +3,7 @@ import { NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 import { DataService } from '../services/data.service';
 import { Customer } from '../models/customer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-details',
@@ -22,7 +23,8 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   private dataLoaded = new EventEmitter();
 
   constructor(private northwindService: NorthwindService,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.northwindService.getCustomers().subscribe(data => {
@@ -57,8 +59,9 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   }
 
   public orderSelected(args: IRowSelectionEventArgs) {
-    this.northwindService.getCustomerOrderDetails(args.newSelection[0].orderID.toString()).subscribe(data => {
-      this.selectedOrdersDetails = data;
-    });
+    this.router.navigate(['list-details', this.selectedCustomerData.customerID, 'order-details', args.newSelection[0].orderID]);
+    // this.northwindService.getCustomerOrderDetails(args.newSelection[0].orderID.toString()).subscribe(data => {
+    //   this.selectedOrdersDetails = data;
+    // });
   }
 }

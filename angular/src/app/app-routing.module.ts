@@ -8,13 +8,19 @@ import { ComboDetailsComponent } from './combo-details/combo-details.component';
 import { SelectDetailsComponent } from './select-details/select-details.component';
 import { ListDetailsComponent } from './list-details/list-details.component';
 import { CascadeSelectComponent } from './cascade-select/cascade-select.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'combo-details', pathMatch: 'full' },
   { path: 'error', component: UncaughtErrorComponent },
   { path: 'combo-details', component: ComboDetailsComponent, data: { text: 'Combo-details' } },
   { path: 'select-details', component: SelectDetailsComponent, data: { text: 'Select-details' } },
-  { path: 'list-details/:customerId', component: ListDetailsComponent },
+  { path: 'list-details/:customerId', component: ListDetailsComponent, children: [
+      {
+        path: 'order-details/:orderId',
+        component: OrderDetailsComponent,
+      },
+  ] },
   { path: 'input-details', loadChildren: () => import('./input-details/input-details.module').then(m => m.InputDetailsModule) },
   { path: 'cascade-select', component: CascadeSelectComponent, data: { text: 'Cascade select' } },
   { path: '**', component: PageNotFoundComponent } // must always be last

@@ -1,0 +1,21 @@
+<span>Orders Details for Order: {{ orderID }}</span><br>
+<span>/list-details/customerID/order-details/{{ orderID }}</span>
+<div class="column-layout group_18">
+  <igx-grid [data]="selectedOrdersDetails" primaryKey="productName" displayDensity="cosy" rowSelection="single"
+    cellSelection="none" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
+    class="grid">
+    <igx-grid-toolbar>
+      <igx-grid-toolbar-title>Order details</igx-grid-toolbar-title>
+    </igx-grid-toolbar>
+    <igx-column field="productName" dataType="string" header="productName" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="unitPrice" dataType="number" header="unitPrice" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="quantity" dataType="number" header="quantity" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="discount" dataType="number" header="discount" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="extendedPrice" dataType="number" header="extendedPrice" [sortable]="true"
+      [selectable]="false"></igx-column>
+  </igx-grid>
+</div>

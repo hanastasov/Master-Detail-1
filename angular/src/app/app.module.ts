@@ -20,6 +20,7 @@ import { SelectDetailsComponent } from './select-details/select-details.componen
 import { ListDetailsComponent } from './list-details/list-details.component';
 import { CascadeSelectComponent } from './cascade-select/cascade-select.component';
 import { HttpClientModule } from '@angular/common/http';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     ComboDetailsComponent,
     SelectDetailsComponent,
     ListDetailsComponent,
-    CascadeSelectComponent
+    CascadeSelectComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { html, css, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, state, property } from 'lit/decorators.js';
 import { defineComponents, IgcListComponent, IgcListItemComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents-grids/grids/combined.js';
 import { northwindService } from '../service/northwind-service';
@@ -160,12 +160,12 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
       this.northwindCloudAppCustomers = data;
       // obtaining a customerID through context bound parameters or from an instanced service
       this.selectedCustomer = this.northwindCloudAppCustomers
-        ?.find(c => c.customerID === (this.customerID ?? this.dataService.customerID));
-      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer.customerID);
-      this.grid = this.renderRoot.querySelector('#grid') as IgcGridComponent;
+        ?.find(c => c.customerID === (this.customerID));
+      this.northwindCloudAppOrderFiltered = this.northwindCloudAppOrder?.filter((x: any) => x.customerID === this.selectedCustomer?.customerID);
+      this.grid = this.renderRoot?.querySelector('#grid') as IgcGridComponent;
       if (this.northwindCloudAppOrderFiltered) {
         const firstOrder = this.northwindCloudAppOrderFiltered[0];
-        this.grid.selectRows([firstOrder.orderID]);
+        this.grid.selectRows([firstOrder?.orderID]);
         this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === firstOrder.orderID);
       }
     }, err => console.log(err));
@@ -185,9 +185,22 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
     this.orderDetails = this.northwindCloudAppOrderDetail?.filter(order => order.orderID === this.selectedOrder.orderID);
   }
 
-  private customerID!: string;
+  @state() public customerID!: string;
+  @state() public boundRouteParamId?: number;
+  @state() public routeParamOrderId?: number;
+  @state() public boundBooleanParam?: boolean;
+  @state() public booleanParam?: boolean;
+
+  // TODO maybe not needed the onBeforeEnter?
   public onBeforeEnter(location: RouterLocation) {
-    this.customerID = location.params.customerID as string;
+    // this.customerID = location.params.customerID as string; // valid for path param only, e.g. /list-details/customerId
+    // const searchParams = new URLSearchParams(window.location.search); // use window.location and dont use any dependency from vaadin router, it will most probanly be dropped
+    const searchParams = new URLSearchParams(location.search); // or use location.search
+    this.customerID = searchParams.get("customerID") || "";
+    this.routeParamOrderId = parseInt(searchParams.get("routeParamOrderId") ?? "", 10); // what if need it as a number?
+    this.boundRouteParamId = location.params.boundRouteParamId as unknown as number;
+    this.booleanParam = location.params.boundBooleanParam as unknown as boolean;
+    this.boundBooleanParam = location.params.boundBooleanParam as unknown as boolean;
   }
 
   @property()
@@ -234,8 +247,10 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
         <div class="column-layout group_1">
           <img src="/src/assets/10a04583112d68e72f71ea3d9a5d02a35bbdf8d8.png" class="image" />
           <h5 class="h5">
-            ${this.selectedCustomer?.contactName}
+            ${this.selectedCustomer?.contactName || "No customer selected, choose from the list to select using path param or use the navigation buttons to select throguh query params"}
           </h5>
+          <button class="button" @click=${() => { Router.go(`/list-details/?customerID=ALFKI&routeParamOrderId=12345`); }}>Navigate twith query paramsT</button>
+          <button class="button" @click=${() => { Router.go(`/list-details`); }}>Clear selection</button>
           <p class="typography__subtitle-1 text">
           ${this.selectedCustomer?.customerID}
           </p>
