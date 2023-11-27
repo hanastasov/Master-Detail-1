@@ -4,14 +4,14 @@ import { BeforeEnterObserver, RouterLocation } from "@vaadin/router";
 
 @customElement('app-list-child')
 export default class ListChild extends LitElement implements BeforeEnterObserver {
-  private name!: string;
+  private orderId!: string;
   public onBeforeEnter(location: RouterLocation) {
-    this.name = location.params.name as string;
+    this.orderId = location.params.name as string;
   }
 
   render() {
     return html`
-      <div class="content">Hi, ${this.name}!</div>
+      <div class="content">Hi, OrderID is: ${this.orderId}!</div>
     `
   }
 }

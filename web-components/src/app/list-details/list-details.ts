@@ -251,6 +251,7 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
           </h5>
           <button class="button" @click=${() => { Router.go(`/list-details/?customerID=ALFKI&routeParamOrderId=12345`); }}>Navigate twith query paramsT</button>
           <button class="button" @click=${() => { Router.go(`/list-details`); }}>Clear selection</button>
+          <button class="button" @click=${() => { Router.go(`/list-details/ALFKI/list-child/10248`); }}>Navigate to grand child viewn</button>
           <p class="typography__subtitle-1 text">
           ${this.selectedCustomer?.customerID}
           </p>

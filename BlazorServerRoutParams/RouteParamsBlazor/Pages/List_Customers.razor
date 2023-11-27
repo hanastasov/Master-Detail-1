@@ -1,4 +1,5 @@
 @page "/"
+@page "/List"
 @using NorthwindCloud
 @using Models.NorthwindCloud
 @inject NavigationManager NavigationManager
@@ -19,6 +20,11 @@
             <IgbCardActions class="actions-content" list_customers-scope>
                 <IgbButton Variant="ButtonVariant.Flat" slot="start" Size="SizableComponentSize.Large" @onclick="@(e => Navigate(item.CustomerID, item.ContactName))" class="button" list_customers-scope>
                     Order Details
+                    <IgbRipple></IgbRipple>
+                </IgbButton>
+
+                <IgbButton Variant="ButtonVariant.Flat" slot="start" Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders?customerId={item.CustomerID}&customerName={item.ContactName}"))" class="button" list_customers-scope>
+                    Order Details 2
                     <IgbRipple></IgbRipple>
                 </IgbButton>
                 <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">

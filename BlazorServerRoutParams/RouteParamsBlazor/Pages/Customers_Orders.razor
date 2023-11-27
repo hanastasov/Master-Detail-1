@@ -7,6 +7,7 @@
 @inject INorthwindCloudService NorthwindCloudService
 @implements IDisposable;
 
+<h1>Blazor is @CustomerName!</h1>
 <div class="row-layout customers-orders-container">
     <div class="column-layout group">
         <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => Navigate(""))" class="button" customers_orders-scope>
@@ -21,7 +22,7 @@
         </p>
         <IgbGrid Data="@_northwindCloudCustomerOrdersResult" PrimaryKey="EmployeeID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" class="ig-typography grid" customers_orders-scope>
             <IgbColumn Field="OrderID" DataType="GridColumnDataType.Number" Header="orderID" Sortable="true" Selectable="false"></IgbColumn>
-            <IgbColumn Field="CustomerID" DataType="GridColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="CustomerID" DataType="GrëèidColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="EmployeeID" DataType="GridColumnDataType.Number" Header="employeeID" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="OrderDate" DataType="GridColumnDataType.Date" Header="orderDate" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="RequiredDate" DataType="GridColumnDataType.Date" Header="requiredDate" Sortable="true" Selectable="false"></IgbColumn>
@@ -78,6 +79,11 @@
         });
 
         await base.OnInitializedAsync();
+    }
+
+    protected override void OnParametersSet()
+    {
+        CustomerName = CustomerName ?? "fantastic";
     }
 
     public void Dispose()
