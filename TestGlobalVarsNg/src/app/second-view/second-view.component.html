@@ -1,0 +1,18 @@
+<igx-navbar>
+    <button [routerLink]="'/first-view'" igxButton="icon">1</button>
+    <button [routerLink]="'/second-view'" igxButton="icon">2</button>
+    <button [routerLink]="'/third-view'" igxButton="icon">3</button>
+</igx-navbar>
+
+<br>
+
+customerService.customerId - {{ customerService.customerId }}
+<br>
+customer - {{ customer | json }}
+
+<br>
+<br>
+
+<igx-simple-combo [data]="northwindCustomers" displayKey="contactName"
+    (selectionChanging)="comboSelectionChanging($event)" class="combo">
+</igx-simple-combo>

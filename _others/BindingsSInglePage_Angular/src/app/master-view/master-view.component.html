@@ -1,0 +1,104 @@
+<div class="row-layout group">
+  <igx-grid [data]="northwindEmployees" primaryKey="employeeID" displayDensity="cosy" [allowFiltering]="true"
+    filterMode="excelStyleFilter" class="grid">
+    <igx-column [sortable]="true" [selectable]="false">
+      <ng-template igxCell let-cell="cell">
+        <button igxButton="raised" igxRipple [routerLink]="'/details-view/' + cell.row.data['employeeID'] "
+          class="button">
+          {{ cell.row.data['employeeID'] }}
+        </button>
+      </ng-template>
+    </igx-column>
+    <igx-column field="lastName" dataType="string" header="lastName" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="firstName" dataType="string" header="firstName" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="title" dataType="string" header="title" [sortable]="true" [selectable]="false"></igx-column>
+    <igx-column field="hireDate" dataType="date" header="hireDate" [sortable]="true" [selectable]="false"></igx-column>
+    <igx-column field="address.street" dataType="string" header="address street" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="address.city" dataType="string" header="address city" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="address.region" dataType="string" header="address region" [sortable]="true"
+      [selectable]="false"></igx-column>
+    <igx-column field="address.country" dataType="string" header="address country" [sortable]="true"
+      [selectable]="false"></igx-column>
+  </igx-grid>
+  <div class="column-layout group">
+    <igx-card type="outlined" class="card">
+      <igx-card-media height="400px" *ngIf="targetEmployee">
+        <img [src]="targetEmployee.avatarUrl" class="image" />
+      </igx-card-media>
+      <igx-card-header>
+        <h3 igxCardHeaderTitle>
+          {{ targetEmployee?.lastName }}
+        </h3>
+        <h5 igxCardHeaderSubtitle>
+          {{ targetEmployee?.title }}
+        </h5>
+      </igx-card-header>
+      <igx-card-content class="body-content">
+        <p class="text">
+          Hire date
+        </p>
+        <p class="text">
+          {{ targetEmployee?.hireDate }}
+        </p>
+      </igx-card-content>
+
+      <igx-card-actions class="actions-content">
+        <ng-container igxStart>
+          <button igxButton="flat" igxRipple class="button">
+            Button
+          </button>
+        </ng-container>
+        <ng-container igxEnd>
+          <button igxButton="icon" igxRipple>
+            <igx-icon Name="favorite"></igx-icon>
+          </button>
+          <button igxButton="icon" igxRipple>
+            <igx-icon Name="bookmark"></igx-icon>
+          </button>
+          <button igxButton="icon" igxRipple>
+            <igx-icon Name="share"></igx-icon>
+          </button>
+        </ng-container>
+      </igx-card-actions>
+    </igx-card>
+  </div>
+
+  <igx-select (selectionChanging)="onSelectionChanging($event)" type="border" class="select">
+    <igx-select-item [value]="item.employeeID" *ngFor="let item of northwindEmployees">
+      {{ item.lastName }}
+    </igx-select-item>
+  </igx-select>
+
+  <div class="column-layout group">
+    <div style="display: flex; flex-flow: row; padding-left: 24px;">
+      <div style="display: flex; flex-flow: column;">
+        <h3>Hardcoded</h3>
+        <button (click)="onClick(1)" igxButton="raised" igxRipple class="button_1">
+          Select Employee 1
+        </button>
+        <button (click)="onClick(2)" igxButton="raised" igxRipple class="button_1">
+          Select Employee 2
+        </button>
+        <button (click)="onClick(3)" igxButton="raised" igxRipple class="button_1">
+          Select Employee 3
+        </button>
+        <button (click)="onClick(this.dataService.employeeID)" igxButton="raised" igxRipple class="button_1">
+          Nav To Employee From Global Var
+        </button>
+      </div>
+
+      <div style="padding-left: 24px;">
+        <h3>Iterated</h3>
+        <div *ngFor="let employee of this.northwindEmployees; let i = index">
+          <button *ngIf="i < 16" (click)="onClick(employee.employeeID)" igxButton="raised" igxRipple class="button_1">
+            Select Employee {{employee.employeeID}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

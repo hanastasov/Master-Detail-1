@@ -1,0 +1,67 @@
+@page "/"
+@page "/List"
+@using NorthwindCloud
+@using Models.NorthwindCloud
+@inject NavigationManager NavigationManager
+@inject INorthwindCloudService NorthwindCloudService
+
+<div class="row-layout list-customers-container">
+    @foreach (var item in _northwindCloudCustomer)
+    {
+        <IgbCard Outlined="true" class="card" list_customers-scope>
+            <IgbCardHeader>
+                <h3 slot="title">
+                    @item.ContactName
+                </h3>
+                <h5 slot="subtitle">
+                    @item.CompanyName
+                </h5>
+            </IgbCardHeader>
+            <IgbCardActions class="actions-content" list_customers-scope>
+                <IgbButton Variant="ButtonVariant.Flat" slot="start" Size="SizableComponentSize.Large" @onclick="@(e => Navigate(item.CustomerID, item.ContactName))" class="button" list_customers-scope>
+                    Order Details
+                    <IgbRipple></IgbRipple>
+                </IgbButton>
+
+                <IgbButton Variant="ButtonVariant.Flat" slot="start" Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders?customerId={item.CustomerID}&customerName={item.ContactName}"))" class="button" list_customers-scope>
+                    Order Details 2
+                    <IgbRipple></IgbRipple>
+                </IgbButton>
+                <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                    <span class="material-icons">
+                        favorite
+                    </span>
+                    <IgbRipple></IgbRipple>
+                </IgbIconButton>
+                <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                    <span class="material-icons">
+                        bookmark
+                    </span>
+                    <IgbRipple></IgbRipple>
+                </IgbIconButton>
+                <IgbIconButton slot="end" Variant="IconButtonVariant.Flat">
+                    <span class="material-icons">
+                        share
+                    </span>
+                    <IgbRipple></IgbRipple>
+                </IgbIconButton>
+            </IgbCardActions>
+        </IgbCard>
+    }
+</div>
+
+@code {
+    private List<Customer> _northwindCloudCustomer = new();
+
+    public void Navigate(string customerId, string customerName)
+    {
+        NavigationManager.NavigateTo($"customers_orders?customerId={customerId}&customerName={customerName}");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _northwindCloudCustomer = await NorthwindCloudService.GetCustomerList();
+
+        await base.OnInitializedAsync();
+    }
+}

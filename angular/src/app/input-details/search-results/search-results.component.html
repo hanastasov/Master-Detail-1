@@ -1,0 +1,42 @@
+<div class="row-layout group">
+  <igx-input-group type="border" class="input">
+    <igx-prefix>
+      <igx-icon class="icon">
+        search
+      </igx-icon>
+    </igx-prefix>
+    <input type="text" igxInput [ngModel]="value" (ngModelChange)="onChangeInput($event)"/>
+    <label igxLabel>Customer details</label>
+  </igx-input-group>
+  <button igxButton="raised" igxRipple class="button">
+    Search
+  </button>
+  <div class="column-layout group_1">
+    <button igxButton="raised" igxRipple routerLink="/list-details" class="button_1 navigation-button">
+      Previous
+    </button>
+    <button igxButton="raised" igxRipple routerLink="/cascade-select" class="button_1 navigation-button">
+      Next
+    </button>
+  </div>
+</div>
+<div class="row-layout group_2">
+  <igx-card type="outlined" *ngFor="let item of northwindEmployees" class="card">
+    <igx-card-header>
+      <div igxCardThumbnail>
+        <igx-avatar [src]="item.avatarUrl" size="medium" class="avatar"></igx-avatar>
+      </div>
+      <h3 igxCardHeaderTitle>
+        {{ item.lastName }}
+      </h3>
+      <h5 igxCardHeaderSubtitle>
+        {{ item.title }}
+      </h5>
+    </igx-card-header>
+    <igx-card-actions class="actions-content">
+      <button igxButton="flat" igxRipple class="button_5"  routerLink="/input-details/customer-details" [queryParams]="{employeeID: item.employeeID}" igxStart>
+        View details
+      </button>
+    </igx-card-actions>
+  </igx-card>
+</div>

@@ -1,0 +1,28 @@
+:host {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.card {
+  width: 320px;
+  height: max-content;
+  min-width: 320px;
+  flex-shrink: 0;
+}
+.body-content {
+  min-width: 50px;
+  min-height: 50px;
+}
+.actions-content {
+  min-width: 50px;
+  min-height: 40px;
+}
+.h5 {
+  height: max-content;
+  min-width: min-content;
+}
+.button {
+  height: max-content;
+}
