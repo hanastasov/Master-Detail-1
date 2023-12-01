@@ -1,4 +1,4 @@
-@page "/customers_orders"
+@page "/customers_orders/{orderID:int?}"
 @using NorthwindCloud
 @using Models.NorthwindCloud
 @using System.Reactive.Linq
@@ -9,20 +9,41 @@
 
 <h1>Blazor is @CustomerName!</h1>
 <div class="row-layout customers-orders-container">
+    
     <div class="column-layout group">
+        <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders?customerId=ANTON&customerName=Vratsa"))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton> <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders?customerId=ANTON"))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton> <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders?customerName=NemaID"))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton>
         <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => Navigate(""))" class="button" customers_orders-scope>
             Back to Customers
             <IgbRipple></IgbRipple>
         </IgbButton>
+
+        navigate with path
+        <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders"))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton>
+        <IgbButton Size="SizableComponentSize.Large" @onclick="@(e => NavigationManager.NavigateTo($"customers_orders/15789"))" class="button" customers_orders-scope>
+            Back to Customers
+            <IgbRipple></IgbRipple>
+        </IgbButton>
         <p class="typography__body-1 text">
-            Orders for:
+            Orders for: @OrderID
         </p>
         <p class="typography__body-1 text_1">
             @CustomerName
         </p>
         <IgbGrid Data="@_northwindCloudCustomerOrdersResult" PrimaryKey="EmployeeID" DisplayDensity="DisplayDensity.Cosy" AllowFiltering="true" FilterMode="FilterMode.ExcelStyleFilter" AutoGenerate="false" class="ig-typography grid" customers_orders-scope>
             <IgbColumn Field="OrderID" DataType="GridColumnDataType.Number" Header="orderID" Sortable="true" Selectable="false"></IgbColumn>
-            <IgbColumn Field="CustomerID" DataType="GrëèidColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
+            <IgbColumn Field="CustomerID" DataType="GridColumnDataType.String" Header="customerID" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="EmployeeID" DataType="GridColumnDataType.Number" Header="employeeID" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="OrderDate" DataType="GridColumnDataType.Date" Header="orderDate" Sortable="true" Selectable="false"></IgbColumn>
             <IgbColumn Field="RequiredDate" DataType="GridColumnDataType.Date" Header="requiredDate" Sortable="true" Selectable="false"></IgbColumn>
@@ -41,9 +62,26 @@
 
 @code {
 
+    // fallback to default value
+    private string customerName;
     [Parameter]
     [SupplyParameterFromQuery]
-    public string CustomerName { get; set; }
+    //public string CustomerName { get; set; }
+    public string CustomerName
+    {
+        get { return customerName ?? "fantastic"; }
+        set { customerName = value; }
+    }
+
+    private int? orderId = null;
+    [Parameter]
+    public int? OrderID
+    {
+        get { return orderId ?? 12345; }
+        set { orderId = value; }
+    }
+
+    
 
     private string customerId;
 
@@ -83,7 +121,7 @@
 
     protected override void OnParametersSet()
     {
-        CustomerName = CustomerName ?? "fantastic";
+        //CustomerName = CustomerName ?? "fantastic";
     }
 
     public void Dispose()

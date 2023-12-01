@@ -11,6 +11,7 @@ import {
   IgxGridModule,
   IgxInputGroupModule,
   IgxListModule,
+  IgxPaginatorModule,
   IgxRippleModule,
   IgxSelectModule,
   IgxSimpleComboModule
@@ -39,6 +40,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     HttpClientModule,
     FormsModule,
     IgxAvatarModule,
+    IgxPaginatorModule,
     IgxButtonModule,
     IgxComboModule,
     IgxGridModule,

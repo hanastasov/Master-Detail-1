@@ -20,6 +20,9 @@
             <p class="ig-typography__subtitle-1 content">
               {{ selectedCustomerData.customerID }}
             </p>
+            <p class="ig-typography__subtitle-1 content" style="font-weight: bold">
+              {{ dynamicProperty }}
+            </p>
           </div>
         </div>
       </div>
@@ -93,6 +96,7 @@
         <igx-grid [data]="selectedOrdersData" primaryKey="orderID" displayDensity="cosy" rowSelection="single"
           [selectedRows]="selectedRows" [hideRowSelectors]="true" [allowFiltering]="true" filterMode="excelStyleFilter"
           class="grid" (rowSelectionChanging)="orderSelected($event)">
+          <igx-paginator [page]="gridPage"></igx-paginator>
           <igx-grid-toolbar>
             <igx-grid-toolbar-title>Orders</igx-grid-toolbar-title>
           </igx-grid-toolbar>
@@ -148,11 +152,11 @@
         <router-outlet></router-outlet>
       </div>
       <div class="column-layout group_19">
-        <button igxButton="raised" igxRipple routerLink="/select-details" class="navigation-button">
-          Previous
+        <button igxButton="raised" igxRipple routerLink="/select-details/" class="navigation-button">
+          Navigate with param
         </button>
         <button igxButton="raised" igxRipple routerLink="/input-details/search-results" class="navigation-button">
-          Next
+          Navigate without param
         </button>
       </div>
     </div>

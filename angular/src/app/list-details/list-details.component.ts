@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { NorthwindService } from '../services/northwind.service';
 import { IRowSelectionEventArgs } from '@infragistics/igniteui-angular';
 import { DataService } from '../services/data.service';
@@ -10,13 +10,15 @@ import { Router } from '@angular/router';
   templateUrl: './list-details.component.html',
   styleUrls: ['./list-details.component.scss']
 })
-export class ListDetailsComponent implements OnInit, OnDestroy {
+export class ListDetailsComponent implements OnInit, OnDestroy, OnChanges {
   public northwindCustomers: Customer[] | null = null;
   public detailsAreLoading = true;
   public selectedOrdersData: any = [];
   public selectedOrdersDetails: any = [];
   public selectedRows = [10355];
   public selectedCustomerData: any;
+  public dynamicProperty = 'Static property value, not reset in ngOnInit';
+  public gridPage = 1;
 
   @Input()
   private customerId: string;
@@ -25,6 +27,10 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   constructor(private northwindService: NorthwindService,
     private dataService: DataService,
     private router: Router) { }
+
+  ngOnChanges(changedProperties: SimpleChanges) {
+    // reset every other local variable
+  }
 
   ngOnInit() {
     this.northwindService.getCustomers().subscribe(data => {
@@ -44,6 +50,8 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
         this.selectedOrdersDetails = data;
       });
     });
+
+    this.dynamicProperty = 'Dynamic property value, set in ngOnInit ' + this.customerId;
   }
 
   ngOnDestroy() {

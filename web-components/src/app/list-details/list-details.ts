@@ -190,6 +190,7 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
   @state() public routeParamOrderId?: number;
   @state() public boundBooleanParam?: boolean;
   @state() public booleanParam?: boolean;
+  public dynamicProperty = "";
 
   // TODO maybe not needed the onBeforeEnter?
   public onBeforeEnter(location: RouterLocation) {
@@ -201,6 +202,12 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
     this.boundRouteParamId = location.params.boundRouteParamId as unknown as number;
     this.booleanParam = location.params.boundBooleanParam as unknown as boolean;
     this.boundBooleanParam = location.params.boundBooleanParam as unknown as boolean;
+    // this.dynamicProperty = "Property set in onBeforeEnter, customer ID is: " + this.customerID;
+  }
+
+  firstUpdated(changedProperties: any) {
+    super.firstUpdated(changedProperties);
+    this.dynamicProperty = "Property set in onBeforeEnter, customer ID is: " + this.customerID;
   }
 
   @property()
@@ -249,6 +256,9 @@ export default class ListDetails extends LitElement implements BeforeEnterObserv
           <h5 class="h5">
             ${this.selectedCustomer?.contactName || "No customer selected, choose from the list to select using path param or use the navigation buttons to select throguh query params"}
           </h5>
+            <span style="font-weight: bold; align-self: center">
+              ${this.dynamicProperty}
+            </span>
           <button class="button" @click=${() => { Router.go(`/list-details/?customerID=ALFKI&routeParamOrderId=12345`); }}>Navigate twith query paramsT</button>
           <button class="button" @click=${() => { Router.go(`/list-details`); }}>Clear selection</button>
           <button class="button" @click=${() => { Router.go(`/list-details/ALFKI/list-child/10248`); }}>Navigate to grand child viewn</button>
